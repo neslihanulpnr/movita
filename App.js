@@ -19,10 +19,8 @@ export default function App() {
           marginTop: 0,
         }}>movita</Text>
         <View style={{ marginTop: 20 }}>
-          <View style={{flexDirection: "row"}}>
+          <View>
             <Button color="#00ADEE" title='Giriş Yap' onPress={() => alert("butona tıklandı")} />
-            <View style={{ margin: 5 }}></View>
-            <Button color="#00ADEE" title='Kayıt Ol' onPress={() => alert("butona tıklandı")} />
           </View>
         </View>
       </View>
