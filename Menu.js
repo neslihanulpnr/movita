@@ -1,9 +1,23 @@
 import { View, Text } from "react-native";
 
 export const Menu = () => {
-    return(
+    return (
         <View>
-            <Text></Text>
+            <View>
+
+                <View>
+                    <Text>Bilgi</Text>
+                </View>
+
+                <View>
+                    <Text>Rapor</Text>
+                </View>
+
+                <View>
+                    <Text>Aracım</Text>
+                </View>
+
+            </View>
         </View>
     )
 }

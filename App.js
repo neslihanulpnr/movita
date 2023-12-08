@@ -20,7 +20,7 @@ export default function App() {
         }}>movita</Text>
         <View style={{ marginTop: 20 }}>
           <View>
-            <Button color="#00ADEE" title='Giriş Yap' onPress={() => alert("butona tıklandı")} />
+            <Button color="#00ADEE" title='Giriş Yap' onPress={() => console.log("butona tıklandı")} />
           </View>
         </View>
       </View>
