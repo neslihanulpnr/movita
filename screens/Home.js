@@ -20,7 +20,7 @@ const navigation = useNavigation();
         }}>movita</Text>
         <View style={{ marginTop: 20 }}>
           <View>
-            <Button color="#00ADEE" title='Giriş Yap' onPress={() => navigation.navigate("login")} />
+            <Button color="#00ADEE" title='Giriş Yap' onPress={() => navigation.navigate("menu")} />
           </View>
         </View>
       </View>
