@@ -17,6 +17,7 @@ export const Navigator = () => {
             }
             }}/>
 
+     
 
             <Stack.Screen name="login"
              component={Login}

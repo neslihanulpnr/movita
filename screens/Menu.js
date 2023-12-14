@@ -1,12 +1,10 @@
-import { View, Text, Touchable } from "react-native";
+import { View, Text } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export const Menu = () => {
     return (
-        <TouchableOpacity>
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
             </View>
@@ -61,6 +59,5 @@ export const Menu = () => {
                 </View>
             </View>
         </View>
-        </TouchableOpacity>
     )
 }
