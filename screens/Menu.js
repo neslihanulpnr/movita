@@ -1,12 +1,13 @@
 import { View, Text } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 export const Menu = () => {
     return (
-        <View>
-
+        <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+            </View>
 
             <View style={{
                 backgroundColor: "grey",
@@ -20,44 +21,42 @@ export const Menu = () => {
                     justifyContent: "center",
                     alignItems: "center"
                 }}>
-                    <Ionicons name="person-circle-outline" size={35} color="#00ADEE" />
+
+                    <FontAwesome name="user-o" size={24} color="white" />
                     <Text style={{
-                        color: "#00ADEE",
+                        color: "white",
                         fontWeight: "bold",
                         fontSize : 20
                         }}>Bilgi</Text>
                 </View>
 
-
                 <View style={{
                     flex: 1,
                     justifyContent: "center",
                     alignItems: "center",
                     backgroundColor: "orange"
                 }}>
-                    <FontAwesome5 name="clipboard-list" size={30} color="#00ADEE" />
+                    <FontAwesome5 name="clipboard-list" size={30} color="white" />
                     <Text style={{
-                        color: "#00ADEE",
+                        color: "white",
                         fontWeight: "bold",
                         fontSize : 20
                         }}>Rapor</Text>
                 </View>
 
-
                 <View style={{
                     flex: 1,
                     justifyContent: "center",
                     alignItems: "center",
                     backgroundColor: "orange"
                 }}>
-                    <AntDesign name="car" size={30} color="#00ADEE" />
+                    <AntDesign name="car" size={30} color="white" />
                     <Text style={{
-                        color: "#00ADEE",
+                        color: "white",
                         fontWeight:"bold",
                         fontSize:20
                         }}>Aracım</Text>
                 </View>
-
             </View>
         </View>
     )
