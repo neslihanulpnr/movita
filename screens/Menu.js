@@ -1,12 +1,10 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet, Button } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { AntDesign, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 export const Menu = () => {
-    const navigation = useNavigation(); // useNavigation hook'unu burada kullan
+    const navigation = useNavigation();
 
     return (
         <View style={{ flex: 1 }}>
@@ -28,7 +26,7 @@ export const Menu = () => {
                     }}
                 >
                     <FontAwesome name="user-o" size={24} color="white" />
-                    <Button color={"orange"} style={styles.buttonText} title="Bilgi" onPress={() => navigation.navigate("bilgi")}/>
+                    <Text style={styles.buttonText}>Bilgi</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -38,8 +36,8 @@ export const Menu = () => {
                         navigation.navigate("rapor");
                     }}
                 >
-                    <FontAwesome5 name="clipboard-list" size={30} color="white" />
-                    <Button color={"orange"} style={styles.buttonText} title="Rapor" onPress={() => navigation.navigate("rapor")}/>
+                    <FontAwesome5 name="clipboard-list" size={24} color="white" />
+                    <Text style={styles.buttonText}>Rapor</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -49,8 +47,8 @@ export const Menu = () => {
                         navigation.navigate("car");
                     }}
                 >
-                    <AntDesign name="car" size={30} color="white" />
-                    <Button color={"orange"} style={styles.buttonText} title="Aracım" onPress={() => navigation.navigate("car")}/>
+                    <AntDesign name="car" size={24} color="white" />
+                    <Text style={styles.buttonText}>Aracım</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -64,10 +62,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         margin: 5,
         borderRadius: 8,
+        flexDirection: 'row',
     },
     buttonText: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 20
+        fontSize: 20,
+        marginLeft: 8, 
     },
 });
