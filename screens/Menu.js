@@ -1,63 +1,73 @@
-import { View, Text } from "react-native";
+import React from "react";
+import { View, TouchableOpacity, StyleSheet, Button } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export const Menu = () => {
+    const navigation = useNavigation(); // useNavigation hook'unu burada kullan
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
             </View>
 
             <View style={{
-                backgroundColor: "grey",
+                backgroundColor: "orange",
                 width: 395, 
                 height: 70, 
                 flexDirection: "row",
             }}>
-                <View style={{
-                    flex: 1,
-                    backgroundColor: "orange",
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}>
-
+                
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: "orange" }]}
+                    onPress={() => {
+                        console.log("Bilgi öğesine tıklandı");
+                        navigation.navigate("bilgi");
+                    }}
+                >
                     <FontAwesome name="user-o" size={24} color="white" />
-                    <Text style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize : 20
-                        }}>Bilgi</Text>
-                </View>
+                    <Button color={"orange"} style={styles.buttonText} title="Bilgi" onPress={() => navigation.navigate("bilgi")}/>
+                </TouchableOpacity>
 
-                <View style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "orange"
-                }}>
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: "orange" }]}
+                    onPress={() => {
+                        console.log("Rapor öğesine tıklandı");
+                        navigation.navigate("rapor");
+                    }}
+                >
                     <FontAwesome5 name="clipboard-list" size={30} color="white" />
-                    <Text style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize : 20
-                        }}>Rapor</Text>
-                </View>
+                    <Button color={"orange"} style={styles.buttonText} title="Rapor" onPress={() => navigation.navigate("rapor")}/>
+                </TouchableOpacity>
 
-                <View style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "orange"
-                }}>
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: "orange" }]}
+                    onPress={() => {
+                        console.log("Aracım öğesine tıklandı");
+                        navigation.navigate("car");
+                    }}
+                >
                     <AntDesign name="car" size={30} color="white" />
-                    <Text style={{
-                        color: "white",
-                        fontWeight:"bold",
-                        fontSize:20
-                        }}>Aracım</Text>
-                </View>
+                    <Button color={"orange"} style={styles.buttonText} title="Aracım" onPress={() => navigation.navigate("car")}/>
+                </TouchableOpacity>
             </View>
         </View>
-    )
-}
+    );
+};
+
+const styles = StyleSheet.create({
+    button: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 5,
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 20
+    },
+});
