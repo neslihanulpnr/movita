@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
 export const Bilgi = () => {
@@ -6,7 +6,15 @@ export const Bilgi = () => {
 
     return(
         <View>
-            <Text>bilgi</Text>
+            <Image source={require("../assets/profile.jpeg")} style={{
+                width: 200,
+                height: 200,
+                borderWidth: 3,
+                borderColor: "black",
+                borderRadius: 70,
+                marginLeft: 20,
+                marginTop: 20
+                }}/>
         </View>
     )
 }
