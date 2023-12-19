@@ -3,7 +3,7 @@ import { Login } from "./screens/Login";
 import { Menu } from "./screens/Menu";
 import { Homepage } from "./screens/Home";
 import { Car } from "./screens/Car";
-import { User } from "./bilgi/User";
+import { Bilgi } from "./screens/Bilgi";
 import { Rapor } from "./screens/Rapor";
 
 const Stack = createStackNavigator();
@@ -37,7 +37,7 @@ export const Navigator = () => {
             <Stack.Screen name="car"
                 component={Car}
                 options={{
-                    title: "Araçlar"
+                    title: ""
                 }}
             />
 
@@ -48,8 +48,8 @@ export const Navigator = () => {
                 }}
             />
 
-            <Stack.Screen name="user"
-                component={User}
+            <Stack.Screen name="bilgi"
+                component={Bilgi}
                 options={{
                     title: "Sürücü Bilgileri"
                 }}
