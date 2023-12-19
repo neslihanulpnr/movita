@@ -43,7 +43,7 @@ export const Menu = () => {
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: "orange" }]}
                     onPress={() => {
-                        console.log("Aracım öğesine tıklandı");
+                        console.log("Araçlar öğesine tıklandı");
                         navigation.navigate("car");
                     }}
                 >
