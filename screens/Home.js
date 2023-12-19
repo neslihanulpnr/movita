@@ -8,7 +8,7 @@ export const Homepage = () => {
   const navigation = useNavigation();
 
   const [PASS, setPASS] = useState("123456");
-  const [NAME, setNAME] = useState("neslihan");
+  const [NAME, setNAME] = useState("neslihan@gmail.com");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
