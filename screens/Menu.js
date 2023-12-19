@@ -48,7 +48,7 @@ export const Menu = () => {
                     }}
                 >
                     <AntDesign name="car" size={24} color="white" />
-                    <Text style={styles.buttonText}>Aracım</Text>
+                    <Text style={styles.buttonText}>Araçlar</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -1,7 +1,7 @@
 import { Image, Text, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
-export const Bilgi = () => {
+export const User = () => {
     const navigation = useNavigation();
 
     const profilBilgileri = [

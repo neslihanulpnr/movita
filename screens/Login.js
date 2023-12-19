@@ -1,21 +1,6 @@
-import { useState } from "react";
-import { View, Text, Button, TextInput, alert} from "react-native";
-
+import { View, Text, Button, TextInput} from "react-native";
 
 export const Login = () => {
-  const [PASS, setPASS] = useState("123456")
-  const [NAME, setNAME] = useState("neslihan@gmail.com")
-  const [password, setPassword] = useState(" ")
-  const [name, setName] = useState(" ")
-
-function Login() {
-    if (PASS == password && NAME == name){
-        alert("giriş başarılı")
-    }
-    else{
-        alert("şifre veya email yanlış")
-    }
-}
 
     return(
         <View>
