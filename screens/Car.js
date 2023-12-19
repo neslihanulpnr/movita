@@ -5,8 +5,8 @@ export const Car = () => {
     const navigation = useNavigation();
 
     return(
-        <View>
-            <Text>car</Text>
+        <View style={{justifyContent: "center", alignItems: "center"}}>
+            <Text style={{fontSize: 20, fontWeight: "bold"}}>car</Text>
         </View>
     )
 }

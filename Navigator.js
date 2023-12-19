@@ -31,7 +31,7 @@ export const Navigator = () => {
             <Stack.Screen name="menu"
                 component={Menu}
                 options={{
-                    title: ""
+                    title: "Ana Sayfa"
                 }} />
 
             <Stack.Screen name="car"
@@ -51,7 +51,7 @@ export const Navigator = () => {
             <Stack.Screen name="bilgi"
                 component={Bilgi}
                 options={{
-                    title: ""
+                    title: "Sürücü Bilgileri"
                 }}
             />
 
