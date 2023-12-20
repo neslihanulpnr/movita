@@ -1,6 +1,6 @@
 import { Text, View } from "react-native"
 
-export const Profile = () => {
+export const Settings = () => {
     return (
         <View style={{ 
             flex: 1, 
@@ -11,9 +11,7 @@ export const Profile = () => {
             <Text style={{ 
                 fontSize: 25, 
                 fontWeight: "bold", 
-                color: "blue" }}>Profile</Text>
+                color: "blue" }}>Setting</Text>
         </View>
     );
 };
-
-export default Profile;
