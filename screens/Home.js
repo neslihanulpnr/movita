@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Button, TextInput, Image } from 'react-native';
+import { View, Button, TextInput, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,19 +7,36 @@ import { Ionicons } from '@expo/vector-icons';
 export const Homepage = () => {
   const navigation = useNavigation();
 
-  const [PASS, setPASS] = useState("123456");
-  const [NAME, setNAME] = useState("neslihan@gmail.com");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [password, setPassword] = useState(""); 
+  const [username, setUsername] = useState("");
 
   function Login() {
-    if (PASS === password && NAME === name) {
-      alert("Giriş başarılı");
-      navigation.navigate("menu");
-    } else {
-      alert("Şifre veya email yanlış");
-    }
-  }
+    fetch('http://161.97.107.99:8011/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'sample_token1234'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('API yanıtı:', data);
+        if (data.error_code === 1011) {
+          alert("Şifre veya kullanıcı adı yanlış");
+        } else {
+          alert("Giriş başarılı");
+          navigation.navigate("menu");
+        }
+      })
+      .catch(error => {
+        console.error('Hata:', error);
+        alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+      });
+  }  
 
   return (
     <View style={{
@@ -28,17 +45,13 @@ export const Homepage = () => {
       flex: 1,
       marginBottom: 80,
     }}>
-      <Text style={{
-        color: "#00ADEE",
-        marginTop: 0,
-      }}></Text>
       <View style={{ marginTop: 20 }}>
         <View>
           <View style={{
             justifyContent: "center",
             alignItems: "center"
           }}>
-            <Image source={require("../assets/movitaLogo.jpeg")}
+          <Image source={require("../assets/movitaLogo.jpeg")}
               style={{
                 width: 250,
                 height: 200
@@ -60,7 +73,7 @@ export const Homepage = () => {
                 placeholder='Kullanıcı Adı'
                 placeholderTextColor={"gray"}
                 style={{ flex: 1, marginLeft: 10 }}
-                onChangeText={setName}
+                onChangeText={setUsername}
               />
             </View>
           </View>
@@ -94,3 +107,4 @@ export const Homepage = () => {
     </View>
   );
 };
+
