@@ -37,14 +37,14 @@ export const Navigator = () => {
             <Stack.Screen name="car"
                 component={Car}
                 options={{
-                    title: ""
+                    title: "Araçlar"
                 }}
             />
 
             <Stack.Screen name="rapor"
                 component={Rapor}
                 options={{
-                    title: ""
+                    title: "Rapor"
                 }}
             />
 
