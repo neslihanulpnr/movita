@@ -12,48 +12,42 @@ export const Navigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="homepage"
-                component={Homepage}
-                options={{
-                    title: "",
-                    headerStyle: {
-                        height: 1
-                    }
-                }} />
-
-
+            name="homepage"
+            component={Homepage}
+            options={{
+            title: "",
+            headerStyle: {
+            height: 1
+            }
+            }}/>
 
             <Stack.Screen name="login"
-                component={Login}
-
+            component={Login}
             />
 
             <Stack.Screen name="menu"
-                component={Menu}
-                options={{
-                    title: "Ana Sayfa"
-                }} />
+            component={Menu}
+            options={{
+            title: "Ana Sayfa"
+            }}/>
 
             <Stack.Screen name="car"
-                component={Car}
-                options={{
-                    title: "Araçlar"
-                }}
-            />
+            component={Car}
+            options={{
+            title: "Araçlar"
+            }}/>
 
             <Stack.Screen name="rapor"
-                component={Rapor}
-                options={{
-                    title: "Rapor"
-                }}
-            />
+            component={Rapor}
+            options={{
+            title: "Rapor"
+            }}/>
 
             <Stack.Screen name="bilgi"
-                component={Bilgi}
-                options={{
-                    title: "Sürücü Bilgileri"
-                }}
-            />
+            component={Bilgi}
+            options={{
+            title: "Sürücü Bilgileri"
+            }}/>
 
         </Stack.Navigator>
 
