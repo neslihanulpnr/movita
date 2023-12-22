@@ -65,7 +65,7 @@ export const Menu = () => {
                         navigation.navigate("bilgi");
                     }}
                 >
-                    
+
                     <Text style={styles.buttonText}>Bilgi</Text>
                 </TouchableOpacity>
 
@@ -76,7 +76,7 @@ export const Menu = () => {
                         navigation.navigate("rapor");
                     }}
                 >
-                    
+
                     <Text style={styles.buttonText}>Harita</Text>
                 </TouchableOpacity>
 
@@ -87,7 +87,7 @@ export const Menu = () => {
                         navigation.navigate("car");
                     }}
                 >
-                    
+
                     <Text style={styles.buttonText}>Ayarlar</Text>
                 </TouchableOpacity>
             </View>
