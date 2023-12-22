@@ -28,7 +28,11 @@ export const Navigator = () => {
             <Stack.Screen name="menu"
             component={Menu}
             options={{
-            title: "Ana Sayfa"
+            title: "",
+            headerStyle: {
+                height: 1,
+                backgroundColor: "orange"
+                }
             }}/>
 
             <Stack.Screen name="car"

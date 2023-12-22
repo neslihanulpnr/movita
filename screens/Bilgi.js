@@ -1,11 +1,9 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { User } from "./User";
 
 export const Bilgi = () => {
   return (
     <View style={styles.container}>
-      <User />
     </View>
   );
 };
