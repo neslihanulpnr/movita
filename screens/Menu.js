@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
-import { AntDesign, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -40,11 +39,11 @@ export const Menu = () => {
                     justifyContent: "flex-end",
                     alignItems: "flex-end",
                     right: 15,
-                    bottom: 15
+                    bottom: 20
                 }}>
                     <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}
                         onPress={handleLogout}>
-                        <Ionicons name="exit-outline" size={30} color="orange" />
+                        <Ionicons name="exit-outline" size={40} color="orange" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -66,7 +65,7 @@ export const Menu = () => {
                         navigation.navigate("bilgi");
                     }}
                 >
-                    <FontAwesome name="user-o" size={24} color="#00ADEE" />
+                    
                     <Text style={styles.buttonText}>Bilgi</Text>
                 </TouchableOpacity>
 
@@ -77,8 +76,8 @@ export const Menu = () => {
                         navigation.navigate("rapor");
                     }}
                 >
-                    <FontAwesome5 name="clipboard-list" size={24} color="#00ADEE" />
-                    <Text style={styles.buttonText}>Rapor</Text>
+                    
+                    <Text style={styles.buttonText}>Harita</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -88,8 +87,8 @@ export const Menu = () => {
                         navigation.navigate("car");
                     }}
                 >
-                    <AntDesign name="car" size={24} color="#00ADEE" />
-                    <Text style={styles.buttonText}>Araçlar</Text>
+                    
+                    <Text style={styles.buttonText}>Ayarlar</Text>
                 </TouchableOpacity>
             </View>
         </View>
