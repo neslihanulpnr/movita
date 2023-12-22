@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
 import { AntDesign, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,26 +21,30 @@ export const Menu = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            
-            <View style={{height: 70, width: "100%", backgroundColor: "orange"}}>
+
+            <View style={{ height: 90, width: "100%", backgroundColor: "#edebeb" }}>
+
                 <View style={{
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
-                    top: 33,
+                    top: 25,
                 }}>
-                    <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>Ana Sayfa</Text>
+                    <Image source={require("../assets/movita.jpeg")}
+                        style={{
+                            width: 140,
+                            height: 60
+                        }} />
                 </View>
 
                 <View style={{
                     justifyContent: "flex-end",
                     alignItems: "flex-end",
-
+                    right: 15,
+                    bottom: 15
                 }}>
-
-                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}
-                    onPress={handleLogout}>
-                    <Text style={{ color: "white", fontWeight: "bold", fontSize: 20, margin: 9 }}>Çıkış Yap</Text>
-                    <Ionicons name="exit-outline" size={24} color="white" />
+                    <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}
+                        onPress={handleLogout}>
+                        <Ionicons name="exit-outline" size={30} color="orange" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -49,42 +53,42 @@ export const Menu = () => {
             </View>
 
             <View style={{
-                backgroundColor: "orange",
+                backgroundColor: "#edebeb",
                 width: 395,
                 height: 70,
                 flexDirection: "row",
             }}>
 
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: "orange" }]}
+                    style={[styles.button, { backgroundColor: "#edebeb" }]}
                     onPress={() => {
                         console.log("Bilgi öğesine tıklandı");
                         navigation.navigate("bilgi");
                     }}
                 >
-                    <FontAwesome name="user-o" size={24} color="white" />
+                    <FontAwesome name="user-o" size={24} color="#00ADEE" />
                     <Text style={styles.buttonText}>Bilgi</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: "orange" }]}
+                    style={[styles.button, { backgroundColor: "#edebeb" }]}
                     onPress={() => {
                         console.log("Rapor öğesine tıklandı");
                         navigation.navigate("rapor");
                     }}
                 >
-                    <FontAwesome5 name="clipboard-list" size={24} color="white" />
+                    <FontAwesome5 name="clipboard-list" size={24} color="#00ADEE" />
                     <Text style={styles.buttonText}>Rapor</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: "orange" }]}
+                    style={[styles.button, { backgroundColor: "#edebeb" }]}
                     onPress={() => {
                         console.log("Araçlar öğesine tıklandı");
                         navigation.navigate("car");
                     }}
                 >
-                    <AntDesign name="car" size={24} color="white" />
+                    <AntDesign name="car" size={24} color="#00ADEE" />
                     <Text style={styles.buttonText}>Araçlar</Text>
                 </TouchableOpacity>
             </View>
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     buttonText: {
-        color: "white",
+        color: "#00ADEE",
         fontWeight: "bold",
         fontSize: 20,
         marginLeft: 8,
