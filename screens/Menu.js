@@ -14,6 +14,11 @@ export const Menu = () => {
         });
     }, [navigation]);
 
+    const handleLogout = () => {
+        console.log("çıkış yap butonuna tıklandı");
+        navigation.navigate("homepage");
+    }
+
     return (
         <View style={{ flex: 1 }}>
             
@@ -33,9 +38,7 @@ export const Menu = () => {
                 }}>
 
                 <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}
-                    onPress={() => {
-                        navigation.navigate("home");
-                    }}>
+                    onPress={handleLogout}>
                     <Text style={{ color: "white", fontWeight: "bold", fontSize: 20, margin: 9 }}>Çıkış Yap</Text>
                     <Ionicons name="exit-outline" size={24} color="white" />
                     </TouchableOpacity>
