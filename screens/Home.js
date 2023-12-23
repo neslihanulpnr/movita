@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export const Homepage = () => {
     const navigation = useNavigation();
 
@@ -28,14 +29,10 @@ export const Homepage = () => {
                 if (data.error_code === 1011) {
                     Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış");
                 } else {
-                    Alert.alert("", "Giriş başarılı", [
-                        {
-                            text: "Tamam",
-                            onPress: () => navigation.navigate("menu")
-                        }
-                    ]);
+                    navigation.navigate("menu"); 
                 }
             })
+            
             .catch(error => {
                 console.error('Hata:', error);
                 Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış.");

@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
-export const Car = () => {
+export const Ayarlar = () => {
     const navigation = useNavigation();
 
     return(

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const Menu = () => {
     const navigation = useNavigation();
@@ -72,22 +73,22 @@ export const Menu = () => {
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#edebeb" }]}
                     onPress={() => {
-                        console.log("Rapor öğesine tıklandı");
-                        navigation.navigate("rapor");
+                        console.log("harita öğesine tıklandı");
+                        navigation.navigate("map");
                     }}
                 >
-
+              <MaterialCommunityIcons name="google-maps" size={30} color="#00ADEE" />
                     <Text style={styles.buttonText}>Harita</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#edebeb" }]}
                     onPress={() => {
-                        console.log("Araçlar öğesine tıklandı");
-                        navigation.navigate("car");
+                        console.log("Ayarlar öğesine tıklandı");
+                        navigation.navigate("ayarlar");
                     }}
                 >
-
+                <Ionicons name="settings" size={30} color="#00ADEE" />
                     <Text style={styles.buttonText}>Ayarlar</Text>
                 </TouchableOpacity>
             </View>

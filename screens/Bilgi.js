@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 
 export const Bilgi = () => {
+
   return (
     <View style={styles.container}>
     </View>

@@ -2,9 +2,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Login } from "./screens/Login";
 import { Menu } from "./screens/Menu";
 import { Homepage } from "./screens/Home";
-import { Car } from "./screens/Car";
 import { Bilgi } from "./screens/Bilgi";
-import { Rapor } from "./screens/Rapor";
+import { Map } from "./screens/Map";
+import { Ayarlar } from "./screens/Ayarlar";
 
 const Stack = createStackNavigator();
 
@@ -35,23 +35,24 @@ export const Navigator = () => {
                 }
             }}/>
 
-            <Stack.Screen name="car"
-            component={Car}
+            <Stack.Screen name="ayarlar"
+            component={Ayarlar}
             options={{
-            title: "Araçlar"
+            title: ""
             }}/>
 
-            <Stack.Screen name="rapor"
-            component={Rapor}
+            <Stack.Screen name="map"
+            component={Map}
             options={{
-            title: "Rapor"
+            title: ""
             }}/>
 
             <Stack.Screen name="bilgi"
             component={Bilgi}
             options={{
             title: "Sürücü Bilgileri"
-            }}/>
+            }}
+            />
 
         </Stack.Navigator>
 
