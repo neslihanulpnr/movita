@@ -60,37 +60,39 @@ export const Menu = () => {
             }}>
 
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: "#edebeb" }]}
+                    style={[styles.button, { backgroundColor: "#edebeb", flexDirection: "column" }]}
                     onPress={() => {
                         console.log("Bilgi öğesine tıklandı");
-                        navigation.navigate("bilgi");
+                        navigation.navigate("Information");
                     }}
                 >
-
+                    <Ionicons name="information-circle" size={30} color="#00ADEE" />
                     <Text style={styles.buttonText}>Bilgi</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: "#edebeb" }]}
+                    style={[styles.button, { backgroundColor: "#edebeb", flexDirection: "column" }]}
                     onPress={() => {
                         console.log("harita öğesine tıklandı");
                         navigation.navigate("map");
                     }}
                 >
-              <MaterialCommunityIcons name="google-maps" size={30} color="#00ADEE" />
+                    <MaterialCommunityIcons name="google-maps" size={30} color="#00ADEE" />
                     <Text style={styles.buttonText}>Harita</Text>
                 </TouchableOpacity>
 
+
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: "#edebeb" }]}
+                    style={[styles.button, { backgroundColor: "#edebeb", flexDirection: "column" }]}
                     onPress={() => {
                         console.log("Ayarlar öğesine tıklandı");
-                        navigation.navigate("ayarlar");
+                        navigation.navigate("Settings");
                     }}
                 >
-                <Ionicons name="settings" size={30} color="#00ADEE" />
+                    <Ionicons name="settings" size={30} color="#00ADEE" />
                     <Text style={styles.buttonText}>Ayarlar</Text>
                 </TouchableOpacity>
+
             </View>
         </View>
     );
@@ -108,8 +110,9 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "#00ADEE",
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 14,
         marginLeft: 8,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
-

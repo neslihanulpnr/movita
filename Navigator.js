@@ -2,9 +2,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Login } from "./screens/Login";
 import { Menu } from "./screens/Menu";
 import { Homepage } from "./screens/Home";
-import { Bilgi } from "./screens/Bilgi";
-import { Map } from "./screens/Map";
-import { Ayarlar } from "./screens/Ayarlar";
+import { Settings } from "./screens/Settings";
+import { Information } from "./screens/Information";
+import { Map } from "./screens/Map"
 
 const Stack = createStackNavigator();
 
@@ -35,22 +35,34 @@ export const Navigator = () => {
                 }
             }}/>
 
-            <Stack.Screen name="ayarlar"
-            component={Ayarlar}
+            <Stack.Screen name="Settings"
+            component={Settings}
             options={{
-            title: ""
+            title: "",
+            headerStyle: {
+                height: 1,
+                backgroundColor: "orange"
+                }
             }}/>
 
             <Stack.Screen name="map"
             component={Map}
             options={{
-            title: ""
+            title: "",
+            headerStyle: {
+                height: 1,
+                backgroundColor: "orange"
+                }
             }}/>
 
-            <Stack.Screen name="bilgi"
-            component={Bilgi}
+            <Stack.Screen name="Information"
+            component={Information}
             options={{
-            title: "Sürücü Bilgileri"
+            title: "",
+            headerStyle: {
+                height: 1,
+                backgroundColor: "orange"
+                }
             }}
             />
 

@@ -1,6 +1,6 @@
 import { View, Text } from "react-native"
 
-export const Map = () => {
+export const Settings = () => {
     return(
         <View>
             <Text></Text>
