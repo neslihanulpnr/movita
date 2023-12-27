@@ -40,8 +40,7 @@ export const Navigator = () => {
             options={{
             title: "",
             headerStyle: {
-                height: 1,
-                backgroundColor: "orange"
+                backgroundColor: "#edebeb"
                 }
             }}/>
 
@@ -50,8 +49,7 @@ export const Navigator = () => {
             options={{
             title: "",
             headerStyle: {
-                height: 1,
-                backgroundColor: "orange"
+                backgroundColor: "#edebeb"
                 }
             }}/>
 
@@ -60,8 +58,7 @@ export const Navigator = () => {
             options={{
             title: "",
             headerStyle: {
-                height: 1,
-                backgroundColor: "orange"
+                backgroundColor: "#edebeb"
                 }
             }}
             />
