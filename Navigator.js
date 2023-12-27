@@ -40,7 +40,8 @@ export const Navigator = () => {
             options={{
             title: "",
             headerStyle: {
-                backgroundColor: "#edebeb"
+                height: 1,
+                backgroundColor: "orange"
                 }
             }}/>
 
@@ -48,10 +49,12 @@ export const Navigator = () => {
             component={Map}
             options={{
             title: "",
+            headerShown: false,
             headerStyle: {
                 backgroundColor: "#edebeb"
                 }
-            }}/>
+            }}
+            />
 
             <Stack.Screen name="Information"
             component={Information}
@@ -64,7 +67,5 @@ export const Navigator = () => {
             />
 
         </Stack.Navigator>
-
-
     )
 }
