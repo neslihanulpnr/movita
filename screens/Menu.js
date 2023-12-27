@@ -62,7 +62,7 @@ export const Menu = () => {
 
       <View style={{ flex: 1 }}>
         {contentToShow === null ? (
-          <Text></Text>
+          <Text>Menü içeriği seçilmedi.</Text>
         ) : (
           <View>
             {contentToShow}
