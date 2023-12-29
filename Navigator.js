@@ -45,7 +45,7 @@ export const Navigator = () => {
                 }
             }}/>
 
-            <Stack.Screen name="map"
+            <Stack.Screen name="Map"
             component={Map}
             options={{
             title: "",

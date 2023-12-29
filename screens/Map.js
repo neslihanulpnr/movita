@@ -4,14 +4,13 @@ import { StyleSheet, View, } from "react-native";
 import MapView from "react-native-maps";
 
 export const Map = () => {
-    
+  
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <MapView
         style={styles.map}
       />
-
     </View>
   );
 }
