@@ -20,8 +20,8 @@ export const Information = () => {
 
             {showDetails && (
                 <View>
-                    <Text style={{ fontSize: 20 }}>Başlangıç :</Text>
-                    <Text style={{ fontSize: 20 }}>Bitiş :</Text>
+                    <Text style={{ fontSize: 20 }}>İlk Sefer Saati :</Text>
+                    <Text style={{ fontSize: 20 }}>Son Sefer Saati :</Text>
                 </View>
             )}
 
