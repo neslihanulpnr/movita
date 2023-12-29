@@ -27,7 +27,7 @@ export const Homepage = () => {
             .then(data => {
                 console.log('API yanıtı:', data);
                 if (data.error_code === 1011) {
-                    Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış");
+                    Alert.alert("", "Şifre veya kullanıcı adı yanlış");
                 } else {
                     navigation.navigate("menu"); 
                 }

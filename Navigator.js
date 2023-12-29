@@ -22,8 +22,7 @@ export const Navigator = () => {
             }}/>
 
             <Stack.Screen name="login"
-            component={Login}
-            />
+            component={Login}/>
 
             <Stack.Screen name="menu"
             component={Menu}
@@ -53,8 +52,7 @@ export const Navigator = () => {
             headerStyle: {
                 backgroundColor: "#edebeb"
                 }
-            }}
-            />
+            }}/>
 
             <Stack.Screen name="Information"
             component={Information}
@@ -63,8 +61,7 @@ export const Navigator = () => {
             headerStyle: {
                 backgroundColor: "#edebeb"
                 }
-            }}
-            />
+            }}/>
 
         </Stack.Navigator>
     )
