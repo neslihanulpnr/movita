@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, } from "react-native";
 import MapView from "react-native-maps";
 
 export const Map = () => {
