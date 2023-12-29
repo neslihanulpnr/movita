@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, TextInput, Image, Alert } from 'react-native';
+import { View, Button, TextInput, Image, Alert, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -101,9 +101,23 @@ export const Homepage = () => {
                     </View>
                     <View style={{ margin: 10 }}></View>
                 </View>
-                <View>
-                    <Button color="#00ADEE" title='Giriş Yap' onPress={Login} />
-                </View>
+                <View style= {{justifyContent: 'center', alignItems: 'center'}}>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: '#00ADEE',
+                        padding: 10,
+                        borderRadius: 5,
+                        width: 150,
+                        height: 40, 
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    onPress={Login}
+                >
+                    <Text style={{ color: 'white', fontSize: 16 }}>Giriş Yap</Text>
+                </TouchableOpacity>
+            </View>
+
             </View>
         </View>
     );
