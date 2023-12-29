@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, TextInput, Image, Alert, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, Image, Alert, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';

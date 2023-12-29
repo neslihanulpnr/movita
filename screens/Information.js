@@ -12,16 +12,16 @@ export const Information = () => {
     return (
         <View style={{ left: 30, top: 10 }}>
             <View style={styles.buttonContainer}>
-                <Text style={{ fontSize: 25 }}>Sefer Saati</Text>
+                <Text style={{ fontSize: 23 }}>Sefer Saati</Text>
                 <TouchableOpacity style={styles.button} onPress={toggleDetails}>
-                    <Feather name={showDetails ? "chevron-down" : "chevron-up"} size={20} color="black" />
+                    <Feather name={showDetails ? "chevron-down" : "chevron-up"} size={15} color="black" />
                 </TouchableOpacity>
             </View>
 
             {showDetails && (
                 <View>
-                    <Text style={{ fontSize: 20 }}>İlk Sefer Saati :</Text>
-                    <Text style={{ fontSize: 20 }}>Son Sefer Saati :</Text>
+                    <Text style={{ fontSize: 17 }}>İlk Sefer Saati :</Text>
+                    <Text style={{ fontSize: 17 }}>Son Sefer Saati :</Text>
                 </View>
             )}
 
@@ -42,7 +42,11 @@ const styles = StyleSheet.create({
         padding: 10,
         marginLeft: 10,
         borderRadius: 5,
-        height: 40
+        height: 30,
+        width: 35,
+        alignItems: "center",
+        justifyContent: "center"
+
     },
     buttonText: {
         color: "white",
