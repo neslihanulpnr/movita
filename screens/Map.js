@@ -6,7 +6,7 @@ import MapView from "react-native-maps";
 export const Map = () => {
   
   return (
-    <View style={styles.container}>
+    <View>
       <StatusBar style="auto" />
       <MapView
         style={styles.map}
@@ -16,9 +16,6 @@ export const Map = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
-  },
   map: {
     width: 700,
     height: 900
