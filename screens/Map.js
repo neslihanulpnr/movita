@@ -1,5 +1,3 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, } from "react-native";
 import MapView from "react-native-maps";
 
@@ -7,7 +5,6 @@ export const Map = () => {
   
   return (
     <View>
-      <StatusBar style="auto" />
       <MapView
         style={styles.map}
       />
@@ -17,7 +14,7 @@ export const Map = () => {
 
 const styles = StyleSheet.create({
   map: {
-    width: 700,
-    height: 900
+    width: "100%",
+    height: "100%"
   },
 });
