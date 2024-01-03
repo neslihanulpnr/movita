@@ -12,16 +12,19 @@ export const Homepage = () => {
     const [username, setUsername] = useState("");
 
     function Login() {
-        fetch('http://161.97.107.99:8011/login', {
+        fetch('http://161.97.107.99:8019/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'sample_token1234',
+                'Cookie': 'session=e54708cd-0ec0-4a1d-a736-1e0c79348c9d'
 
             },
             body: JSON.stringify({
                 username: username,
-                password: password
+                password: password,
+                user_id: 999
+
             })
         })
             .then(response => response.json())
@@ -30,10 +33,10 @@ export const Homepage = () => {
                 if (data.error_code === 1011) {
                     Alert.alert("", "Şifre veya kullanıcı adı yanlış");
                 } else {
-                    navigation.navigate("menu"); 
+                    navigation.navigate("menu");
                 }
             })
-            
+
             .catch(error => {
                 console.error('Hata:', error);
                 Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış.");
@@ -102,22 +105,22 @@ export const Homepage = () => {
                     </View>
                     <View style={{ margin: 10 }}></View>
                 </View>
-                <View style= {{justifyContent: 'center', alignItems: 'center'}}>
-                <TouchableOpacity
-                    style={{
-                        backgroundColor: '#00ADEE',
-                        padding: 10,
-                        borderRadius: 5,
-                        width: 150,
-                        height: 40, 
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                    onPress={Login}
-                >
-                    <Text style={{ color: 'white', fontSize: 16 }}>Giriş Yap</Text>
-                </TouchableOpacity>
-            </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#00ADEE',
+                            padding: 10,
+                            borderRadius: 5,
+                            width: 150,
+                            height: 40,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        onPress={Login}
+                    >
+                        <Text style={{ color: 'white', fontSize: 16 }}>Giriş Yap</Text>
+                    </TouchableOpacity>
+                </View>
 
             </View>
         </View>
