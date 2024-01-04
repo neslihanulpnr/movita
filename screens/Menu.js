@@ -83,7 +83,7 @@ export const Menu = () => {
           ]}
           onPress={() => {
             console.log("Bilgi öğesine tıklandı");
-            handleButtonPress(<Information />, 'Bilgi');
+            handleButtonPress(<Information plaka="YBAK_PLAKA2" />, 'Bilgi');
           }}
         >
           <Ionicons name="information-circle" size={30} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />

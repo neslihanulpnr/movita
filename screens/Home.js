@@ -23,7 +23,6 @@ export const Homepage = () => {
             body: JSON.stringify({
                 username: username,
                 password: password,
-                user_id: 999
 
             })
         })
