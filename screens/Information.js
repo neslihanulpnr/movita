@@ -5,7 +5,6 @@ export const Information = () => {
   const [userData, setUserData] = useState();
 
   useEffect(() => {
-    console.log("use effect içi");
 
     fetch('http://www.movita.com.tr:8019/guzergah_personel_listele', {
       method: 'POST',
@@ -17,15 +16,39 @@ export const Information = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('API :', data);
+        console.log('API:', data);
         setUserData(data);
       })
       .catch(error => console.error('Hata:', error));
   }, []); 
 
+  //userdata tanımlı değilse
+  if (!userData) {
+    return (
+      <View>
+        <Text></Text>
+      </View>
+    );
+  }
+
+  //ret özelliği tanımlı değilse
+  if (!userData.ret) {
+    return (
+      <View>
+        <Text></Text>
+      </View>
+    );
+  }
+
   return (
     <View>
-      <Text>nesliş</Text>
+        <Text style={{fontSize: 20, margin:15}}>
+          Arac Plakası: {userData.ret[0].arac_plaka} {"\n"}
+          Filo ID: {userData.ret[0].filo_id} {"\n"}
+          Gün: {userData.ret[0].gun} {"\n"}
+          Seans: {userData.ret[0].seans} {"\n"}
+        </Text>
+      
     </View>
   );
 }
