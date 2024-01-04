@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Text, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Information } from './Information';
@@ -9,9 +9,15 @@ import { Settings } from './Settings';
 
 export const Menu = () => {
   const navigation = useNavigation();
+  //eklendi
+  const route = useRoute()
+  console.log(route.params.data);
 
   const [contentToShow, setContentToShow] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
+  //eklendi
+  const [data,setData]=useState(route.params.data) 
+  console.log(data);
 
   useEffect(() => {
     navigation.setOptions({
@@ -83,7 +89,7 @@ export const Menu = () => {
           ]}
           onPress={() => {
             console.log("Bilgi öğesine tıklandı");
-            handleButtonPress(<Information />, 'Bilgi');
+            handleButtonPress(<Information datalogin={data}/>, 'Bilgi'); //eklendi
           }}
         >
           <Ionicons name="information-circle" size={30} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />

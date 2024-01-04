@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
-export const Information = () => {
+export const Information = ({dataLogin}) => { //eklendi
+  console.log("props",dataLogin)
   const [userData, setUserData] = useState();
 
   useEffect(() => {
