@@ -17,8 +17,6 @@ export const Homepage = () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'sample_token1234',
-                'Cookie': 'session=e54708cd-0ec0-4a1d-a736-1e0c79348c9d'
-
             },
             body: JSON.stringify({
                 username: username,
