@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export const Information = ({plaka}) => {
+export const Information = () => {
 
   return (
     <View>
-      <Text style={{fontSize: 20, margin: 5}}>Plaka : {plaka} </Text>
+      <Text style={{}}></Text>
     </View>
   );
 }
