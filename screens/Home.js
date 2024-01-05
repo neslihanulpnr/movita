@@ -31,7 +31,7 @@ export const Homepage = () => {
                 if (data.error_code === 1011) {
                     Alert.alert("", "Şifre veya kullanıcı adı yanlış");
                 } else {
-                    navigation.navigate("menu", {data:data}); //eklendi
+                    navigation.navigate("menu", {data : data}); //eklendi
                 }
             })
 
