@@ -1,33 +1,42 @@
-import { useState } from "react";
-import { StyleSheet, View, } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
-export const Map = () => {
+export const Map = ({ data }) => {
+  const [userData, setUserData] = useState();
   let [markers, setMarkers] = useState([
-    {
-      lat: 40.774021,
-      long: 29.918631
-    },
-    {
-      lat: 39.933365,
-      long: 32.859741
-    },
-    {
-      lat: 37.916248,
-      long: 40.225590
-    },
+ 
   ]);
+  useEffect(() => {
+    fetchData();
+  }, []); // Boş dependency array ile sadece bir kere çalışmasını sağla
 
+  const fetchData = () => {
+    fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'sample_token1234'
+      },
+      body: JSON.stringify({
+        plaka: "1.44_PIZERO_YILDIRIM"
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("PLAKA :", data);
+      setUserData(data);
+      
+    })
+    .catch(error => {
+      console.log("HATA :", error);
+    });
+  };
 
   return (
     <View>
       <MapView
         style={styles.map}>
-        {markers.map((e, i) => (
-          <Marker 
-          pinColor="yellow" 
-          coordinate={{ latitude: e.lat, longitude: e.long }} key={i} />
-        ))}
 
       </MapView>
     </View>

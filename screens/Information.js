@@ -35,7 +35,7 @@ export const Information = ({data}) => {
                 <View >
                   <Text> PLAKA : {item.arac_plaka} </Text>
                   <Text> FİLO ID: {item.filo_id} </Text>
-                  <Text> GÜN {item.gun} </Text>
+                  <Text> GÜN : {item.gun} </Text>
                   <Text> İSTASYON ID: {item.istasyon_id} </Text>
                   <Text> SEANS: {item.seans} </Text>
                   <Text> SMS : {item.sms_atilsin} </Text>
