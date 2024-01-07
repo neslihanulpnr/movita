@@ -5,7 +5,10 @@ import MapView, { Marker } from "react-native-maps";
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState();
   let [markers, setMarkers] = useState([
- 
+    {
+      //lat: userData?.hist_lat,
+      //long: userData?.hist_long
+    }
   ]);
   useEffect(() => {
     fetchData();
@@ -16,7 +19,7 @@ export const Map = ({ data }) => {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'sample_token1234'
+        'Authorization': 'sample_token1234',
       },
       body: JSON.stringify({
         plaka: "1.44_PIZERO_YILDIRIM"
