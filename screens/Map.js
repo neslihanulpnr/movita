@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text,View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export const Map = ({ data }) => {
-  const [userData, setUserData] = useState();
-  let [markers, setMarkers] = useState([
-    {
-      //lat: userData?.hist_lat,
-      //long: userData?.hist_long
-    }
-  ]);
+  let [markers, setMarkers] = useState();
   useEffect(() => {
     fetchData();
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 10000);
+
+    return () => clearInterval(intervalId);
   }, []); // Boş dependency array ile sadece bir kere çalışmasını sağla
 
   const fetchData = () => {
@@ -22,13 +21,13 @@ export const Map = ({ data }) => {
         'Authorization': 'sample_token1234',
       },
       body: JSON.stringify({
-        plaka: "1.44_PIZERO_YILDIRIM"
+       plaka:data?.ret?.plaka
       })
     })
     .then(response => response.json())
     .then(data => {
       console.log("PLAKA :", data);
-      setUserData(data);
+      setMarkers(data.ret)
       
     })
     .catch(error => {
@@ -38,11 +37,22 @@ export const Map = ({ data }) => {
 
   return (
     <View>
-      <MapView
-        style={styles.map}>
+    {markers === undefined ? (
+      <Text>Veri yükleniyor...</Text>
+    ) : (
+          <View>
+            <MapView
+            style={styles.map}>
+            
+                <Marker coordinate={{latitude : 40.774021,longitude:29.918631}}/>  
+          
+          </MapView>
+           
+          </View>
 
-      </MapView>
-    </View>
+    )}
+  </View>
+  
   );
 }
 
