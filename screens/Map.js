@@ -26,7 +26,7 @@ export const Map = ({ data }) => {
         'Authorization': 'sample_token1234',
       },
       body: JSON.stringify({
-        plaka: "1.44_PIZERO_YILDIRIM"
+        plaka: "YBAK_PLAKA2"
       })
     })
       .then(response => response.json())
