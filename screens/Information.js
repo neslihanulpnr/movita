@@ -1,66 +1,80 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 
 export const Information = ({ data }) => {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
-    console.log("kullanıcı :", data);
-
     const fetchData = async () => {
-      const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'sample_token1234'
-        },
-        body: JSON.stringify({ user_id: data.ret.user_id })
-      });
-      const result = await response.json();
-      console.log("RESULT: ", result)
-      setUserData(result.ret);
+      try {
+        const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'sample_token1234'
+          },
+          body: JSON.stringify({ user_id: data.ret.user_id })
+        });
+        const result = await response.json();
+        setUserData(result.ret);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
     fetchData();
-
-  }, []); // Boş bağımlılık dizisi
+  }, [data]);
 
   return (
     <ScrollView>
-      <View>
-        <View style={{ margin: 8 }}>
-          {userData === undefined ? (
-            <Text>Veri yükleniyor...</Text>
-          ) : (
-            <View>
-              {userData.map((item, index) => (
-                <View key={index}>
-                  <View style={styles.infoContainer}>
-                    <Text style={{ fontSize: 20 }}> PLAKA : {item.arac_plaka} </Text>
-                    <Text style={{ fontSize: 20 }}> FİLO ID: {item.filo_id} </Text>
-                    <Text style={{ fontSize: 20 }}> GÜN : {item.gun} </Text>
-                    <Text style={{ fontSize: 20 }}> İSTASYON ID: {item.istasyon_id} </Text>
-                    <Text style={{ fontSize: 20 }}> SEANS: {item.seans} </Text>
-                    <Text style={{ fontSize: 20 }}> SMS : {item.sms_atilsin} </Text>
-                  </View>
-                  {/* İki kez yazılan kısımlar arasında boşluk eklemek için aşağıdaki View kullanılabilir */}
-                  {index < userData.length - 1 && <View style={styles.spacing}></View>}
-
-                </View>
-              ))}
-            </View>
-          )}
+      <View style={styles.tableContainer}>
+        <View style={[styles.tableRow, styles.tableHeader]}>
+          <Text style={styles.tableHeaderText}>PLAKA</Text>
+          <Text style={styles.tableHeaderText}>FİLO ID</Text>
+          <Text style={styles.tableHeaderText}>GÜN</Text>
+          <Text style={styles.tableHeaderText}>SEANS</Text>
         </View>
+        {userData && userData.length > 0 ? (
+          userData.map((item, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={styles.tableCell}>{item.arac_plaka}</Text>
+              <Text style={styles.tableCell}>{item.filo_id}</Text>
+              <Text style={styles.tableCell}>{item.gun}</Text>
+              <Text style={styles.tableCell}>{item.seans}</Text>
+            </View>
+          ))
+        ) : (
+          <Text>Veri yükleniyor...</Text>
+        )}
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  infoContainer: {
-    marginBottom: 10,
+  tableContainer: {
+    margin: 1,
   },
-  spacing: {
-    height: 10,
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingVertical: 20,
+  },
+  tableHeader: {
+    backgroundColor: "#00ADEE",
+  },
+  tableHeaderText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    flex: 1,
+    color: "lightgrey"
+  },
+  tableCell: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    flex: 1,
   },
 });
 

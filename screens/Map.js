@@ -2,27 +2,22 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
-export const Map = ({ initialData, initialUserId }) => {
+export const Map = ({ data }) => {
   const [markers, setMarkers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState(initialData);
-  const [userId, setUserId] = useState(initialUserId);
 
   useEffect(() => {
-    fetchData(data, userId);
+    fetchData(data);
     const intervalId = setInterval(() => {
-      fetchData(data, userId);
+      fetchData(data);
       console.log("Her 10 saniyede bir çağırıldı");
     }, 10000);
 
     return () => clearInterval(intervalId);
-  }, [data, userId]);
+  }, [data]);
 
-  const fetchData = (data, userId) => {
+  const fetchData = (data) => {
     setIsLoading(true);
-
-    console.log("plaka:", data?.ret?.filo?.plaka);
-    console.log("user_id:", userId);
 
     fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
       method: "POST",
@@ -31,8 +26,7 @@ export const Map = ({ initialData, initialUserId }) => {
         'Authorization': 'sample_token1234',
       },
       body: JSON.stringify({
-        plaka: data?.ret?.filo?.plaka,
-        user_id: userId,
+        plaka: "1.44_PIZERO_YILDIRIM"
       })
     })
       .then(response => response.json())
