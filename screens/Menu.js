@@ -103,7 +103,7 @@ export const Menu = () => {
           ]}
           onPress={() => {
             console.log("harita öğesine tıklandı");
-            handleButtonPress(<Map />, 'Harita');
+            handleButtonPress(<Map data={data}/>, 'Harita');
           }}
         >
           <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
