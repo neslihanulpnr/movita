@@ -8,6 +8,7 @@ export const Map = ({ data }) => {
     fetchData();
     const intervalId = setInterval(() => {
       fetchData();
+      console.log("10 saniyede bir çağırıldı")
     }, 10000);
 
     return () => clearInterval(intervalId);
@@ -42,10 +43,19 @@ export const Map = ({ data }) => {
     ) : (
           <View>
             <MapView
-            style={styles.map}>
+            style={styles.map}
+            region={{
+              latitude: markers && markers.length === 1 ? markers[0].latitude : 40.774021,
+              longitude: markers && markers.length === 1 ? markers[0].longitude : 29.918631,
+              latitudeDelta: 5, // Ölçek faktörlerini ayarlayabilirsiniz
+              longitudeDelta: 5, // Ölçek faktörlerini ayarlayabilirsiniz
+            }}
+          >
+       
+              
             
-                <Marker coordinate={{latitude : 40.774021,longitude:29.918631}}/>  
-          
+            <Marker coordinate={{latitude : 40.774021,longitude:29.918631}}/>  
+        
           </MapView>
            
           </View>
