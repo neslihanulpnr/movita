@@ -16,6 +16,7 @@ export const Information = ({ data }) => {
           body: JSON.stringify({ user_id: data.ret.user_id })
         });
         const result = await response.json();
+        console.log('API Response:', result.ret);
         setUserData(result.ret);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -29,7 +30,6 @@ export const Information = ({ data }) => {
       <View style={styles.tableContainer}>
         <View style={[styles.tableRow, styles.tableHeader]}>
           <Text style={styles.tableHeaderText}>PLAKA</Text>
-          <Text style={styles.tableHeaderText}>FİLO ID</Text>
           <Text style={styles.tableHeaderText}>GÜN</Text>
           <Text style={styles.tableHeaderText}>SEANS</Text>
         </View>
@@ -37,7 +37,6 @@ export const Information = ({ data }) => {
           userData.map((item, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={styles.tableCell}>{item.arac_plaka}</Text>
-              <Text style={styles.tableCell}>{item.filo_id}</Text>
               <Text style={styles.tableCell}>{item.gun}</Text>
               <Text style={styles.tableCell}>{item.seans}</Text>
             </View>
