@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View, } from "react-native";
-import MapView from "react-native-maps";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -26,13 +26,33 @@ export const Map = ({ data }) => {
     fetchData();
   }, [data]);
 
+  const turkeyRegion = {
+    latitude: 39.9334,
+    longitude: 32.8597,
+    latitudeDelta: 2,
+    longitudeDelta: 2
+  };
+
+  const markers = [
+    { title: 'Ankara Kalesi', coordinates: { latitude: 39.9334, longitude: 32.8629 } },
+    { title: 'Atakule', coordinates: { latitude: 39.9434, longitude: 32.8267 } },
+    { title: 'Gençlik Parkı', coordinates: { latitude: 39.9097, longitude: 32.8401 } },
+    { title: 'Ataturk Orman Çiftliği', coordinates: { latitude: 39.8972, longitude: 32.8024 } },
+  ];
+
   return (
     <View>
-      
-        <View>
-          <MapView style={styles.map}  />
-        </View>
-  
+      <View>
+        <MapView style={styles.map} region={turkeyRegion}>
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={marker.coordinates}
+              title={marker.title}
+            />
+          ))}
+        </MapView>
+      </View>
     </View>
   );
 };
