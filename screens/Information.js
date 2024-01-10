@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 
 export const Information = ({ data }) => {
   const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,8 +19,9 @@ export const Information = ({ data }) => {
         const result = await response.json();
         console.log('API Response:', result.ret);
         setUserData(result.ret);
+        setLoading(false); // Veri çekme tamamlandığında yüklemeyi kapat
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Veri çekme hatası:', error);
       }
     };
     fetchData();
@@ -33,16 +35,20 @@ export const Information = ({ data }) => {
           <Text style={styles.tableHeaderText}>GÜN</Text>
           <Text style={styles.tableHeaderText}>SEANS</Text>
         </View>
-        {userData && userData.length > 0 ? (
-          userData.map((item, index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.tableCell}>{item.arac_plaka}</Text>
-              <Text style={styles.tableCell}>{item.gun}</Text>
-              <Text style={styles.tableCell}>{item.seans}</Text>
-            </View>
-          ))
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" /> // Yüklenme animasyonu
         ) : (
-          <Text>Veri yükleniyor...</Text>
+          userData && userData.length > 0 ? (
+            userData.map((item, index) => (
+              <View key={index} style={styles.tableRow}>
+                <Text style={styles.tableCell}>{item.arac_plaka}</Text>
+                <Text style={styles.tableCell}>{item.gun}</Text>
+                <Text style={styles.tableCell}>{item.seans}</Text>
+              </View>
+            ))
+          ) : (
+            <Text>Veri bulunamadı.</Text>
+          )
         )}
       </View>
     </ScrollView>
