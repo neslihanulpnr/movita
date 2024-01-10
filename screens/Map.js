@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import MapView from "react-native-maps";
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
-  
+  const [message, setMessage] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -50,7 +51,6 @@ export const Map = ({ data }) => {
 
     fetchUserData();
   }, [data]);
-
 
 
   return (
