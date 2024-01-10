@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export const Map = ({ data }) => {
@@ -34,10 +34,10 @@ export const Map = ({ data }) => {
   };
 
   const markers = [
-    { title: 'Ankara Kalesi', coordinates: { latitude: 39.9334, longitude: 32.8629 } },
-    { title: 'Atakule', coordinates: { latitude: 39.9434, longitude: 32.8267 } },
-    { title: 'Gençlik Parkı', coordinates: { latitude: 39.9097, longitude: 32.8401 } },
-    { title: 'Ataturk Orman Çiftliği', coordinates: { latitude: 39.8972, longitude: 32.8024 } },
+    { coordinates: { latitude: 39.9334, longitude: 32.8629 } },
+    { coordinates: { latitude: 39.9434, longitude: 32.8267 } },
+    { coordinates: { latitude: 39.9097, longitude: 32.8401 } },
+    { coordinates: { latitude: 39.8972, longitude: 32.8024 } },
   ];
 
   return (
@@ -47,9 +47,8 @@ export const Map = ({ data }) => {
           {markers.map((marker, index) => (
             <Marker
               key={index}
-              coordinate={marker.coordinates}
-              title={marker.title}
-            />
+              coordinate={marker.coordinates}/>
+              
           ))}
         </MapView>
       </View>
