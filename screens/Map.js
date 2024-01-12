@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
+import MarkerImage from '../assets/marker.png';
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -98,18 +99,24 @@ export const Map = ({ data }) => {
         }}
       >
         {userLocation && (
-          <Marker
+          <Marker 
+          
             coordinate={{
               latitude: userLocation.latitude,
               longitude: userLocation.longitude,
             }}
             title=""
             description=""
-          > 
-
-
+           
+          >
           
-          </Marker>
+          
+          <Image
+          source={require('../assets/marker.png')}
+          style={{ width: 50, height: 65 }}
+        />
+      </Marker>
+          
         )}
       </MapView>
     </View>
