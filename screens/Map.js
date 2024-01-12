@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import MapView, {Marker} from "react-native-maps";
+import { StyleSheet, View, Text, Image } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
 
@@ -64,8 +64,8 @@ export const Map = ({ data }) => {
               mapViewRef.current.animateToRegion({
                 latitude: parseFloat(carLocationResult.ret.konum_y),
                 longitude: parseFloat(carLocationResult.ret.konum_x),
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
               });
             }
           }
@@ -105,7 +105,11 @@ export const Map = ({ data }) => {
             }}
             title=""
             description=""
-          />
+          > 
+
+
+          
+          </Marker>
         )}
       </MapView>
     </View>
