@@ -25,8 +25,8 @@ export const Menu = () => {
       headerLeft: () => null,
     });
 
-    handleButtonPress(<Map />, 'Harita');
-  }, [navigation]);
+    handleButtonPress(<Information data={data} />, 'Bilgi');
+}, [navigation]);
 
   const handleLogout = () => {
     console.log("çıkış yap butonuna tıklandı");
