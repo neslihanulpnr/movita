@@ -4,7 +4,7 @@ import MapView, {Marker} from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
 
-export const Map = ({ data, location }) => {
+export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ export const Map = ({ data, location }) => {
     <View>
       <View>
         <MapView style={styles.map}>
+          
           
         </MapView>
       </View>
