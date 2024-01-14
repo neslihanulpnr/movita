@@ -117,7 +117,7 @@ export const Menu = () => {
           ]}
           onPress={() => {
             console.log("Ayarlar öğesine tıklandı");
-            handleButtonPress(<Settings />, 'Ayarlar');
+            handleButtonPress(<Settings data={data}/>, 'Ayarlar');
           }}
         >
           <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />

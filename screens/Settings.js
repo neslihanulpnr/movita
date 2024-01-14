@@ -1,40 +1,24 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 
-export const Settings = () => {
-    const [textColor, setTextColor] = useState("black");
-
-    const handleForgotPassword = () => {
-        setTextColor("#00ADEE")
-        console.log("sefere katılmayacağım")
-    };
- 
-
+export const Settings = ({ data }) => {
+    const filoData = data?.ret?.filo;
+  
     return (
-        <View>
-        <View 
-        style={{
-            justifyContent: "center", 
-            alignItems: "center", 
-            backgroundColor: "orange"}}>
-            <TouchableOpacity 
-            onPress={handleForgotPassword} 
-            style={{
-                justifyContent: "flex-start", 
-                alignItems: "flex-start", 
-                margin: 10, 
-                flexDirection: "row"}}>
-                <Text 
-                style={{ 
-                    color: textColor, 
-                    fontSize: 25 
-                    }}>Sefere Katılmayacağım</Text>
-            </TouchableOpacity>
+      <View>
+        <View style={{ margin: 20 }}></View>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}> Kişi Bilgileri</Text>
         </View>
-
-        <View>
-        <Text > Kişi Bilgileri</Text>
+  
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          {filoData && (
+            <View>
+              <Text style={{ color: "black", fontSize: 25 }}>Adres: {filoData.address}</Text>
+              {/* Diğer özellikleri de ekleyebilirsiniz */}
+            </View>
+          )}
         </View>
-        </View>
-    )
-}
+      </View>
+    );
+  };

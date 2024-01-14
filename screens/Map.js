@@ -117,7 +117,6 @@ export const Map = ({ data }) => {
       </MapView>
     </View>
   );
-  
 };
 
 const styles = StyleSheet.create({

@@ -69,9 +69,10 @@ export const Information = ({ data }) => {
 
     <View style={styles.tableContainer}>
       <View style={[styles.tableRow, styles.tableHeader]}>
-        <Text style={styles.tableHeaderText}>PLAKA</Text>
-        <Text style={styles.tableHeaderText}>GÜN</Text>
-        <Text style={styles.tableHeaderText}>SEANS</Text>
+        <Text style={styles.tableHeaderText}>Plaka</Text>
+        <Text style={styles.tableHeaderText}>Gün</Text>
+        <Text style={styles.tableHeaderText}>Seans</Text>
+        <Text style={styles.tableHeaderText}>Katılım</Text>
       </View>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
