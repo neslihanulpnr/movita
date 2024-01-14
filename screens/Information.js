@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // React Navigation kullanılıyorsa ekleyin
 import moment from 'moment';
 
 export const Information = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,68 +19,78 @@ export const Information = ({ data }) => {
           },
           body: JSON.stringify({ user_id: data.ret.user_id })
         });
-  
+
         const result = await response.json();
         console.log('API Response:', result.ret);
-  
+
         // Filtreleme işlemi
         const filteredData = result.ret.filter((item) => {
           const currentDay = moment().isoWeekday();
           const apiDay = moment(item.gun, "dddd").isoWeekday();
-  
-          const isDayMatching = currentDay === apiDay; // API'den gelen gün ile şuanki günü karşılaştır
-  
-          console.log(`Günler uyuşuyor mu: ${isDayMatching}`);
-  
+
+          const isDayMatching = currentDay === apiDay;
           const isTimeMatching = moment().isBetween(moment(item.seans.split("-")[0], "HH:mm"), moment(item.seans.split("-")[1], "HH:mm"));
-  
-          console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
-  
+
           if (isDayMatching && isTimeMatching) {
+            console.log(`Günler uyuşuyor mu: true`);
+            console.log(`Saatler uyuşuyor mu: true`);
             console.log(`Uygun gün: ${item.gun}`);
+          } else {
+            console.log(`Günler uyuşuyor mu: false`);
+            console.log(`Saatler uyuşuyor mu: false`);
           }
-  
+
           return isDayMatching;
         });
-  
+
         setUserData(filteredData);
         setLoading(false);
       } catch (error) {
         console.error('Veri çekme hatası:', error);
       }
     };
-  
+
     fetchData();
-  }, [data]);
-  
+  }, [data.ret.user_id]);
+
+  const getRowStyle = (item) => {
+    const currentDay = moment().isoWeekday();
+    const apiDay = moment(item.gun, "dddd").isoWeekday();
+    const isDayMatching = currentDay === apiDay;
+    const isTimeMatching = moment().isBetween(moment(item.seans.split("-")[0], "HH:mm"), moment(item.seans.split("-")[1], "HH:mm"));
+
+    return {
+      backgroundColor: isDayMatching && isTimeMatching ? '' : '', // Arka plan rengi
+      textColor: isDayMatching && isTimeMatching ? '#00ADEE' : 'black', // Yazı rengi
+    };
+  };
 
   return (
-    <ScrollView>
-      <View style={styles.tableContainer}>
-        <View style={[styles.tableRow, styles.tableHeader]}>
-          <Text style={styles.tableHeaderText}>PLAKA</Text>
-          <Text style={styles.tableHeaderText}>GÜN</Text>
-          <Text style={styles.tableHeaderText}>SEANS</Text>
-        </View>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          userData && userData.length > 0 ? (
-            userData.map((item, index) => (
-              <View key={index} style={styles.tableRow}>
-                <Text style={styles.tableCell}>{item.arac_plaka}</Text>
-                <Text style={styles.tableCell}>{item.gun}</Text>
-                <Text style={styles.tableCell}>{item.seans}</Text>
-              </View>
-            ))
-          ) : (
-            <Text>Veri bulunamadı.</Text>
-          )
-        )}
+
+    <View style={styles.tableContainer}>
+      <View style={[styles.tableRow, styles.tableHeader]}>
+        <Text style={styles.tableHeaderText}>PLAKA</Text>
+        <Text style={styles.tableHeaderText}>GÜN</Text>
+        <Text style={styles.tableHeaderText}>SEANS</Text>
       </View>
-    </ScrollView>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        userData && userData.length > 0 ? (
+          userData.map((item, index) => (
+            <View key={index} style={[styles.tableRow, getRowStyle(item)]}>
+              <Text style={[styles.tableCell, { color: getRowStyle(item).textColor }]}>{item.arac_plaka}</Text>
+              <Text style={[styles.tableCell, { color: getRowStyle(item).textColor }]}>{item.gun}</Text>
+              <Text style={[styles.tableCell, { color: getRowStyle(item).textColor }]}>{item.seans}</Text>
+            </View>
+          ))
+        ) : (
+          <Text>No data available</Text>
+        )
+      )}
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   tableContainer: {
