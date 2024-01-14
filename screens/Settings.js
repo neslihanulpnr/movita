@@ -1,5 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native"
-import { AntDesign } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity } from "react-native";
 
 export const Settings = () => {
     const handleForgotPassword = () => {}
@@ -9,13 +8,10 @@ export const Settings = () => {
         <View>
             <TouchableOpacity onPress={handleForgotPassword} 
             style={{justifyContent: "flex-start", alignItems: "flex-start", margin: 10, flexDirection: "row"}}>
-                <Text style={{ color: "black", fontSize: 25 }}>Şifreyi değiştir</Text>
+                <Text style={{ color: "black", fontSize: 25 }}>Sefere Katılmayacağım</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleForgotPassword} 
-            style={{justifyContent: "flex-start", alignItems: "flex-start", margin: 10, flexDirection: "row"}}>
-                <Text style={{ color: "black", fontSize: 25 }}>Şifremi unuttum </Text>
-            </TouchableOpacity>
+
 
 
         </View>
