@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import moment from 'moment';
 
 export const Information = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -16,16 +17,40 @@ export const Information = ({ data }) => {
           },
           body: JSON.stringify({ user_id: data.ret.user_id })
         });
+  
         const result = await response.json();
         console.log('API Response:', result.ret);
-        setUserData(result.ret);
-        setLoading(false); // Veri çekme tamamlandığında yüklemeyi kapat
+  
+        // Filtreleme işlemi
+        const filteredData = result.ret.filter((item) => {
+          const currentDay = moment().isoWeekday();
+          const apiDay = moment(item.gun, "dddd").isoWeekday();
+  
+          const isDayMatching = currentDay === apiDay; // API'den gelen gün ile şuanki günü karşılaştır
+  
+          console.log(`Günler uyuşuyor mu: ${isDayMatching}`);
+  
+          const isTimeMatching = moment().isBetween(moment(item.seans.split("-")[0], "HH:mm"), moment(item.seans.split("-")[1], "HH:mm"));
+  
+          console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
+  
+          if (isDayMatching && isTimeMatching) {
+            console.log(`Uygun gün: ${item.gun}`);
+          }
+  
+          return isDayMatching;
+        });
+  
+        setUserData(filteredData);
+        setLoading(false);
       } catch (error) {
         console.error('Veri çekme hatası:', error);
       }
     };
+  
     fetchData();
   }, [data]);
+  
 
   return (
     <ScrollView>
@@ -36,7 +61,7 @@ export const Information = ({ data }) => {
           <Text style={styles.tableHeaderText}>SEANS</Text>
         </View>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" /> // Yüklenme animasyonu
+          <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           userData && userData.length > 0 ? (
             userData.map((item, index) => (
