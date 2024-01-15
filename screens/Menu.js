@@ -93,7 +93,7 @@ export const Menu = () => {
           }}
         >
           <Ionicons name="information-circle" size={30} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Bilgi</Text>
+          <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -121,7 +121,7 @@ export const Menu = () => {
           }}
         >
           <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
+          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Bilgi</Text>
         </TouchableOpacity>
       </View>
     </View>

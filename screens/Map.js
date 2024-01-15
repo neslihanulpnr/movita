@@ -9,40 +9,34 @@ export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [carLocationResult, setCarLocationResult] = useState(null);
+  const [isMapVisible, setMapVisible] = useState(false); // Harita görünürlüğünü kontrol etmek için bir state ekleyin
+  const mapViewRef = React.useRef(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         moment.locale('tr');
-  
+
         const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', 
             'Authorization': 'sample_token1234'
           },
           body: JSON.stringify({ user_id: data && data.ret && data.ret.user_id })
         });
-  
+
         const result = await response.json();
         console.log('bilgi API:', result.ret);
-  
+
         const filteredData = result.ret.filter(async (location) => {
           const currentDay = moment().isoWeekday();
           const apiDay = moment(location.gun, "dddd").isoWeekday();
-  
-          console.log(`API'den gelen gün: ${moment(location.gun, "dddd").format('dddd')}`);
-          console.log(`Şuanki gün: ${moment().format('dddd')}`);
-  
+
           const isDayMatching = apiDay === currentDay;
           const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
-  
-          console.log(`Günler uyuşuyor mu: ${isDayMatching}`);
-          console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
-  
+
           if (isDayMatching && isTimeMatching && location.arac_plaka) {
-            console.log(`Araç Plakası: ${location.arac_plaka}`);
-  
             const carLocationResponse = await fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
               method: 'POST',
               headers: {
@@ -51,74 +45,74 @@ export const Map = ({ data }) => {
               },
               body: JSON.stringify({ plaka: location.arac_plaka })
             });
-  
+
             const carLocationResult = await carLocationResponse.json();
             console.log('Araç son konum API yanıtı:', carLocationResult);
-  
+
             if ('ret' in carLocationResult && 'konum_x' in carLocationResult.ret && 'konum_y' in carLocationResult.ret) {
               setUserLocation({
                 latitude: parseFloat(carLocationResult.ret.konum_y),
                 longitude: parseFloat(carLocationResult.ret.konum_x),
               });
-  
-              // Zoom yapmak için animateToRegion fonksiyonunu kullan
+
               mapViewRef.current.animateToRegion({
                 latitude: parseFloat(carLocationResult.ret.konum_y),
                 longitude: parseFloat(carLocationResult.ret.konum_x),
                 latitudeDelta: 0.05,
                 longitudeDelta: 0.05,
               });
+
+              // Harita görünürlüğünü true olarak ayarla
+              setMapVisible(true);
             }
           }
-  
+
           return isDayMatching && isTimeMatching;
         });
-  
-        setUserData(filteredData);
+
+        if (filteredData.length > 0) {
+          setUserData(filteredData);
+        } else {
+          // Koşullar sağlanmadığında haritayı gizle
+          setMapVisible(false);
+        }
       } catch (error) {
         console.error('Error bilgi:', error);
       }
     };
-  
+
     fetchUserData();
   }, [data]);
-  
-
-  // MapView referansını oluştur
-  const mapViewRef = React.useRef(null);
 
   return (
     <View style={styles.container}>
-      <MapView
-        ref={mapViewRef}
-        style={styles.map}
-        initialRegion={{
-          latitude: userLocation?.latitude || 39.9334, // Varsayılan olarak Türkiye'nin yaklaşık merkezi
-          longitude: userLocation?.longitude || 32.8597,
-          latitudeDelta: 8,
-          longitudeDelta: 8,
-        }}
-      >
-        {userLocation && (
-          <Marker
-            coordinate={{
-              latitude: userLocation.latitude,
-              longitude: userLocation.longitude,
-            }}
-            title=""
-            description=""
-          >
-            <Image
-              source={require('../assets/marker2.png')}
-              style={{ width: 60, height: 105 }}
-            />
-          </Marker>
-        )}
-      </MapView>
+      {isMapVisible && (
+        <MapView
+          ref={mapViewRef}
+          style={styles.map}
+          initialRegion={{
+            latitude: userLocation?.latitude || 39.9334,
+            longitude: userLocation?.longitude || 32.8597,
+            latitudeDelta: 8,
+            longitudeDelta: 8,
+          }}
+        >
+          {userLocation && (
+            <Marker
+              coordinate={userLocation}
+              title="Kullanıcı Konumu"
+            >
+              <Image
+                source={require('../assets/marker2.png')}
+                style={{ width: 60, height: 105 }}
+              />
+            </Marker>
+          )}
+        </MapView>
+      )}
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   map: {
     width: "100%",

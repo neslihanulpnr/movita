@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "nativereact",
-    "slug": "nativereact",
+    "name": "movita-personel",
+    "slug": "movita-personel",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
