@@ -16,7 +16,6 @@ export const Settings = ({ data }) => {
             <Text style={styles.infoText}>Adres: {filoData.address}</Text>
             <Text style={styles.infoText}>E-posta: {filoData.eposta}</Text>
             <Text style={styles.infoText}>Telefon: {filoData.telefon}</Text>
-            <Text style={styles.infoText}>Username: {filoData.username}</Text>
           </View>
         )}
       </View>
