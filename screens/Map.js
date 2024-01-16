@@ -71,7 +71,7 @@ export const Map = ({ data }) => {
         }));
   
         if (carLocationResults.some((result) => result)) {
-          setUserData(result.ret);
+          setUserData(carLocationResults); // Diziyi direkt set edin
         } else {
           setMapVisible(false);
         }
@@ -80,8 +80,17 @@ export const Map = ({ data }) => {
       }
     };
   
+    // İlk çalıştırmayı yap
     fetchUserData();
+  
+    // Daha sonra 10 saniyede bir haritayı güncelle
+    const updateInterval = setInterval(fetchUserData, 10000);
+    console.log("10 saniyede yenilendi")
+    // Komponent unmount edildiğinde zamanlayıcıyı temizle
+    return () => clearInterval(updateInterval);
+  
   }, [data]);
+  
   
   return (
     <View style={styles.container}>
