@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import moment from "moment";
 import { useNavigation } from '@react-navigation/native';
 
-
 export const Information = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +51,10 @@ export const Information = ({ data }) => {
 
         matchingIndexes.forEach(index => {
           const seans = result.ret[index].seans;
-          const isTimeMatching = moment(currentHourMinute, 'HH:mm').isBetween(moment(seans.split("-")[0], 'HH:mm'), moment(seans.split("-")[1], 'HH:mm'));
+          const isTimeMatching = moment(currentHourMinute, 'HH:mm').isBetween(
+            moment(seans.split("-")[0], 'HH:mm'),
+            moment(seans.split("-")[1], 'HH:mm')
+          );
           console.log(`Gün: ${matchingDays[index].day}, Seans: ${seans}, Saatler uyuşuyor mu: ${isTimeMatching}`);
         });
 
@@ -69,7 +71,7 @@ export const Information = ({ data }) => {
   }, [data]);
 
   const handleIptalButtonPress = (index) => {
-    console.log("katılmayacağım")
+    console.log("Katılmayacağım");
     const updatedUserData = [...userData];
     updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
     setUserData(updatedUserData);
@@ -84,54 +86,54 @@ export const Information = ({ data }) => {
 
   return (
     <ScrollView>
-      <View style={styles.tableContainer}>
-        <View style={[styles.tableRow, styles.tableHeader]}>
-          <Text style={styles.tableHeaderText}>Plaka</Text>
-          <Text style={styles.tableHeaderText}>Gün</Text>
-          <Text style={styles.tableHeaderText}>Seans</Text>
-          <Text style={styles.tableHeaderText}>Katılım</Text>
-        </View>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          userData && userData.length > 0 ? (
-            userData.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => handleRoutePress(index)} // handleRoutePress fonksiyonunu çağırın
-                style={[
-                  styles.tableRow,
-                  matchingIndexes.includes(index) ? styles.matchingRow : null,
-                ]}
-              >
-                <Text style={styles.tableCell}>{item.arac_plaka}</Text>
-                <Text style={styles.tableCell}>{item.gun}</Text>
-                <Text style={styles.tableCell}>{item.seans}</Text>
-                <TouchableOpacity
-                  onPress={() => handleIptalButtonPress(index)}
-                  style={styles.tableCell}
-                >
-                  <View
-                    style={{
-                      width: 20,
-                      height: 20,
-                      backgroundColor: userData[index].isPressed ? 'red' : '#00ADEE',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      left: 35,
-                      borderRadius: 5
-                    }}>
-                    <Text>X</Text>
-                  </View>
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ))
-          ) : (
-            <Text>Veri bulunamadı.</Text>
-          )
-        )}
+    <View style={styles.tableContainer}>
+      <View style={[styles.tableRow, styles.tableHeader]}>
+        <Text style={styles.tableHeaderText}>Plaka</Text>
+        <Text style={styles.tableHeaderText}>Gün</Text>
+        <Text style={styles.tableHeaderText}>Seans</Text>
+        <Text style={styles.tableHeaderText}>Katılım</Text>
       </View>
-    </ScrollView>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        userData && userData.length > 0 ? (
+          userData.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleRoutePress(index)}
+              style={[
+                styles.tableRow,
+                matchingIndexes.includes(index) && userData[index].isTimeMatching ? styles.matchingRow : styles.nonMatchingRow
+              ]}
+            >
+              <Text style={styles.tableCell}>{item.arac_plaka}</Text>
+              <Text style={styles.tableCell}>{item.gun}</Text>
+              <Text style={styles.tableCell}>{item.seans}</Text>
+              <TouchableOpacity
+                onPress={() => handleIptalButtonPress(index)}
+                style={styles.tableCell}
+              >
+                <View
+                  style={{
+                    width: 20,
+                    height: 20,
+                    backgroundColor: userData[index].isPressed ? 'red' : '#00ADEE',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    left: 35,
+                    borderRadius: 5
+                  }}>
+                  <Text>X</Text>
+                </View>
+              </TouchableOpacity>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text>Veri bulunamadı.</Text>
+        )
+      )}
+    </View>
+  </ScrollView>
   );
 };
 
@@ -173,6 +175,9 @@ const styles = StyleSheet.create({
   matchingRow: {
     backgroundColor: 'lightgreen',
   },
+  nonMatchingRow:{
+    backgroundColor: "#0000"
+  }
 });
 
 export default Information; 
