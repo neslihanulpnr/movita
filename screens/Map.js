@@ -76,6 +76,7 @@ export const Map = ({ data }) => {
         } else {
           // Koşullar sağlanmadığında haritayı gizle
           setMapVisible(false);
+          console.log('Uygun sefer bulunamadı.');
         }
       } catch (error) {
         console.error('Error bilgi:', error);
@@ -87,7 +88,7 @@ export const Map = ({ data }) => {
 
   return (
     <View>
-      {isMapVisible && (
+      {isMapVisible ? (
         <MapView
           ref={mapViewRef}
           style={styles.map}
@@ -99,11 +100,15 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="Kullanıcı Konumu">
+            <Marker coordinate={userLocation} title="">
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
         </MapView>
+      ) : (
+        <View style={{alignItems: "center", justifyContent:"center"}}>
+          <Text style={{fontWeight: "bold", fontSize: 30}}>Uygun sefer bulunamadı.</Text>
+          </View>
       )}
     </View>
   );
