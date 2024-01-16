@@ -8,14 +8,16 @@ export const Settings = ({ data }) => {
       <View>
         <View style={{ margin: 20 }}></View>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}> Kişi Bilgileri</Text>
+          <Text style={{ fontSize: 30, fontWeight: "bold" }}> Kişi Bilgileri</Text>
         </View>
   
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           {filoData && (
             <View>
-              <Text style={{ color: "black", fontSize: 25 }}>Adres: {filoData.address}</Text>
-              {/* Diğer özellikleri de ekleyebilirsiniz */}
+              <Text style={{ color: "black", fontSize: 25 }}>Adres : {filoData.address}</Text>
+              <Text style={{ color: "black", fontSize: 25 }}>E-posta : {filoData.eposta}</Text>
+              <Text style={{ color: "black", fontSize: 25 }}>Telefon : {filoData.telefon}</Text>
+              <Text style={{ color: "black", fontSize: 25 }}>Adres : {filoData.address}</Text>
             </View>
           )}
         </View>

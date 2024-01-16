@@ -8,34 +8,33 @@ import MarkerImage from '../assets/marker2.png';
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  const [carLocationResult, setCarLocationResult] = useState(null);
-  const [isMapVisible, setMapVisible] = useState(false); // Harita görünürlüğünü kontrol etmek için bir state ekleyin
+  const [isMapVisible, setMapVisible] = useState(false);
   const mapViewRef = React.useRef(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         moment.locale('tr');
-
+  
         const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json', 
+            'Content-Type': 'application/json',
             'Authorization': 'sample_token1234'
           },
           body: JSON.stringify({ user_id: data && data.ret && data.ret.user_id })
         });
-
+  
         const result = await response.json();
         console.log('bilgi API:', result.ret);
-
-        const filteredData = result.ret.filter(async (location) => {
+  
+        const carLocationResults = await Promise.all(result.ret.map(async (location) => {
           const currentDay = moment().isoWeekday();
           const apiDay = moment(location.gun, "dddd").isoWeekday();
-
+  
           const isDayMatching = apiDay === currentDay;
           const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
-
+  
           if (isDayMatching && isTimeMatching && location.arac_plaka) {
             const carLocationResponse = await fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
               method: 'POST',
@@ -45,74 +44,76 @@ export const Map = ({ data }) => {
               },
               body: JSON.stringify({ plaka: location.arac_plaka })
             });
-
+  
             const carLocationResult = await carLocationResponse.json();
             console.log('Araç son konum API yanıtı:', carLocationResult);
-
+  
             if ('ret' in carLocationResult && 'konum_x' in carLocationResult.ret && 'konum_y' in carLocationResult.ret) {
               setUserLocation({
                 latitude: parseFloat(carLocationResult.ret.konum_y),
                 longitude: parseFloat(carLocationResult.ret.konum_x),
               });
-
-              mapViewRef.current.animateToRegion({
+  
+              mapViewRef.current?.animateToRegion({
                 latitude: parseFloat(carLocationResult.ret.konum_y),
                 longitude: parseFloat(carLocationResult.ret.konum_x),
                 latitudeDelta: 0.05,
                 longitudeDelta: 0.05,
               });
-
-              // Harita görünürlüğünü true olarak ayarla
+  
               setMapVisible(true);
+  
+              return true;
             }
           }
-
-          return isDayMatching && isTimeMatching;
-        });
-
-        if (filteredData.length > 0) {
-          setUserData(filteredData);
+  
+          return false;
+        }));
+  
+        if (carLocationResults.some((result) => result)) {
+          setUserData(result.ret);
         } else {
-          // Koşullar sağlanmadığında haritayı gizle
           setMapVisible(false);
         }
       } catch (error) {
         console.error('Error bilgi:', error);
       }
     };
-
+  
     fetchUserData();
   }, [data]);
-
+  
   return (
     <View style={styles.container}>
-      {isMapVisible && (
-        <MapView
-          ref={mapViewRef}
-          style={styles.map}
-          initialRegion={{
-            latitude: userLocation?.latitude || 39.9334,
-            longitude: userLocation?.longitude || 32.8597,
-            latitudeDelta: 8,
-            longitudeDelta: 8,
+    {isMapVisible && userLocation && (
+      <MapView
+        ref={mapViewRef}
+        style={styles.map}
+        initialRegion={{
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        }}
+      >
+        <Marker
+          coordinate={{
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
           }}
+          title="Kullanıcı Konumu"
         >
-          {userLocation && (
-            <Marker
-              coordinate={userLocation}
-              title="Kullanıcı Konumu"
-            >
-              <Image
-                source={require('../assets/marker2.png')}
-                style={{ width: 60, height: 105 }}
-              />
-            </Marker>
-          )}
-        </MapView>
-      )}
-    </View>
+          <Image
+            source={require('../assets/marker2.png')}
+            style={{ width: 60, height: 105 }}
+          />
+        </Marker>
+      </MapView>
+    )}
+  </View>
   );
 };
+
 const styles = StyleSheet.create({
   map: {
     width: "100%",
