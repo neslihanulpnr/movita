@@ -1,26 +1,55 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 export const Settings = ({ data }) => {
-    const filoData = data?.ret?.filo;
-  
-    return (
-      <View>
-        <View style={{ margin: 20 }}></View>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Text style={{ fontSize: 30, fontWeight: "bold" }}> Kişi Bilgileri</Text>
-        </View>
-  
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          {filoData && (
-            <View>
-              <Text style={{ color: "black", fontSize: 25 }}>Adres : {filoData.address}</Text>
-              <Text style={{ color: "black", fontSize: 25 }}>E-posta : {filoData.eposta}</Text>
-              <Text style={{ color: "black", fontSize: 25 }}>Telefon : {filoData.telefon}</Text>
-              <Text style={{ color: "black", fontSize: 25 }}>Adres : {filoData.address}</Text>
-            </View>
-          )}
-        </View>
+  const filoData = data?.ret?.filo;
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Kişi Bilgileri</Text>
       </View>
-    );
-  };
+
+      <View style={styles.content}>
+        {filoData && (
+          <View>
+            <Text style={styles.infoText}>Adres: {filoData.address}</Text>
+            <Text style={styles.infoText}>E-posta: {filoData.eposta}</Text>
+            <Text style={styles.infoText}>Telefon: {filoData.telefon}</Text>
+            <Text style={styles.infoText}>Username: {filoData.username}</Text>
+          </View>
+        )}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10,
+    padding: 10,
+  },
+  header: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  content: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  infoText: {
+    color: "black",
+    fontSize: 23,
+    marginBottom: 5,
+  },
+});
+
+export default Settings;

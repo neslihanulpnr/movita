@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
@@ -9,6 +9,7 @@ export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [isMapVisible, setMapVisible] = useState(false);
+  const [isLoading, setLoading] = useState(true); // Yükleniyor durumunu izlemek için state ekledik
   const mapViewRef = React.useRef(null);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export const Map = ({ data }) => {
               });
   
               setMapVisible(true);
-  
+              setLoading(false); // Harita yüklendiğinde loading durumunu false yapın
               return true;
             }
           }
@@ -74,9 +75,11 @@ export const Map = ({ data }) => {
           setUserData(carLocationResults); // Diziyi direkt set edin
         } else {
           setMapVisible(false);
+          setLoading(false); // Eğer harita yüklenmediyse loading durumunu false yapın
         }
       } catch (error) {
         console.error('Error bilgi:', error);
+        setLoading(false); // Hata oluştuğunda loading durumunu false yapın
       }
     };
   
@@ -94,38 +97,49 @@ export const Map = ({ data }) => {
   
   return (
     <View style={styles.container}>
-    {isMapVisible && userLocation && (
-      <MapView
-        ref={mapViewRef}
-        style={styles.map}
-        initialRegion={{
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}
-      >
-        <Marker
-          coordinate={{
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-          }}
-          title="Kullanıcı Konumu"
-        >
-          <Image
-            source={require('../assets/marker2.png')}
-            style={{ width: 60, height: 105 }}
-          />
-        </Marker>
-      </MapView>
-    )}
-  </View>
+      {isLoading ? (
+        <ActivityIndicator style={styles.loading} size="large" color="#0000ff" />
+      ) : (
+        <>
+          {isMapVisible && userLocation && (
+            <MapView
+              ref={mapViewRef}
+              style={styles.map}
+              initialRegion={{
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }}
+            >
+              <Marker
+                coordinate={{
+                  latitude: userLocation.latitude,
+                  longitude: userLocation.longitude,
+                }}
+                title="Kullanıcı Konumu"
+              >
+                <Image
+                  source={require('../assets/marker2.png')}
+                  style={{ width: 60, height: 105 }}
+                />
+              </Marker>
+            </MapView>
+          )}
+        </>
+      )}
+    </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%"
+  },
+  loading: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

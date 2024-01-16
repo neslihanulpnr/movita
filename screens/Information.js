@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import moment from "moment";
 
 export const Information = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -18,14 +19,54 @@ export const Information = ({ data }) => {
         });
         const result = await response.json();
         console.log('API Response:', result.ret);
+  
+        // Tüm günleri içeren bir dizi oluştur
+        const apiDays = result.ret.map(item => item.gun);
+        console.log('API\'den gelen günler:', apiDays);
+  
+        // Şuanki günü al
+        const currentDay = moment().format('dddd');
+        console.log('Şuanki gün:', currentDay);
+  
+        // Her bir gün için kontrol yap
+        const matchingDays = apiDays.map(apiDay => {
+          const isDayMatching = apiDay === currentDay;
+          console.log(`Gün: ${apiDay}, API'den gelen gün: ${apiDay}, Uyuşuyor mu: ${isDayMatching}`);
+  
+          return {
+            day: apiDay,
+            isDayMatching: isDayMatching
+          };
+        });
+  
+        // matchingDays dizisinde true olan günlerin indekslerini bulup, o günün seansına göre saat kontrolü yap
+        const matchingIndexes = matchingDays.reduce((acc, item, index) => {
+          if (item.isDayMatching) {
+            acc.push(index);
+          }
+          return acc;
+        }, []);
+  
+        // Şuanki saat aralığını al
+        const currentHourMinute = moment().format('HH:mm');
+  
+        // Her bir eşleşen gün için saat kontrolü yap
+        matchingIndexes.forEach(index => {
+          const seans = result.ret[index].seans;
+          const isTimeMatching = moment(currentHourMinute, 'HH:mm').isBetween(moment(seans.split("-")[0], 'HH:mm'), moment(seans.split("-")[1], 'HH:mm'));
+          console.log(`Gün: ${matchingDays[index].day}, Seans: ${seans}, Saatler uyuşuyor mu: ${isTimeMatching}`);
+        });
+  
         setUserData(result.ret);
         setLoading(false); // Veri çekme tamamlandığında yüklemeyi kapat
       } catch (error) {
         console.error('Veri çekme hatası:', error);
       }
     };
+  
     fetchData();
   }, [data]);
+  
 
   return (
     <ScrollView>
