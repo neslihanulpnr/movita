@@ -11,35 +11,63 @@ export const Homepage = () => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
 
+    function getDriverSchedule(userId) {
+        fetch('http://www.movita.com.tr:8019/sofor_guzerhah_listesi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'sample_token1234',
+            },
+            body: JSON.stringify({
+                user_id: userId,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Güzergah listesi API yanıtı:', data);
+    
+            // İkinci API'den gelen verileri kullanabilir veya başka işlemler yapabilirsiniz.
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+            // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
+        });
+    }
+    
+    // Mevcut Login fonksiyonunuz
     function Login() {
         fetch('http://161.97.107.99:8019/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'sample_token1234',
-
             },
             body: JSON.stringify({
                 username: username,
                 password: password,
-
             })
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('API yanıtı:', data);
-                if (data.error_code === 1011) {
-                    Alert.alert("", "Şifre veya kullanıcı adı yanlış");
-                } else {
-                    navigation.navigate("menu", {data : data}); //eklendi
-                }
-            })
-
-            .catch(error => {
-                console.error('Hata:', error);
-                Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış.");
-            });
+        .then(response => response.json())
+        .then(data => {
+            console.log('Giriş API yanıtı:', data);
+            if (data.error_code === 1011) {
+                Alert.alert("", "Şifre veya kullanıcı adı yanlış");
+            } else {
+                // İlk API'den gelen kullanıcı ID'sini alın
+                const userId = data.user_id;
+    
+                // İkinci API isteğini çağır
+                getDriverSchedule(userId);
+    
+                navigation.navigate("menu", { data: data });
+            }
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+            Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış.");
+        });
     }
+    
 
     return (
         <View style={{

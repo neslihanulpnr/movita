@@ -19,6 +19,23 @@ export const Menu = () => {
   const [data,setData]=useState(route.params.data) 
   console.log(data);
 
+  const handleInfoButtonPress = () => {
+    console.log("Bilgi öğesine tıklandı");
+    handleButtonPress(<Information data={data} />, 'Bilgi');
+  };
+
+  const handleMapButtonPress = () => {
+    console.log("Harita öğesine tıklandı");
+    handleButtonPress(<Map data={data} />, 'Harita');
+  };
+
+  const handleSettingsButtonPress = () => {
+    console.log("Ayarlar öğesine tıklandı");
+    handleButtonPress(<Settings data={data} />, 'Ayarlar');
+  };
+
+
+
   useEffect(() => {
     navigation.setOptions({
       title: '',
@@ -82,15 +99,12 @@ export const Menu = () => {
         height: 70,
         flexDirection: "row",
       }}>
-        <TouchableOpacity
+         <TouchableOpacity
           style={[
             styles.button,
             { backgroundColor: selectedButton === 'Bilgi' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
           ]}
-          onPress={() => {
-            console.log("Bilgi öğesine tıklandı");
-            handleButtonPress(<Information data={data}/>, 'Bilgi'); //eklendi
-          }}
+          onPress={handleInfoButtonPress}
         >
           <Ionicons name="information-circle" size={30} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
@@ -101,10 +115,7 @@ export const Menu = () => {
             styles.button,
             { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
           ]}
-          onPress={() => {
-            console.log("harita öğesine tıklandı");
-            handleButtonPress(<Map data={data}/>, 'Harita');
-          }}
+          onPress={handleMapButtonPress}
         >
           <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
@@ -115,13 +126,10 @@ export const Menu = () => {
             styles.button,
             { backgroundColor: selectedButton === 'Ayarlar' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
           ]}
-          onPress={() => {
-            console.log("Ayarlar öğesine tıklandı");
-            handleButtonPress(<Settings data={data}/>, 'Ayarlar');
-          }}
+          onPress={handleSettingsButtonPress}
         >
           <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Bilgi</Text>
+          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
         </TouchableOpacity>
       </View>
     </View>
