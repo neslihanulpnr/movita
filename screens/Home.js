@@ -11,45 +11,23 @@ export const Homepage = () => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
 
-    function getDriverSchedule(userId) {
-        fetch('http://www.movita.com.tr:8019/sofor_guzerhah_listesi', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'sample_token1234',
-            },
-            body: JSON.stringify({
-                user_id: userId,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Güzergah listesi API yanıtı:', data);
+    async function Login() {
+        try {
+            const response = await fetch('http://161.97.107.99:8019/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'sample_token1234',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                })
+            });
     
-            // İkinci API'den gelen verileri kullanabilir veya başka işlemler yapabilirsiniz.
-        })
-        .catch(error => {
-            console.error('Hata:', error);
-            // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
-        });
-    }
-    
-    // Mevcut Login fonksiyonunuz
-    function Login() {
-        fetch('http://161.97.107.99:8019/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'sample_token1234',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
+            const data = await response.json();
             console.log('Giriş API yanıtı:', data);
+    
             if (data.error_code === 1011) {
                 Alert.alert("", "Şifre veya kullanıcı adı yanlış");
             } else {
@@ -57,17 +35,40 @@ export const Homepage = () => {
                 const userId = data.user_id;
     
                 // İkinci API isteğini çağır
-                getDriverSchedule(userId);
+                await getDriverSchedule(userId);
     
                 navigation.navigate("menu", { data: data });
             }
-        })
-        .catch(error => {
-            console.error('Hata:', error);
-            Alert.alert("Hata", "Şifre veya kullanıcı adı yanlış.");
-        });
+        } catch (error) {
+            console.error('Giriş işlemi sırasında bir hata oluştu:', error);
+            // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
+        }
     }
     
+    // getDriverSchedule fonksiyonunuz
+    async function getDriverSchedule(userId) {
+        try {
+            const response = await fetch('http://www.movita.com.tr:8019/sofor_guzerhah_listesi', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'sample_token1234',
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                }),
+            });
+    
+            const data = await response.json();
+            console.log('Güzergah listesi API yanıtı:', data);
+    
+            // İkinci API'den gelen verileri kullanabilir veya başka işlemler yapabilirsiniz.
+        } catch (error) {
+            console.error('Güzergah listesi alınırken bir hata oluştu:', error);
+            // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
+        }
+    }
+
 
     return (
         <View style={{

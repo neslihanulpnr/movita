@@ -1,53 +1,82 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Image } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 export const Settings = ({ data }) => {
-  const filoData = data?.ret?.filo;
+  const [driverRoutes, setDriverRoutes] = useState([]);
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        'http://www.movita.com.tr:8019/sofor_guzerhah_listesi',
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'sample_token1234',
+          },
+          body: JSON.stringify({
+            user_id: 1088,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      console.log("Sofor Güzergah Listesi:", result);
+
+      if (result && result.ret) {
+        setDriverRoutes(result.ret);
+
+        // Güncellenmiş koordinatları kullanarak mapRegion'ı güncelle
+        if (result.ret.length > 0) {
+          setMapRegion({
+            latitude: result.ret[0][0],
+            longitude: result.ret[0][1],
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Kişi Bilgileri</Text>
-      </View>
-
-      <View style={styles.content}>
-        {filoData && (
-          <View>
-            <Text style={styles.infoText}>Adres: {filoData.address}</Text>
-            <Text style={styles.infoText}>E-posta: {filoData.eposta}</Text>
-            <Text style={styles.infoText}>Telefon: {filoData.telefon}</Text>
-          </View>
-        )}
-      </View>
-    </View>
+    <View>
+    <MapView style={styles.map} region={mapRegion}>
+      {driverRoutes.map((coordinate, index) => (
+        <Marker
+          key={index}
+          coordinate={{
+            latitude: coordinate[0],
+            longitude: coordinate[1],
+          }}
+          title={`güzergah ${index + 1}`}
+        >
+          <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
+        </Marker>
+      ))}
+    </MapView>
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 10,
-    padding: 10,
-  },
-  header: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  headerText: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  content: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  infoText: {
-    color: "black",
-    fontSize: 23,
-    marginBottom: 5,
+  map: {
+    width: "100%",
+    height: "100%"
   },
 });
 
