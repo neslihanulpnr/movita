@@ -67,7 +67,6 @@ export const Map = ({ data }) => {
             setTimeout(() => {
               setMapVisible(true);
               setLoading(false); 
-              console.log("5 saniyede yenileniyor")
             }, 1); // Örneğin 500 milisaniye (0.5 saniye) bekleyebilirsiniz
           }
         }
