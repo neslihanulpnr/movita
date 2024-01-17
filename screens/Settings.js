@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 
 export const Settings = ({ data }) => {
   const [driverRoutes, setDriverRoutes] = useState([]);
@@ -55,21 +55,29 @@ export const Settings = ({ data }) => {
 
   return (
     <View>
-    <MapView style={styles.map} region={mapRegion}>
-      {driverRoutes.map((coordinate, index) => (
-        <Marker
-          key={index}
-          coordinate={{
+      <MapView style={styles.map} region={mapRegion}>
+        <Polyline
+          coordinates={driverRoutes.map(coordinate => ({
             latitude: coordinate[0],
             longitude: coordinate[1],
-          }}
-          title={`güzergah ${index + 1}`}
-        >
-          <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
-        </Marker>
-      ))}
-    </MapView>
-  </View>
+          }))}
+          strokeWidth={4}
+          strokeColor="#3498db"
+        />
+        {driverRoutes.map((coordinate, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: coordinate[0],
+              longitude: coordinate[1],
+            }}
+            title={`güzergah ${index + 1}`}
+          >
+            <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
+          </Marker>
+        ))}
+      </MapView>
+    </View>
   );
 };
 
