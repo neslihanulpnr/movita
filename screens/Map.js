@@ -108,7 +108,7 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="">
+            <Marker coordinate={userLocation} title="YBAK_PLAKA2">
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
