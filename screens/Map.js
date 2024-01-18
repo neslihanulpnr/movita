@@ -126,7 +126,9 @@ export const Map = ({ data }) => {
         </MapView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>
+            {userData.length > 0 ? 'Uygun sefer bulunamadı.' : 'Kullanıcı ID\'si bulunamadı. Harita yükleniyor.'}
+          </Text>
         </View>
       )}
     </View>
