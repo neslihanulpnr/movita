@@ -13,19 +13,6 @@ export const Map = ({ data }) => {
   const mapViewRef = useRef(null);
   const [loading, setLoading] = useState(true);
 
-  const calculateTimeRemaining = () => {
-    if (userData.length > 0 && carLocation) {
-      const now = moment();
-      const seansStartTime = moment(userData[0]?.seans.split("-")[0], "HH:mm");
-  
-      // Eğer araç hareket etmiyorsa ve seans başlama saati şu andan önceyse, geçmiş bir tarihe ayarla.
-      const remainingMinutes = carLocation ? Math.max(0, seansStartTime.diff(now, 'minutes')) : -1;
-  
-      return remainingMinutes;
-    }
-    return 0; // Eğer userData boşsa veya seans bilgisi yoksa, varsayılan olarak 0 dakika kalmış olarak ayarla.
-  };
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -55,31 +42,39 @@ export const Map = ({ data }) => {
             const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
 
             if (isDayMatching && isTimeMatching && location.arac_plaka) {
-              const { status } = await Location.requestForegroundPermissionsAsync();
-              if (status !== 'granted') {
-                console.error('Konum izni verilmedi');
-                return false;
-              }
-              
-              const location = await Location.getCurrentPositionAsync({});
-              
-              setCarLocation({
-                latitude: parseFloat(location.coords.latitude),
-                longitude: parseFloat(location.coords.longitude),
+              console.log(`Araç Plakası: ${location.arac_plaka}`);
+
+              const carLocationResponse = await fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'sample_token1234'
+                },
+                body: JSON.stringify({ plaka: location.arac_plaka })
               });
 
-              setUserLocation({
-                latitude: parseFloat(location.coords.latitude),
-                longitude: parseFloat(location.coords.longitude),
-              });
+              const carLocationResult = await carLocationResponse.json();
+              console.log('Araç son konum API yanıtı:', carLocationResult);
 
-              if (mapViewRef.current) {
-                mapViewRef.current.animateToRegion({
-                  latitude: parseFloat(location.coords.latitude),
-                  longitude: parseFloat(location.coords.longitude),
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
+              if ('ret' in carLocationResult && 'konum_x' in carLocationResult.ret && 'konum_y' in carLocationResult.ret) {
+                setCarLocation({
+                  latitude: parseFloat(carLocationResult.ret.konum_y),
+                  longitude: parseFloat(carLocationResult.ret.konum_x),
                 });
+
+                setUserLocation({
+                  latitude: parseFloat(carLocationResult.ret.konum_y),
+                  longitude: parseFloat(carLocationResult.ret.konum_x),
+                });
+
+                if (mapViewRef.current) {
+                  mapViewRef.current.animateToRegion({
+                    latitude: parseFloat(carLocationResult.ret.konum_y),
+                    longitude: parseFloat(carLocationResult.ret.konum_x),
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
+                  });
+                }
               }
 
               setTimeout(() => {
@@ -128,12 +123,12 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="kişinin konumu" pinColor="#00ADEE">
+            <Marker coordinate={userLocation} title="Mevcut Konum" pinColor="#00ADEE">
             </Marker>
           )}
 
           {carLocation && (
-            <Marker coordinate={carLocation} title={`Aracın gelmesine : ${calculateTimeRemaining()} dakika`}>
+            <Marker coordinate={carLocation} title="Araç Konumu" >
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
