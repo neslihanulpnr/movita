@@ -123,7 +123,7 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="Mevcut Konum" pinColor="#00ADEE">
+            <Marker coordinate={userLocation} title="Kişi Konum" pinColor="#00ADEE">
             </Marker>
           )}
 
