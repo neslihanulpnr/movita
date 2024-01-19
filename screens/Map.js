@@ -13,6 +13,19 @@ export const Map = ({ data }) => {
   const mapViewRef = useRef(null);
   const [loading, setLoading] = useState(true);
 
+  const calculateTimeRemaining = () => {
+    if (userData.length > 0 && carLocation) {
+      const now = moment();
+      const seansStartTime = moment(userData[0]?.seans.split("-")[0], "HH:mm");
+  
+      // Eğer araç hareket etmiyorsa ve seans başlama saati şu andan önceyse, geçmiş bir tarihe ayarla.
+      const remainingMinutes = carLocation ? Math.max(0, seansStartTime.diff(now, 'minutes')) : -1;
+  
+      return remainingMinutes;
+    }
+    return 0; // Eğer userData boşsa veya seans bilgisi yoksa, varsayılan olarak 0 dakika kalmış olarak ayarla.
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -48,27 +61,26 @@ export const Map = ({ data }) => {
                 return false;
               }
               
-                const location = await Location.getCurrentPositionAsync({});
-                
-                setCarLocation({
+              const location = await Location.getCurrentPositionAsync({});
+              
+              setCarLocation({
+                latitude: parseFloat(location.coords.latitude),
+                longitude: parseFloat(location.coords.longitude),
+              });
+
+              setUserLocation({
+                latitude: parseFloat(location.coords.latitude),
+                longitude: parseFloat(location.coords.longitude),
+              });
+
+              if (mapViewRef.current) {
+                mapViewRef.current.animateToRegion({
                   latitude: parseFloat(location.coords.latitude),
                   longitude: parseFloat(location.coords.longitude),
+                  latitudeDelta: 0.05,
+                  longitudeDelta: 0.05,
                 });
-    
-                setUserLocation({
-                  latitude: parseFloat(location.coords.latitude),
-                  longitude: parseFloat(location.coords.longitude),
-                });
-    
-                if (mapViewRef.current) {
-                  mapViewRef.current.animateToRegion({
-                    latitude: parseFloat(location.coords.latitude),
-                    longitude: parseFloat(location.coords.longitude),
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05,
-                  });
-                }
-             
+              }
 
               setTimeout(() => {
                 setMapVisible(true);
@@ -116,12 +128,12 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="Mevcut Konum" pinColor="#00ADEE">
+            <Marker coordinate={userLocation} title="kişinin konumu" pinColor="#00ADEE">
             </Marker>
           )}
 
           {carLocation && (
-            <Marker coordinate={carLocation} title="Araç Konumu" >
+            <Marker coordinate={carLocation} title={`Aracın gelmesine : ${calculateTimeRemaining()} dakika`}>
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
