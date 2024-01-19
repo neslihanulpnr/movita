@@ -3,103 +3,102 @@ import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
-import MarkerImage from '../assets/marker2.png';
+import * as Location from 'expo-location';
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const [carLocation, setCarLocation] = useState(null);
   const [isMapVisible, setMapVisible] = useState(false);
   const mapViewRef = useRef(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchUserData = async () => {
-    try {
-      moment.locale('tr');
-      setLoading(true);
-  
-      const userId = data && data.ret && data.ret.user_id;
-  
-      // Kullanıcı ID'si varsa API isteğini gerçekleştir
-      if (userId) {
-        const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'sample_token1234'
-          },
-          body: JSON.stringify({ user_id: userId })
-        });
-  
-        const result = await response.json();
-        console.log('bilgi API:', result.ret);
-  
-        const filteredData = result.ret.filter(async (location) => {
-          const currentDay = moment().isoWeekday();
-          const apiDay = moment(location.gun, "dddd").isoWeekday();
-  
-          const isDayMatching = apiDay === currentDay;
-          const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
-  
-          if (isDayMatching && isTimeMatching && location.arac_plaka) {
-            const carLocationResponse = await fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'sample_token1234'
-              },
-              body: JSON.stringify({ plaka: location.arac_plaka })
-            });
-  
-            const carLocationResult = await carLocationResponse.json();
-            console.log('Araç son konum API yanıtı:', carLocationResult);
-  
-            if ('ret' in carLocationResult && 'konum_x' in carLocationResult.ret && 'konum_y' in carLocationResult.ret) {
-              setUserLocation({
-                latitude: parseFloat(carLocationResult.ret.konum_y),
-                longitude: parseFloat(carLocationResult.ret.konum_x),
-              });
-  
-              if (mapViewRef.current) {
-                mapViewRef.current.animateToRegion({
-                  latitude: parseFloat(carLocationResult.ret.konum_y),
-                  longitude: parseFloat(carLocationResult.ret.konum_x),
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
-                });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        moment.locale('tr');
+        setLoading(true);
+
+        const userId = data && data.ret && data.ret.user_id;
+
+        if (userId) {
+          const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'sample_token1234'
+            },
+            body: JSON.stringify({ user_id: userId })
+          });
+
+          const result = await response.json();
+          console.log('bilgi API:', result.ret);
+
+          const filteredData = result.ret.filter(async (location) => {
+            const currentDay = moment().isoWeekday();
+            const apiDay = moment(location.gun, "dddd").isoWeekday();
+
+            const isDayMatching = apiDay === currentDay;
+            const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
+
+            if (isDayMatching && isTimeMatching && location.arac_plaka) {
+              const { status } = await Location.requestForegroundPermissionsAsync();
+              if (status !== 'granted') {
+                console.error('Konum izni verilmedi');
+                return false;
               }
-  
-              // Harita görünürlüğünü true olarak ayarla ve bir miktar gecikme ekle
+              
+              setInterval(async () => {
+                const location = await Location.getCurrentPositionAsync({});
+                
+                setCarLocation({
+                  latitude: parseFloat(location.coords.latitude),
+                  longitude: parseFloat(location.coords.longitude),
+                });
+    
+                setUserLocation({
+                  latitude: parseFloat(location.coords.latitude),
+                  longitude: parseFloat(location.coords.longitude),
+                });
+    
+                if (mapViewRef.current) {
+                  mapViewRef.current.animateToRegion({
+                    latitude: parseFloat(location.coords.latitude),
+                    longitude: parseFloat(location.coords.longitude),
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
+                  });
+                }
+                console.log("10 saniyede yenilendi")
+              }, 10000);
+
               setTimeout(() => {
                 setMapVisible(true);
-                setLoading(false); 
-              }, 1); // Örneğin 500 milisaniye (0.5 saniye) bekleyebilirsiniz
+                setLoading(false);
+              }, 1);
             }
+
+            return isDayMatching && isTimeMatching;
+          });
+
+          if (filteredData.length > 0) {
+            setUserData(filteredData);
+          } else {
+            setMapVisible(false);
+            setLoading(false);
+            console.log('Uygun sefer bulunamadı.');
           }
-  
-          return isDayMatching && isTimeMatching;
-        });
-  
-        if (filteredData.length > 0) {
-          setUserData(filteredData);
         } else {
-          // Koşullar sağlanmadığında haritayı gizle
-          setMapVisible(false);
+          setMapVisible(true);
           setLoading(false);
-          console.log('Uygun sefer bulunamadı.');
+          console.log('Kullanıcı ID\'si bulunamadı. Harita yükleniyor.');
         }
-      } else {
-        // Kullanıcı ID'si yoksa haritayı göster
-        setMapVisible(true);
+      } catch (error) {
+        console.error('Error bilgi:', error);
         setLoading(false);
-        console.log('Kullanıcı ID\'si bulunamadı. Harita yükleniyor.');
       }
-    } catch (error) {
-      console.error('Error bilgi:', error);
-      setLoading(false);
-    }
-  };
-  
-  useEffect(() => {
+    };
+
     fetchUserData();
   }, [data]);
 
@@ -119,16 +118,19 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="">
+            <Marker coordinate={userLocation} title="Mevcut Konum" pinColor="#00ADEE">
+            </Marker>
+          )}
+
+          {carLocation && (
+            <Marker coordinate={carLocation} title="Araç Konumu" >
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
         </MapView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>
-            {userData.length > 0 ? 'Uygun sefer bulunamadı.' : 'Kullanıcı ID\'si bulunamadı. Harita yükleniyor.'}
-          </Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
         </View>
       )}
     </View>
