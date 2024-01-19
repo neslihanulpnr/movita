@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet, Text, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Information } from './Information';
 import { Map } from './Map';
 import { Settings } from './Settings';
@@ -94,44 +95,44 @@ export const Menu = () => {
       </View>
 
       <View style={{
-        backgroundColor: "#edebeb",
-        width: 395,
-        height: 70,
-        flexDirection: "row",
-      }}>
-         <TouchableOpacity
-          style={[
-            styles.button,
-            { backgroundColor: selectedButton === 'Bilgi' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
-          ]}
-          onPress={handleInfoButtonPress}
-        >
-          <Ionicons name="information-circle" size={30} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
-        </TouchableOpacity>
+  backgroundColor: "#edebeb",
+  width: 395,
+  height: 70,
+  flexDirection: "row",
+}}>
+  <TouchableOpacity
+    style={[
+      styles.button,
+      { backgroundColor: selectedButton === 'Bilgi' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+    ]}
+    onPress={handleInfoButtonPress}
+  >
+    <MaterialIcons name="directions-bus" size={24} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
+    <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
+  </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            styles.button,
-            { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
-          ]}
-          onPress={handleMapButtonPress}
-        >
-          <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
-        </TouchableOpacity>
+  <TouchableOpacity
+    style={[
+      styles.button,
+      { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+    ]}
+    onPress={handleMapButtonPress}
+  >
+    <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
+    <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
+  </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            styles.button,
-            { backgroundColor: selectedButton === 'Ayarlar' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
-          ]}
-          onPress={handleSettingsButtonPress}
-        >
-          <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity
+    style={[
+      styles.button,
+      { backgroundColor: selectedButton === 'Ayarlar' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+    ]}
+    onPress={handleSettingsButtonPress}
+  >
+    <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
+    <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
+  </TouchableOpacity>
+</View>
     </View>
   );
 };

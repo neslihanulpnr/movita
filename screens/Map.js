@@ -48,7 +48,6 @@ export const Map = ({ data }) => {
                 return false;
               }
               
-              setInterval(async () => {
                 const location = await Location.getCurrentPositionAsync({});
                 
                 setCarLocation({
@@ -69,8 +68,7 @@ export const Map = ({ data }) => {
                     longitudeDelta: 0.05,
                   });
                 }
-                console.log("10 saniyede yenilendi")
-              }, 10000);
+             
 
               setTimeout(() => {
                 setMapVisible(true);
