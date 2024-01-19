@@ -25,7 +25,7 @@ export const Map = ({ data }) => {
           const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json', 
               'Authorization': 'sample_token1234'
             },
             body: JSON.stringify({ user_id: userId })
