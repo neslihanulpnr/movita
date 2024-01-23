@@ -126,8 +126,6 @@ export const Map = ({ data }) => {
       console.log("yenilendi")
       fetchUserData(); 
     }, 10000);
-
-    
     return () => clearInterval(intervalId);
 
   }, [data]);
