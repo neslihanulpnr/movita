@@ -19,13 +19,29 @@ export const Map = ({ data }) => {
         moment.locale('tr');
         setLoading(true);
 
+        // Kullanıcı konum iznini iste
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.error('Konum izni verilmedi.');
+          setLoading(false);
+          return;
+        }
+
+        // Kullanıcı konumunu al
+        let location = await Location.getCurrentPositionAsync({});
+        const userLocationCoords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        };
+        setUserLocation(userLocationCoords);
+
         const userId = data && data.ret && data.ret.user_id;
 
         if (userId) {
           const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json', 
+              'Content-Type': 'application/json',
               'Authorization': 'sample_token1234'
             },
             body: JSON.stringify({ user_id: userId })
@@ -115,20 +131,16 @@ export const Map = ({ data }) => {
         <MapView
           ref={mapViewRef}
           style={styles.map}
+          showsUserLocation={true} // Kullanıcı konumunu göster
           initialRegion={{
-            latitude: userLocation?.latitude || 39.9334,
-            longitude: userLocation?.longitude || 32.8597,
+            latitude: carLocation?.latitude || userLocation?.latitude || 39.9334,
+            longitude: carLocation?.longitude || userLocation?.longitude || 32.8597,
             latitudeDelta: 0.05,
             longitudeDelta: 0.05,
-          }}
-        >
-          {userLocation && (
-            <Marker coordinate={userLocation} title="Kişi Konum" pinColor="#00ADEE">
-            </Marker>
-          )}
-
+          }}> 
+  
           {carLocation && (
-            <Marker coordinate={carLocation} title="Araç Konumu" >
+            <Marker coordinate={carLocation} title="Araç Konumu">
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
@@ -141,6 +153,7 @@ export const Map = ({ data }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   map: {
