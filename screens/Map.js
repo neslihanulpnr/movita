@@ -149,7 +149,7 @@ export const Map = ({ data }) => {
           }}> 
   
           {carLocation && (
-            <Marker coordinate={carLocation} title="Araç Konumu">
+            <Marker coordinate={carLocation} title="">
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
