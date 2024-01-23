@@ -138,6 +138,7 @@ export const Map = ({ data }) => {
         {/* Kullanıcının konumunu göstermek için yeni bir Marker ekleyin */}
         {userLocation && (
           <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE">
+            <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
           </Marker>
         )}
       
