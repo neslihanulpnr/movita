@@ -34,6 +34,7 @@ export const Map = ({ data }) => {
           longitude: location.coords.longitude,
         };
         setUserLocation(userLocationCoords);
+        console.log(userLocation)
 
         const userId = data && data.ret && data.ret.user_id;
 
@@ -78,11 +79,6 @@ export const Map = ({ data }) => {
                   longitude: parseFloat(carLocationResult.ret.konum_x),
                 });
 
-                setUserLocation({
-                  latitude: parseFloat(carLocationResult.ret.konum_y),
-                  longitude: parseFloat(carLocationResult.ret.konum_x),
-                });
-
                 if (mapViewRef.current) {
                   mapViewRef.current.animateToRegion({
                     latitude: parseFloat(carLocationResult.ret.konum_y),
@@ -121,13 +117,6 @@ export const Map = ({ data }) => {
     };
 
     fetchUserData();
-
-    const intervalId = setInterval(() => {
-      console.log("yenilendi")
-      fetchUserData(); 
-    }, 10000);
-    return () => clearInterval(intervalId);
-
   }, [data]);
 
   return (
@@ -136,22 +125,28 @@ export const Map = ({ data }) => {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : isMapVisible ? (
         <MapView
-          ref={mapViewRef}
-          style={styles.map}
-          showsUserLocation={true} // Kullanıcı konumunu göster
-          initialRegion={{
-            latitude: carLocation?.latitude || userLocation?.latitude || 39.9334,
-            longitude: carLocation?.longitude || userLocation?.longitude || 32.8597,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
-          }}> 
-  
-          {carLocation && (
-            <Marker coordinate={carLocation} title="">
-              <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
-            </Marker>
-          )}
-        </MapView>
+        ref={mapViewRef}
+        style={styles.map}
+        showsUserLocation={false} // Kullanıcı konumunu göster
+        initialRegion={{
+          latitude: carLocation?.latitude || userLocation?.latitude ,
+          longitude: carLocation?.longitude || userLocation?.longitude ,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        }}> 
+      
+        {/* Kullanıcının konumunu göstermek için yeni bir Marker ekleyin */}
+        {userLocation && (
+          <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE">
+          </Marker>
+        )}
+      
+        {carLocation && (
+          <Marker coordinate={carLocation} title="Araç Konumu">
+            <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
+          </Marker>
+        )}
+      </MapView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
