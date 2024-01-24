@@ -61,12 +61,18 @@ export const Information = ({ data }) => {
   }, [data]);
 
   const handleIptalButtonPress = (index) => {
-    const seferDay = userData[index].gun; // Seferin gününü al
-  // Seferin olduğu günlerde butona basılmayacak
-  if (matchingDays.some(day => day.day === seferDay && day.isDayMatching)) {
-    console.log("Bu gün için katılmayacağım butonuna basılamaz.");
-    return;
-  }
+    const sefer = userData[index];
+    const seferDay = sefer.gun; // Seferin gününü al
+    const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
+    const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
+    
+    // Seferin olduğu günlerde ve saatlerde butona basılmayacak
+    if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
+        moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
+      console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
+      return;
+    }
+  
     console.log("Katılmayacağım");
     const updatedUserData = [...userData];
     updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
