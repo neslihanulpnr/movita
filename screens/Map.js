@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
 import * as Location from 'expo-location';
@@ -125,28 +125,37 @@ export const Map = ({ data }) => {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : isMapVisible ? (
         <MapView
-        ref={mapViewRef}
-        style={styles.map}
-        showsUserLocation={false} // Kullanıcı konumunu göster
-        initialRegion={{
-          latitude: carLocation?.latitude || userLocation?.latitude ,
-          longitude: carLocation?.longitude || userLocation?.longitude ,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}> 
-      
-        {/* Kullanıcının konumunu göstermek için yeni bir Marker ekleyin */}
-        {userLocation && (
-          <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE">
-          </Marker>
-        )}
-      
-        {carLocation && (
-          <Marker coordinate={carLocation} title="Araç Konumu">
-            <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
-          </Marker>
-        )}
-      </MapView>
+          ref={mapViewRef}
+          style={styles.map}
+          showsUserLocation={false}
+          initialRegion={{
+            latitude: carLocation?.latitude || userLocation?.latitude,
+            longitude: carLocation?.longitude || userLocation?.longitude,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+          }}
+        >
+          {userLocation && (
+            <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE" />
+          )}
+  
+          {carLocation && (
+            <Marker coordinate={carLocation} title="Araç Konumu">
+              <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
+            </Marker>
+          )}
+  
+          {userLocation && carLocation && (
+            <Polyline
+              coordinates={[
+                { latitude: userLocation.latitude, longitude: userLocation.longitude },
+                { latitude: carLocation.latitude, longitude: carLocation.longitude },
+              ]}
+              strokeColor="#00f"
+              strokeWidth={3}
+            />
+          )}
+        </MapView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
@@ -154,6 +163,7 @@ export const Map = ({ data }) => {
       )}
     </View>
   );
+  
 };
 
 
