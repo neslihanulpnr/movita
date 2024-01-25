@@ -117,6 +117,13 @@ export const Map = ({ data }) => {
     };
 
     fetchUserData();
+
+    const intervalId = setInterval(() => {
+      fetchUserData();
+      console.log("yenilendi");
+    }, 10000);
+  
+    return () => clearInterval(intervalId);
   }, [data]);
 
   return (
