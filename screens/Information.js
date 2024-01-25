@@ -8,7 +8,6 @@ export const Information = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const [matchingDays, setMatchingDays] = useState([]); 
   const [matchingIndexes, setMatchingIndexes] = useState([]);
-  const [isPressed, setIsPressed] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
