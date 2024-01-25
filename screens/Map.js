@@ -34,7 +34,6 @@ export const Map = ({ data }) => {
           longitude: location.coords.longitude,
         };
         setUserLocation(userLocationCoords);
-        console.log("userlocation : ",userLocation)
 
         const userId = data && data.ret && data.ret.user_id;
 
