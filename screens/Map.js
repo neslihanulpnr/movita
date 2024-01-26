@@ -169,7 +169,6 @@ export const Map = ({ data }) => {
       )}
     </View>
   );
-  
 };
 
 
