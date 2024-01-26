@@ -35,8 +35,6 @@ export const Menu = () => {
     handleButtonPress(<Settings data={data} />, 'Ayarlar');
   };
 
-
-
   useEffect(() => {
     navigation.setOptions({
       title: '',
