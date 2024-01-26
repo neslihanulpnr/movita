@@ -31,14 +31,13 @@ export const Homepage = () => {
             if (data.error_code === 1011) {
                 Alert.alert("", "Şifre veya kullanıcı adı yanlış");
             } else {
-                // İlk API'den gelen kullanıcı ID'sini alın
+                
                 const userId = data.user_id;
     
                 navigation.navigate("menu", { data: data });
             }
         } catch (error) {
             console.error('Giriş işlemi sırasında bir hata oluştu:', error);
-            // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
         }
     }
 
