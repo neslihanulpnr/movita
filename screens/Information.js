@@ -23,60 +23,63 @@ export const Information = ({ data }) => {
         });
         const result = await response.json();
         console.log('API Response:', result.ret);
-  
+    
         const apiDays = result.ret.map(item => item.gun);
         console.log('API\'den gelen günler:', apiDays);
-  
+    
         const currentDay = moment().format('dddd');
         console.log('Şuanki gün:', currentDay);
-  
-        const matchingDays = apiDays.map(apiDay => {
-          const isDayMatching = apiDay === currentDay;
-          console.log(`Gün: ${apiDay}, API'den gelen gün: ${apiDay}, Uyuşuyor mu: ${isDayMatching}`);
-  
-          return {
-            day: apiDay,
-            isDayMatching: isDayMatching
-          };
-        });
-  
-        const matchingIndexes = matchingDays.reduce((acc, item, index) => {
-          if (item.isDayMatching) {
-            acc.push(index);
-          }
-          return acc;
-        }, []);
-  
+    
+        const matchingIndexes = result.ret
+          .map((location, index) => {
+            const apiDay = moment(location.gun, "dddd").format('dddd');
+            const isDayMatching = apiDay === currentDay;
+            console.log(`Gün: ${apiDay}, API'den gelen gün: ${apiDay}, Uyuşuyor mu: ${isDayMatching}`);
+    
+            const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
+            console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
+    
+            return isDayMatching && isTimeMatching ? index : null;
+          })
+          .filter(index => index !== null);
+    
         setUserData(result.ret);
         setMatchingIndexes(matchingIndexes);
-        setMatchingDays(matchingDays);  // Bu satırı ekledik
         setLoading(false);
       } catch (error) {
         console.error('Veri çekme hatası:', error);
       }
     };
-  
-    fetchData();
-  }, [data]);
-
-  const handleIptalButtonPress = (index) => {
-    const sefer = userData[index];
-    const seferDay = sefer.gun; // Seferin gününü al
-    const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
-    const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
     
-    // Seferin olduğu günlerde ve saatlerde butona basılmayacak
-    if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
-        moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
-      console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
-      return;
-    }
-  
-    console.log("Katılmayacağım");
-    const updatedUserData = [...userData];
-    updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
-    setUserData(updatedUserData);
-  };
+    fetchData();
+    }, [data]);
+    
+
+    const handleIptalButtonPress = (index) => {
+      const sefer = userData[index];
+      const seferDay = sefer.gun;
+      const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
+      const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
+    
+      if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
+          moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
+        console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
+        return;
+      }
+    
+      console.log("Katılmayacağım");
+    
+      // Eğer uygun seferin olduğu bir zaman dilimindeyse, butona basma işlemini engelle
+      if (matchingIndexes.includes(index)) {
+        console.log("Uygun seferin olduğu bir zaman dilimindeyken butona basılamaz.");
+        return;
+      }
+    
+      const updatedUserData = [...userData];
+      updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
+      setUserData(updatedUserData);
+    };
+    
 
   return (
     <ScrollView>
