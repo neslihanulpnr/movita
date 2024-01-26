@@ -34,9 +34,6 @@ export const Homepage = () => {
                 // İlk API'den gelen kullanıcı ID'sini alın
                 const userId = data.user_id;
     
-                // İkinci API isteğini çağır
-                await getDriverSchedule(userId);
-    
                 navigation.navigate("menu", { data: data });
             }
         } catch (error) {
@@ -44,31 +41,6 @@ export const Homepage = () => {
             // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
         }
     }
-    
-    // getDriverSchedule fonksiyonunuz
-    async function getDriverSchedule(userId) {
-        try {
-            const response = await fetch('http://www.movita.com.tr:8019/sofor_guzerhah_listesi', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'sample_token1234',
-                },
-                body: JSON.stringify({
-                    user_id: userId,
-                }),
-            });
-    
-            const data = await response.json();
-            console.log('Güzergah listesi API yanıtı:', data);
-    
-            // İkinci API'den gelen verileri kullanabilir veya başka işlemler yapabilirsiniz.
-        } catch (error) {
-            console.error('Güzergah listesi alınırken bir hata oluştu:', error);
-            // Hata durumunda kullanıcıya bilgi verebilir veya başka işlemler yapabilirsiniz.
-        }
-    }
-
 
     return (
         <View style={{
