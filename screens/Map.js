@@ -144,7 +144,7 @@ export const Map = ({ data }) => {
           )}
   
           {carLocation && (
-            <Marker coordinate={carLocation} title="Araç Konumu">
+            <Marker coordinate={carLocation} title="Araç Konumu" anchor={{ x: 0.5, y: 0.7 }}>
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
           )}
@@ -155,8 +155,9 @@ export const Map = ({ data }) => {
                 { latitude: userLocation.latitude, longitude: userLocation.longitude },
                 { latitude: carLocation.latitude, longitude: carLocation.longitude },
               ]}
-              strokeColor="#00f"
+              strokeColor="#00ADEE"
               strokeWidth={3}
+              geodesic={true}
             />
           )}
         </MapView>
