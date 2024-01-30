@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
-import MapView, { Marker, Polyline } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
 import * as Location from 'expo-location';
+import MapViewDirections from 'react-native-maps-directions';
+
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -115,6 +117,9 @@ export const Map = ({ data }) => {
       }
     };
 
+    console.log('isMapVisible:', isMapVisible);
+    console.log('loading:', loading);
+
     fetchUserData();
 
     const intervalId = setInterval(() => {
@@ -149,15 +154,13 @@ export const Map = ({ data }) => {
             </Marker>
           )}
 
-          {userLocation && carLocation && (
-            <Polyline
-              coordinates={[
-                { latitude: userLocation.latitude, longitude: userLocation.longitude },
-                { latitude: carLocation.latitude, longitude: carLocation.longitude },
-              ]}
+          {carLocation && userLocation && (
+            <MapViewDirections
+              origin={userLocation}
+              destination={carLocation}
+              apikey="AIzaSyBxChzeUAytU-FcR8EkvX508ZXbbvpqDjw"
+              strokeWidth={4}
               strokeColor="#00ADEE"
-              strokeWidth={3}
-              geodesic={true}
             />
           )}
         </MapView>
