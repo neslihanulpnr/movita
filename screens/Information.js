@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 export const Information = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [matchingDays, setMatchingDays] = useState([]); 
+  const [matchingDays, setMatchingDays] = useState([]);
   const [matchingIndexes, setMatchingIndexes] = useState([]);
   const navigation = useNavigation();
 
@@ -23,30 +23,30 @@ export const Information = ({ data }) => {
         });
         const result = await response.json();
         console.log('API Response:', result.ret);
-  
+
         // Günleri pazartesiden cumaya sırala
         const daysInOrder = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
         result.ret.sort((a, b) => daysInOrder.indexOf(a.gun) - daysInOrder.indexOf(b.gun));
-  
+
         const apiDays = result.ret.map(item => item.gun);
         console.log('API\'den gelen günler:', apiDays);
-  
+
         const currentDay = moment().format('dddd');
         console.log('Şuanki gün:', currentDay);
-  
+
         const matchingIndexes = result.ret
           .map((location, index) => {
             const apiDay = moment(location.gun, "dddd").format('dddd');
             const isDayMatching = apiDay === currentDay;
             console.log(`Gün: ${apiDay}, API'den gelen gün: ${apiDay}, Uyuşuyor mu: ${isDayMatching}`);
-  
+
             const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
             console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
-  
+
             return isDayMatching && isTimeMatching ? index : null;
           })
           .filter(index => index !== null);
-  
+
         setUserData(result.ret);
         setMatchingIndexes(matchingIndexes);
         setLoading(false);
@@ -54,34 +54,34 @@ export const Information = ({ data }) => {
         console.error('Veri çekme hatası:', error);
       }
     };
-  
+
     fetchData();
   }, [data]);
 
-    const handleIptalButtonPress = (index) => {
-      const sefer = userData[index];
-      const seferDay = sefer.gun;
-      const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
-      const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
-    
-      if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
-          moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
-        console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
-        return;
-      }
-    
-      console.log("Katılmayacağım");
-    
-      // Eğer uygun seferin olduğu bir zaman dilimindeyse, butona basma işlemini engelle
-      if (matchingIndexes.includes(index)) {
-        console.log("Uygun seferin olduğu bir zaman dilimindeyken butona basılamaz.");
-        return;
-      }
-    
-      const updatedUserData = [...userData];
-      updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
-      setUserData(updatedUserData);
-    };
+  const handleIptalButtonPress = (index) => {
+    const sefer = userData[index];
+    const seferDay = sefer.gun;
+    const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
+    const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
+
+    if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
+      moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
+      console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
+      return;
+    }
+
+    console.log("Katılmayacağım");
+
+    // Eğer uygun seferin olduğu bir zaman dilimindeyse, butona basma işlemini engelle
+    if (matchingIndexes.includes(index)) {
+      console.log("Uygun seferin olduğu bir zaman dilimindeyken butona basılamaz.");
+      return;
+    }
+
+    const updatedUserData = [...userData];
+    updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
+    setUserData(updatedUserData);
+  };
 
   return (
     <ScrollView>
@@ -93,46 +93,46 @@ export const Information = ({ data }) => {
           <Text style={styles.tableHeaderText}>Katılım</Text>
         </View>
         {loading ? (
-  <ActivityIndicator size="large" color="#0000ff" />
-) : (
-  userData && userData.length > 0 ? (
-    userData.map((item, index) => (
-      <TouchableOpacity
-        key={index}
-        onPress={() => (index)}
-        style={[
-          styles.tableRow,
-          matchingIndexes.includes(index)
-            ? styles.matchingRow
-            : styles.nonMatchingRow
-        ]}
-      >
-        <Text style={styles.tableCell}>{item.arac_plaka}</Text>
-        <Text style={styles.tableCell}>{item.gun}</Text>
-        <Text style={styles.tableCell}>{item.seans}</Text>
-        <TouchableOpacity
-          onPress={() => handleIptalButtonPress(index)}
-          style={styles.tableCell}
-        >
-          <View
-            style={{
-              width: 20,
-              height: 20,
-              backgroundColor: item.isPressed ? 'red' : '#00ADEE',
-              justifyContent: 'center',
-              alignItems: 'center',
-              left: 35,
-              borderRadius: 5
-            }}>
-            <Text>X</Text>
-          </View>
-        </TouchableOpacity>
-      </TouchableOpacity>
-    ))
-  ) : (
-    <Text>Veri bulunamadı.</Text>
-  )
-)}
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          userData && userData.length > 0 ? (
+            userData.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => (index)}
+                style={[
+                  styles.tableRow,
+                  matchingIndexes.includes(index)
+                    ? styles.matchingRow
+                    : styles.nonMatchingRow
+                ]}
+              >
+                <Text style={styles.tableCell}>{item.arac_plaka}</Text>
+                <Text style={styles.tableCell}>{item.gun}</Text>
+                <Text style={styles.tableCell}>{item.seans}</Text>
+                <TouchableOpacity
+                  onPress={() => handleIptalButtonPress(index)}
+                  style={styles.tableCell}
+                >
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      backgroundColor: item.isPressed ? 'red' : '#00ADEE',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      left: 35,
+                      borderRadius: 5
+                    }}>
+                    <Text>X</Text>
+                  </View>
+                </TouchableOpacity>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text>Veri bulunamadı.</Text>
+          )
+        )}
       </View>
     </ScrollView>
   );
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   matchingRow: {
     backgroundColor: 'lightgreen',
   },
-  nonMatchingRow:{
+  nonMatchingRow: {
     backgroundColor: "#0000"
   }
 });
