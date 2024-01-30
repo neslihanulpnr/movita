@@ -164,12 +164,13 @@ export const Map = ({ data }) => {
             />
           )}
         </MapView>
-      ) : (
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
-        </View>
-      )}
+ ) : (
+  !loading && (
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
     </View>
+  )
+)}
+</View>
   );
 };
 
