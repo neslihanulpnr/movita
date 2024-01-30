@@ -166,11 +166,7 @@ export const Map = ({ data }) => {
         </MapView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
-          ) : (
             <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
-          )}
         </View>
       )}
     </View>
