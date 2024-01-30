@@ -18,7 +18,7 @@ export const Map = ({ data }) => {
       try {
         moment.locale('tr');
         setLoading(true);
-
+  
         // Kullanıcı konum iznini iste
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -26,7 +26,7 @@ export const Map = ({ data }) => {
           setLoading(false);
           return;
         }
-
+  
         // Kullanıcı konumunu al
         let location = await Location.getCurrentPositionAsync({});
         const userLocationCoords = {
@@ -34,9 +34,9 @@ export const Map = ({ data }) => {
           longitude: location.coords.longitude,
         };
         setUserLocation(userLocationCoords);
-
+  
         const userId = data && data.ret && data.ret.user_id;
-
+  
         if (userId) {
           const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
             method: 'POST',
@@ -46,20 +46,20 @@ export const Map = ({ data }) => {
             },
             body: JSON.stringify({ user_id: userId })
           });
-
+  
           const result = await response.json();
           console.log('bilgi API:', result.ret);
-
+  
           const filteredData = result.ret.filter(async (location) => {
             const currentDay = moment().isoWeekday();
             const apiDay = moment(location.gun, "dddd").isoWeekday();
-
+  
             const isDayMatching = apiDay === currentDay;
             const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
-
+  
             if (isDayMatching && isTimeMatching && location.arac_plaka) {
               console.log(`Araç Plakası: ${location.arac_plaka}`);
-
+  
               const carLocationResponse = await fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
                 method: 'POST',
                 headers: {
@@ -68,16 +68,16 @@ export const Map = ({ data }) => {
                 },
                 body: JSON.stringify({ plaka: location.arac_plaka })
               });
-
+  
               const carLocationResult = await carLocationResponse.json();
               console.log('Araç son konum API yanıtı:', carLocationResult);
-
+  
               if ('ret' in carLocationResult && 'konum_x' in carLocationResult.ret && 'konum_y' in carLocationResult.ret) {
                 setCarLocation({
                   latitude: parseFloat(carLocationResult.ret.konum_y),
                   longitude: parseFloat(carLocationResult.ret.konum_x),
                 });
-
+  
                 if (mapViewRef.current) {
                   mapViewRef.current.animateToRegion({
                     latitude: parseFloat(carLocationResult.ret.konum_y),
@@ -87,16 +87,16 @@ export const Map = ({ data }) => {
                   });
                 }
               }
-
+  
               setTimeout(() => {
                 setMapVisible(true);
                 setLoading(false);
-              }, 1);
+              });
             }
-
+  
             return isDayMatching && isTimeMatching;
           });
-
+  
           if (filteredData.length > 0) {
             setUserData(filteredData);
           } else {
@@ -114,9 +114,9 @@ export const Map = ({ data }) => {
         setLoading(false);
       }
     };
-
+  
     fetchUserData();
-
+  
     const intervalId = setInterval(() => {
       fetchUserData();
       console.log("yenilendi");
@@ -127,9 +127,7 @@ export const Map = ({ data }) => {
 
   return (
     <View>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : isMapVisible ? (
+      {isMapVisible ? (
         <MapView
           ref={mapViewRef}
           style={styles.map}
@@ -164,13 +162,16 @@ export const Map = ({ data }) => {
         </MapView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Uygun sefer bulunamadı.</Text>
+          )}
         </View>
       )}
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   map: {

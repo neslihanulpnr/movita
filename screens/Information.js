@@ -23,26 +23,30 @@ export const Information = ({ data }) => {
         });
         const result = await response.json();
         console.log('API Response:', result.ret);
-    
+  
+        // Günleri pazartesiden cumaya sırala
+        const daysInOrder = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+        result.ret.sort((a, b) => daysInOrder.indexOf(a.gun) - daysInOrder.indexOf(b.gun));
+  
         const apiDays = result.ret.map(item => item.gun);
         console.log('API\'den gelen günler:', apiDays);
-    
+  
         const currentDay = moment().format('dddd');
         console.log('Şuanki gün:', currentDay);
-    
+  
         const matchingIndexes = result.ret
           .map((location, index) => {
             const apiDay = moment(location.gun, "dddd").format('dddd');
             const isDayMatching = apiDay === currentDay;
             console.log(`Gün: ${apiDay}, API'den gelen gün: ${apiDay}, Uyuşuyor mu: ${isDayMatching}`);
-    
+  
             const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
             console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
-    
+  
             return isDayMatching && isTimeMatching ? index : null;
           })
           .filter(index => index !== null);
-    
+  
         setUserData(result.ret);
         setMatchingIndexes(matchingIndexes);
         setLoading(false);
@@ -50,10 +54,9 @@ export const Information = ({ data }) => {
         console.error('Veri çekme hatası:', error);
       }
     };
-    
+  
     fetchData();
-    }, [data]);
-    
+  }, [data]);
 
     const handleIptalButtonPress = (index) => {
       const sefer = userData[index];
@@ -79,7 +82,6 @@ export const Information = ({ data }) => {
       updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
       setUserData(updatedUserData);
     };
-    
 
   return (
     <ScrollView>
@@ -179,4 +181,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Information; 
+export default Information;
