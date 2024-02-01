@@ -6,7 +6,6 @@ import 'moment/locale/tr'; // Türkçe dil ayarı
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 
-
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
