@@ -83,23 +83,12 @@ export const Information = ({ data }) => {
     setUserData(updatedUserData);
   };
 
-const handleRoutePress = () => {
-  if (matchingIndexes.length > 0) {
-    const firstMatchingIndex = matchingIndexes[0];
-    const selectedRoute = userData[firstMatchingIndex];
-
-    // Uygun olan seferin isAvailable özelliğini kontrol et
-    if (selectedRoute && selectedRoute.isAvailable === true) {
-      // Sadece uygun olan seferlere git
-      console.log("Uygun olan sefere tıklandı. Navigasyon yapılıyor.");
-      navigation.navigate('Map', { data: selectedRoute, selectedRowIndex: firstMatchingIndex });
-    } else {
-      // Uygun olmayan seferlere gitme
-      console.log("Bu sefer uygun değil, başka bir sefer seçin.");
+  const handleRoutePress = (index) => {
+    if (matchingIndexes.length > 0) {
+      const firstMatchingIndex = matchingIndexes[0];
+      navigation.navigate('Map', { data: userData[firstMatchingIndex], selectedRowIndex: firstMatchingIndex });
     }
-  }
-};
-
+  };
 
    return (
     <ScrollView>
