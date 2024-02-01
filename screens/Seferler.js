@@ -93,10 +93,8 @@ export const Seferler = ({ data }) => {
       console.log("Uygun sefer bulunamadı.");
     }
   };
-  
-  
 
-   return (
+  return (
     <ScrollView>
       <View style={styles.tableContainer}>
         <View style={[styles.tableRow, styles.tableHeader]}>
@@ -150,7 +148,6 @@ export const Seferler = ({ data }) => {
     </ScrollView>
   );
 };
-
 
 const styles = StyleSheet.create({
   tableContainer: {
