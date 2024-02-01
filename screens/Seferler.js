@@ -86,13 +86,14 @@ export const Seferler = ({ data }) => {
   const handleRoutePress = (index) => {
     // Tıklanan günün uygun indeksi var mı kontrol et
     if (matchingIndexes.includes(index)) {
-      // Eğer uygun indeks bulunduysa, harita ekranına git
+      // Eğer uygun indeks bulunduysa, harita sayfasına git
       navigation.navigate('Map', { data: userData[index], selectedRowIndex: index });
     } else {
       // Uygun indeks bulunamazsa kullanıcıya bir mesaj gösterebilirsiniz
       console.log("Uygun sefer bulunamadı.");
     }
   };
+  
   
 
    return (
