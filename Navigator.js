@@ -3,7 +3,7 @@ import { Login } from "./screens/Login";
 import { Menu } from "./screens/Menu";
 import { Homepage } from "./screens/Home";
 import { Settings } from "./screens/Settings";
-import { Information } from "./screens/Information";
+import { Seferler } from "./screens/Seferler";
 import { Map } from "./screens/Map"
 
 const Stack = createStackNavigator();
@@ -54,8 +54,8 @@ export const Navigator = () => {
                 }
             }}/>
 
-            <Stack.Screen name="Information"
-            component={Information}
+            <Stack.Screen name="Seferler"
+            component={Seferler}
             options={{
             title: "",
             headerStyle: {

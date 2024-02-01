@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import moment from "moment";
 import { useNavigation } from '@react-navigation/native';
 
-export const Information = ({ data }) => {
+export const Seferler = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchingDays, setMatchingDays] = useState([]);
@@ -83,6 +83,17 @@ export const Information = ({ data }) => {
     setUserData(updatedUserData);
   };
 
+  const handleRoutePress = (index) => {
+    // Tıklanan günün uygun indeksi var mı kontrol et
+    if (matchingIndexes.includes(index)) {
+      // Eğer uygun indeks bulunduysa, harita sayfasına git
+      navigation.navigate('Map', { data: userData[index], selectedRowIndex: index });
+    } else {
+      // Uygun indeks bulunamazsa kullanıcıya bir mesaj gösterebilirsiniz
+      console.log("Uygun sefer bulunamadı.");
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.tableContainer}>
@@ -99,7 +110,7 @@ export const Information = ({ data }) => {
             userData.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => (index)}
+                onPress={() => handleRoutePress(index)}
                 style={[
                   styles.tableRow,
                   matchingIndexes.includes(index)
@@ -137,7 +148,6 @@ export const Information = ({ data }) => {
     </ScrollView>
   );
 };
-
 
 const styles = StyleSheet.create({
   tableContainer: {
@@ -181,4 +191,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Information;
+export default Seferler;
