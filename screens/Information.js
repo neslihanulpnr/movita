@@ -83,7 +83,25 @@ export const Information = ({ data }) => {
     setUserData(updatedUserData);
   };
 
-  return (
+const handleRoutePress = () => {
+  if (matchingIndexes.length > 0) {
+    const firstMatchingIndex = matchingIndexes[0];
+    const selectedRoute = userData[firstMatchingIndex];
+
+    // Uygun olan seferin isAvailable özelliğini kontrol et
+    if (selectedRoute && selectedRoute.isAvailable === true) {
+      // Sadece uygun olan seferlere git
+      console.log("Uygun olan sefere tıklandı. Navigasyon yapılıyor.");
+      navigation.navigate('Map', { data: selectedRoute, selectedRowIndex: firstMatchingIndex });
+    } else {
+      // Uygun olmayan seferlere gitme
+      console.log("Bu sefer uygun değil, başka bir sefer seçin.");
+    }
+  }
+};
+
+
+   return (
     <ScrollView>
       <View style={styles.tableContainer}>
         <View style={[styles.tableRow, styles.tableHeader]}>
@@ -99,7 +117,7 @@ export const Information = ({ data }) => {
             userData.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => (index)}
+                onPress={() => handleRoutePress(index)}
                 style={[
                   styles.tableRow,
                   matchingIndexes.includes(index)

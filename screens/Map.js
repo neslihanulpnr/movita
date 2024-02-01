@@ -116,9 +116,6 @@ export const Map = ({ data }) => {
       }
     };
 
-    console.log('isMapVisible:', isMapVisible);
-    console.log('loading:', loading);
-
     fetchUserData();
 
     const intervalId = setInterval(() => {
