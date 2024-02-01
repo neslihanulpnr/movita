@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Information } from './Information';
+import { Seferler } from './Seferler';
 import { Map } from './Map';
 import { Settings } from './Settings';
 
@@ -22,7 +22,7 @@ export const Menu = () => {
 
   const handleInfoButtonPress = () => {
     console.log("Bilgi öğesine tıklandı");
-    handleButtonPress(<Information data={data} />, 'Bilgi');
+    handleButtonPress(<Seferler data={data} />, 'Bilgi');
   };
 
   const handleMapButtonPress = () => {
@@ -41,7 +41,7 @@ export const Menu = () => {
       headerLeft: () => null,
     });
 
-    handleButtonPress(<Information data={data} />, 'Bilgi');
+    handleButtonPress(<Seferler data={data} />, 'Bilgi');
   }, [navigation]);
 
   const handleLogout = () => {

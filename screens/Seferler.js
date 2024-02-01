@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import moment from "moment";
 import { useNavigation } from '@react-navigation/native';
 
-export const Information = ({ data }) => {
+export const Seferler = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchingDays, setMatchingDays] = useState([]);
@@ -193,4 +193,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Information;
+export default Seferler;
