@@ -17,7 +17,7 @@ export const Menu = () => {
   const [contentToShow, setContentToShow] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
   //eklendi
-  const [data,setData]=useState(route.params.data) 
+  const [data, setData] = useState(route.params.data)
   console.log(data);
 
   const handleInfoButtonPress = () => {
@@ -42,7 +42,7 @@ export const Menu = () => {
     });
 
     handleButtonPress(<Information data={data} />, 'Bilgi');
-}, [navigation]);
+  }, [navigation]);
 
   const handleLogout = () => {
     console.log("çıkış yap butonuna tıklandı");
@@ -93,44 +93,44 @@ export const Menu = () => {
       </View>
 
       <View style={{
-  backgroundColor: "#edebeb",
-  width: 395,
-  height: 70,
-  flexDirection: "row",
-}}>
-  <TouchableOpacity
-    style={[
-      styles.button,
-      { backgroundColor: selectedButton === 'Bilgi' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
-    ]}
-    onPress={handleInfoButtonPress}
-  >
-    <MaterialIcons name="directions-bus" size={24} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
-    <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
-  </TouchableOpacity>
+        backgroundColor: "#edebeb",
+        width: 395,
+        height: 70,
+        flexDirection: "row",
+      }}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { backgroundColor: selectedButton === 'Bilgi' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+          ]}
+          onPress={handleInfoButtonPress}
+        >
+          <MaterialIcons name="directions-bus" size={24} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
+        </TouchableOpacity>
 
-  <TouchableOpacity
-    style={[
-      styles.button,
-      { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
-    ]}
-    onPress={handleMapButtonPress}
-  >
-    <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
-    <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
-  </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+          ]}
+          onPress={handleMapButtonPress}
+        >
+          <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
+        </TouchableOpacity>
 
-  <TouchableOpacity
-    style={[
-      styles.button,
-      { backgroundColor: selectedButton === 'Ayarlar' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
-    ]}
-    onPress={handleSettingsButtonPress}
-  >
-    <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-    <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
-  </TouchableOpacity>
-</View>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { backgroundColor: selectedButton === 'Ayarlar' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+          ]}
+          onPress={handleSettingsButtonPress}
+        >
+          <Ionicons name="settings" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
