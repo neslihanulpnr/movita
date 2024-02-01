@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, Image, ActivityIndicator, Button } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import moment from "moment";
 import 'moment/locale/tr'; // Türkçe dil ayarı
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
+import Modal from "react-native-modal";
+
 
 
 export const Map = ({ data }) => {
@@ -12,9 +14,21 @@ export const Map = ({ data }) => {
   const [userId,setUSerId]=useState(data.ret.user_id)
   const [userLocation, setUserLocation] = useState(null);
   const [carLocation, setCarLocation] = useState(null);
+  const [durakLocation, setDurakLocation] = useState(null);
   const [isMapVisible, setMapVisible] = useState(false);
+  const [distance, setDistance] = useState(null);
+  const [distanceCar, setDistanceCar] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [durationCar, setDurationCar] = useState(null);
   const mapViewRef = useRef(null);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const toastRef = useRef(null);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+    handleMarkerPress()
+  };
 
   const fetchUserData = async () => {
     try {
@@ -99,26 +113,26 @@ export const Map = ({ data }) => {
           return isDayMatching && isTimeMatching;
         });
 
-          if (filteredData.length > 0) {
-            setUserData(filteredData);
-          } else {
-            setMapVisible(false);
-            setLoading(false);
-            console.log('Uygun sefer bulunamadı.');
-          }
-        } else {
+        if (filteredData.length > 0) {
+          setUserData(filteredData);
           setMapVisible(true);
+        } else {
+          setMapVisible(false);
           setLoading(false);
-          console.log('Kullanıcı ID\'si bulunamadı. Harita yükleniyor.');
+          console.log('Uygun sefer bulunamadı.');
         }
-      } catch (error) {
-        console.error('Error bilgi:', error);
+      } else {
+        setMapVisible(true);
         setLoading(false);
+        console.log('Kullanıcı ID\'si bulunamadı. Harita yükleniyor.');
       }
-    };
-
-    console.log('isMapVisible:', isMapVisible);
-    console.log('loading:', loading);
+    } catch (error) {
+      console.error('Error bilgi:', error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    
 
     fetchUserData();
 
