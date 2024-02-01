@@ -10,9 +10,9 @@ export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [carLocation, setCarLocation] = useState(null);
-  const [isMapVisible, setMapVisible] = useState(false);
+  const [isMapVisible, setMapVisible] = useState(false); //harita görünürlüğünü kontrol etme
   const mapViewRef = useRef(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //Verilerin yüklenip yüklenmediğini kontrol etmek için
 
   useEffect(() => {
     const fetchUserData = async () => {

@@ -83,14 +83,7 @@ export const Information = ({ data }) => {
     setUserData(updatedUserData);
   };
 
-  const handleRoutePress = (index) => {
-    if (matchingIndexes.length > 0) {
-      const firstMatchingIndex = matchingIndexes[0];
-      navigation.navigate('Map', { data: userData[firstMatchingIndex], selectedRowIndex: firstMatchingIndex });
-    }
-  };
-
-   return (
+  return (
     <ScrollView>
       <View style={styles.tableContainer}>
         <View style={[styles.tableRow, styles.tableHeader]}>
@@ -106,7 +99,7 @@ export const Information = ({ data }) => {
             userData.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => handleRoutePress(index)}
+                onPress={() => (index)}
                 style={[
                   styles.tableRow,
                   matchingIndexes.includes(index)
