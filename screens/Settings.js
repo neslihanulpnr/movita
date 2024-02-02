@@ -16,6 +16,7 @@ export const Settings = () => {
     console.log("İlçe:", ilceValue);
     console.log("Mahalle:", mahalleValue);
     console.log("Sokak:", sokakValue);
+    
     setShowMap(true);
   };
 

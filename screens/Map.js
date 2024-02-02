@@ -248,9 +248,9 @@ export const Map = ({ data }) => {
         </MapView>
         <Modal isVisible={isModalVisible} animationIn="slideInUp" animationOut="slideOutDown">
         <View style={{justifyContent:"flex-start",alignItems:"left",backgroundColor:"white",paddingHorizontal:10,paddingVertical:10,borderRadius:10}}>
-          <Text style={{fontWeight: "bold", fontSize: 16,}}>Personelin ;</Text>
-          <Text style={styles.modalText}>Durağa yürüme süresi tahmini : {duration}</Text>
-          <Text style={styles.modalText}>Durağa yürüme mesafesi tahmini : {distance}</Text>
+          <Text style={{fontWeight: "bold", fontSize: 16,}}>Personelin tahmini ;</Text>
+          <Text style={styles.modalText}>Durağa yürüme süresi : {duration}</Text>
+          <Text style={styles.modalText}>Durağa yürüme mesafesi : {distance}</Text>
           <Text style={{fontWeight: "bold", fontSize: 16,}}>Aracın ;</Text>
           <Text style={styles.modalText}>Durağa tahmini varış süresi : {durationCar}</Text>
           <Text style={styles.modalText}>Durağa mesafesi : {distanceCar}</Text>
