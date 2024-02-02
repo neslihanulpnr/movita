@@ -2,27 +2,28 @@ import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
+import axios from "axios";
 
 export const Settings = ({data}) => {
   const [adress, setAdress] = useState({"il":"", "ilce":"","mahalle":"","sokak":""});
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
-  const [dragAdress,setDragAdress]=useState()
+  const [dragAdress, setDragAdress] = useState();
 
   const logEnteredInformation = async () => {
     try {
       console.log(adress);
       Keyboard.dismiss();
       setShowMap(true);
-  
+
       // Adres bilgilerini kullanarak koordinatları al
       const location = await getLocationFromAddress(
         `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`
       );
-  
+
       setLocation(location);
-  
+
       // Rota için durakları belirle (örnekte sabit bir dizi kullanıldı)
       const stops = [
         { latitude: location.latitude + 0.01, longitude: location.longitude + 0.01 },
@@ -33,7 +34,7 @@ export const Settings = ({data}) => {
       console.error("logEnteredInformation Hata:", error);
     }
   };
-  
+
   const getLocationFromAddress = async (address) => {
     try {
       const apiKey = "AIzaSyBxChzeUAytU-FcR8EkvX508ZXbbvpqDjw";
@@ -42,9 +43,9 @@ export const Settings = ({data}) => {
           address
         )}&key=${apiKey}`
       );
-  
+
       const result = await response.json();
-  
+
       if (result.results && result.results.length > 0) {
         const { lat, lng } = result.results[0].geometry.location;
         return { latitude: lat, longitude: lng };
@@ -57,11 +58,29 @@ export const Settings = ({data}) => {
     }
   };
 
-  const handleMarkerDragEnd = (e) => {
+  const handleMarkerDragEnd = async (e) => {
     // Sürüklenen marker'ın son konumunu al
     const { latitude, longitude } = e.nativeEvent.coordinate;
     setDragAdress({ latitude, longitude });
     console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
+
+    // Kullanıcı girişi yapılırken alınan kullanıcı kimliği
+    const userId = 1075;
+
+    // API'ye konumu gönder
+    await saveLocationToApi(userId, { latitude, longitude });
+  };
+
+  const saveLocationToApi = async (userId, location) => {
+    try {
+      const apiUrl = 'http://www.movita.com.tr:8019/edit_personel_konum';
+      const response = await axios.post(apiUrl, { userId, location });
+
+      // Başarılı kayıt sonrasında bir bildirim gösterebilirsiniz
+      console.log('Konum başarıyla kaydedildi:', response.data);
+    } catch (error) {
+      console.error('Konum kaydedilemedi.', error);
+    }
   };
 
   return (
