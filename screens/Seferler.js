@@ -34,22 +34,26 @@ export const Seferler = ({ data }) => {
         const currentDay = moment().format('dddd');
         console.log('Şuanki gün:', currentDay);
 
+        
         const matchingIndexes = result.ret
-          .map((location, index) => {
-            const apiDay = moment(location.gun, "dddd").format('dddd');
-            const isDayMatching = apiDay === currentDay;
-            console.log(`Gün: ${apiDay}, API'den gelen gün: ${apiDay}, Uyuşuyor mu: ${isDayMatching}`);
-
-            const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
-            console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
-
-            return isDayMatching && isTimeMatching ? index : null;
-          })
-          .filter(index => index !== null);
-
-        setUserData(result.ret);
-        setMatchingIndexes(matchingIndexes);
-        setLoading(false);
+        .map((location, index) => {
+          const isDayMatching = location.gun === currentDay;
+          console.log(`Gün: ${location.gun}, API'den gelen gün: ${location.gun}, Uyuşuyor mu: ${isDayMatching}`);
+      
+          const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"), null, '[]');
+          console.log(`Saatler uyuşuyor mu: ${isTimeMatching}`);
+      
+          return isDayMatching && isTimeMatching ? index : null;
+        })
+        .filter(index => index !== null);
+      
+      // Günleri kontrol et
+      const isAnyDayMatching = matchingIndexes.length > 0;
+      console.log(`Günler uyuşuyor mu: ${isAnyDayMatching}`);
+      
+      setUserData(result.ret);
+      setMatchingIndexes(matchingIndexes);
+      setLoading(false);
       } catch (error) {
         console.error('Veri çekme hatası:', error);
       }
