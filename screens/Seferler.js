@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import moment from "moment";
-import { useNavigation } from '@react-navigation/native';
 
 export const Seferler = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchingDays, setMatchingDays] = useState([]);
   const [matchingIndexes, setMatchingIndexes] = useState([]);
-  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,12 +86,8 @@ export const Seferler = ({ data }) => {
   };
 
   const handleRoutePress = (index) => {
-    // Tıklanan günün uygun indeksi var mı kontrol et
     if (matchingIndexes.includes(index)) {
-      // Eğer uygun indeks bulunduysa, harita sayfasına git
-      navigation.navigate('Map', { data: userData[index], selectedRowIndex: index });
     } else {
-      // Uygun indeks bulunamazsa kullanıcıya bir mesaj gösterebilirsiniz
       console.log("Uygun sefer bulunamadı.");
     }
   };
