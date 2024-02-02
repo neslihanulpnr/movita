@@ -102,7 +102,6 @@ export const Settings = ({data}) => {
             placeholder="Sokak"
             placeholderTextColor={"gray"}
             style={styles.inputField}
-            
             value={adress.sokak}
             onChangeText={(text) => setAdress({ ...adress, sokak: text })}
           />
@@ -148,7 +147,6 @@ export const Settings = ({data}) => {
                 coordinate={location}
                 draggable
                 onDragEnd={(e) => handleMarkerDragEnd(e)}
-               
               />)}
   
           </MapView>
