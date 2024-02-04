@@ -2,27 +2,30 @@ import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
+import axios from 'axios';
 
-export const Settings = ({data}) => {
-  const [adress, setAdress] = useState({"il":"", "ilce":"","mahalle":"","sokak":""});
+export const Settings = ({ data }) => {
+  const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
-  const [dragAdress,setDragAdress]=useState()
+  const [dragAdress, setDragAdress] = useState()
+  
 
   const logEnteredInformation = async () => {
     try {
       console.log(adress);
       Keyboard.dismiss();
       setShowMap(true);
-  
+
       // Adres bilgilerini kullanarak koordinatları al
       const location = await getLocationFromAddress(
-        `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`
+        `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`,
+        data.ret.user_id
       );
-  
+
       setLocation(location);
-  
+
       // Rota için durakları belirle (örnekte sabit bir dizi kullanıldı)
       const stops = [
         { latitude: location.latitude + 0.01, longitude: location.longitude + 0.01 },
@@ -33,8 +36,8 @@ export const Settings = ({data}) => {
       console.error("logEnteredInformation Hata:", error);
     }
   };
-  
-  const getLocationFromAddress = async (address) => {
+
+  const getLocationFromAddress = async (address, userId) => {
     try {
       const apiKey = "AIzaSyBxChzeUAytU-FcR8EkvX508ZXbbvpqDjw";
       const response = await fetch(
@@ -42,11 +45,15 @@ export const Settings = ({data}) => {
           address
         )}&key=${apiKey}`
       );
-  
+
       const result = await response.json();
-  
+
       if (result.results && result.results.length > 0) {
         const { lat, lng } = result.results[0].geometry.location;
+
+        // Konsola user_id'yi yaz
+        console.log("user_id:", userId);
+
         return { latitude: lat, longitude: lng };
       } else {
         throw new Error("Konum bulunamadı.");
@@ -57,11 +64,42 @@ export const Settings = ({data}) => {
     }
   };
 
-  const handleMarkerDragEnd = (e) => {
-    // Sürüklenen marker'ın son konumunu al
-    const { latitude, longitude } = e.nativeEvent.coordinate;
-    setDragAdress({ latitude, longitude });
-    console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
+  const handleMarkerDragEnd = async (e) => {
+    try {
+      // Sürüklenen marker'ın son konumunu al
+      const { latitude, longitude } = e.nativeEvent.coordinate;
+      setDragAdress({ latitude, longitude });
+      console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
+
+      // API'ye veriyi gönder
+      await sendLocationToAPI(latitude, longitude, data.ret.user_id);
+    } catch (error) {
+      console.error("handleMarkerDragEnd Hata:", error);
+    }
+  };
+
+  const sendLocationToAPI = async (latitude, longitude, userId) => {
+    try {
+      const apiUrl = "http://www.movita.com.tr:8019/edit_personel_konum";
+  
+      const response = await axios.post(apiUrl, {
+        latitude,
+        longitude,
+        userId,
+      });
+  
+      console.log("API Yanıtı:", JSON.stringify(response, null, 2));
+      console.log("hata", response.data.error_message)
+  
+      if (response.data && response.data.success) {
+        console.log("Konum başarıyla kaydedildi.");
+      } else {
+        console.error("Konum kaydedilemedi.");
+      }
+    } catch (error) {
+      console.error("sendLocationToAPI Hata:", error);
+      throw error;
+    }
   };
 
   return (
@@ -102,7 +140,7 @@ export const Settings = ({data}) => {
             placeholder="Sokak"
             placeholderTextColor={"gray"}
             style={styles.inputField}
-            
+
             value={adress.sokak}
             onChangeText={(text) => setAdress({ ...adress, sokak: text })}
           />
@@ -142,15 +180,15 @@ export const Settings = ({data}) => {
               longitudeDelta: 0.0421,
             }}
           >
-            
+
             {location && (
               <Marker
                 coordinate={location}
                 draggable
                 onDragEnd={(e) => handleMarkerDragEnd(e)}
-               
+
               />)}
-  
+
           </MapView>
         </View>
       )}
@@ -176,7 +214,7 @@ const styles = StyleSheet.create({
   input: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent:"center",
+    justifyContent: "center",
     width: 300,
     height: 35,
     borderWidth: 0.2,
