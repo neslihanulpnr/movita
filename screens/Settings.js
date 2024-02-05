@@ -10,7 +10,6 @@ export const Settings = ({ data }) => {
   const [coordinates, setCoordinates] = useState([]);
   const [dragAdress, setDragAdress] = useState()
 
-
   const logEnteredInformation = async () => {
     try {
       console.log(adress);
@@ -23,7 +22,6 @@ export const Settings = ({ data }) => {
         data.ret.user_id
       );
       
-
       setLocation(location);
 
       // Rota için durakları belirle (örnekte sabit bir dizi kullanıldı)
@@ -119,7 +117,6 @@ export const Settings = ({ data }) => {
       throw error;
     }
   };
-  
 
   return (
     <View>
