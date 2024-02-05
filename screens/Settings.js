@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
-import axios from 'axios';
 
 export const Settings = ({ data }) => {
   const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
@@ -10,7 +9,7 @@ export const Settings = ({ data }) => {
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
   const [dragAdress, setDragAdress] = useState()
-  
+
 
   const logEnteredInformation = async () => {
     try {
@@ -23,6 +22,7 @@ export const Settings = ({ data }) => {
         `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`,
         data.ret.user_id
       );
+      
 
       setLocation(location);
 
@@ -70,37 +70,56 @@ export const Settings = ({ data }) => {
       const { latitude, longitude } = e.nativeEvent.coordinate;
       setDragAdress({ latitude, longitude });
       console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
-
+  
       // API'ye veriyi gönder
       await sendLocationToAPI(latitude, longitude, data.ret.user_id);
     } catch (error) {
       console.error("handleMarkerDragEnd Hata:", error);
     }
   };
-
+  
   const sendLocationToAPI = async (latitude, longitude, userId) => {
     try {
-      const apiUrl = "http://www.movita.com.tr:8019/edit_personel_konum";
+      if (latitude && longitude) {
+        console.log("API'ye gönderilen istek verisi:", JSON.stringify({
+          latitude,
+          longitude,
+          userId,
+        }));
   
-      const response = await axios.post(apiUrl, {
-        latitude,
-        longitude,
-        userId,
-      });
+        const apiUrl = "http://www.movita.com.tr:8019/edit_personel_konum";
   
-      console.log("API Yanıtı:", JSON.stringify(response, null, 2));
-      console.log("hata", response.data.error_message)
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'sample_token1234', // Yetkilendirme anahtarını buraya ekleyin
+          },
+          body: JSON.stringify({
+            latitude,
+            longitude,
+            userId,
+          }),
+        });
   
-      if (response.data && response.data.success) {
-        console.log("Konum başarıyla kaydedildi.");
+        const responseData = await response.json(); // JSON yanıtını ayrıştır
+  
+        console.log("API Yanıtı:", JSON.stringify(responseData, null, 2));
+  
+        if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
+          console.log("Konum başarıyla kaydedildi.");
+        } else {
+          console.error("Konum kaydedilemedi.");
+        }
       } else {
-        console.error("Konum kaydedilemedi.");
+        console.error("API'ye gönderilen konum bilgisi eksik veya geçersiz.");
       }
     } catch (error) {
       console.error("sendLocationToAPI Hata:", error);
       throw error;
     }
   };
+  
 
   return (
     <View>
