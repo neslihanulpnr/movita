@@ -139,7 +139,7 @@ export const Map = ({ data }) => {
       fetchUserData();
       
     }, 20000);
-
+    console.log("yenilendi")
     return () => clearInterval(intervalId);
   }, [data]);
 
