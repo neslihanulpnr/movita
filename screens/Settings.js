@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
@@ -8,7 +8,8 @@ export const Settings = ({ data }) => {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
-  const [dragAdress, setDragAdress] = useState()
+  const [dragAdress, setDragAdress] = useState();
+  const [personelData, setPersonelData] = useState(null);
 
   const logEnteredInformation = async () => {
     try {
@@ -16,7 +17,7 @@ export const Settings = ({ data }) => {
       Keyboard.dismiss();
       setShowMap(true);
 
-      // Adres bilgilerini kullanarak koordinatları al
+     
       const location = await getLocationFromAddress(
         `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`,
         data.ret.user_id
@@ -24,7 +25,7 @@ export const Settings = ({ data }) => {
       
       setLocation(location);
 
-      // Rota için durakları belirle (örnekte sabit bir dizi kullanıldı)
+      
       const stops = [
         { latitude: location.latitude + 0.01, longitude: location.longitude + 0.01 },
         { latitude: location.latitude - 0.01, longitude: location.longitude - 0.01 },
@@ -49,7 +50,7 @@ export const Settings = ({ data }) => {
       if (result.results && result.results.length > 0) {
         const { lat, lng } = result.results[0].geometry.location;
 
-        // Konsola user_id'yi yaz
+       
         console.log("user_id:", userId);
 
         return { latitude: lat, longitude: lng };
@@ -66,11 +67,15 @@ export const Settings = ({ data }) => {
     try {
       // Sürüklenen marker'ın son konumunu al
       const { latitude, longitude } = e.nativeEvent.coordinate;
-      setDragAdress({ latitude, longitude });
-      console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
+    setDragAdress({ latitude, longitude });
+    console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
   
       // API'ye veriyi gönder
       await sendLocationToAPI(latitude, longitude, data.ret.user_id);
+  
+      // API güncellemesi başarılı olduktan sonra, API'den yeni veriyi çek ve state'i güncelle
+      const updatedPersonelData = await fetchDataFromAPI(data.ret.user_id);
+      setPersonelData(updatedPersonelData);
     } catch (error) {
       console.error("handleMarkerDragEnd Hata:", error);
     }
@@ -91,7 +96,7 @@ export const Settings = ({ data }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'sample_token1234', // Yetkilendirme anahtarını buraya ekleyin
+            'Authorization': 'sample_token1234', 
           },
           body: JSON.stringify({
             latitude,
@@ -100,9 +105,9 @@ export const Settings = ({ data }) => {
           }),
         });
   
-        const responseData = await response.json(); // JSON yanıtını ayrıştır
+        const responseData = await response.json();
   
-        console.log("API Yanıtı:", JSON.stringify(responseData, null, 2));
+        console.log("API Yanıtı:", (responseData));
   
         if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
           console.log("Konum başarıyla kaydedildi.");
@@ -118,6 +123,48 @@ export const Settings = ({ data }) => {
     }
   };
 
+  const fetchDataFromAPI = async (userId) => {
+    try {
+      const apiUrl = 'http://www.movita.com.tr:8019/personel_getir';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'sample_token1234',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP hata! Durum: ${response.status} - ${response.statusText}`);
+      }
+  
+      const responseData = await response.json();
+  
+      console.log("API Yanıtı:", responseData);
+  
+      if (responseData && responseData.status === "ok") {
+        if (responseData.ret !== null) {
+          console.log("Apiden Güncellenen Veri:", responseData.ret);
+          return responseData.ret;
+        } else {
+          const errorMessage = "API'den beklenen veri alınamadı.";
+          console.error(`Hata: ${errorMessage}. Detaylar:`, responseData);
+          throw new Error(errorMessage);
+        }
+      } else {
+        const errorMessage = responseData.error_message || "Personel verisi çekilemedi.";
+        console.error(`Hata: ${errorMessage}. Detaylar:`, responseData);
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.error("fetchDataFromAPI Hata:", error);
+      throw error;
+    }
+  };
+  
   return (
     <View>
       <View style={styles.inputContainer2}>
@@ -188,23 +235,21 @@ export const Settings = ({ data }) => {
       {showMap && (
         <View>
           <MapView
-            style={styles.map}
-            initialRegion={{
-              latitude: 39.933365,
-              longitude: 32.859741,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          >
-
-            {location && (
-              <Marker
-                coordinate={location}
-                draggable
-                onDragEnd={(e) => handleMarkerDragEnd(e)}
-
-              />)}
-
+          style={styles.map}
+          initialRegion={{
+            latitude: 39.933365,
+            longitude: 32.859741,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          {location && (
+            <Marker
+              coordinate={location}
+              draggable
+              onDragEnd={(e) => handleMarkerDragEnd(e)}
+            />
+          )}
           </MapView>
         </View>
       )}
