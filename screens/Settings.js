@@ -17,15 +17,15 @@ export const Settings = ({ data }) => {
       Keyboard.dismiss();
       setShowMap(true);
 
-     
+
       const location = await getLocationFromAddress(
         `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`,
         data.ret.user_id
       );
-      
+
       setLocation(location);
 
-      
+
       const stops = [
         { latitude: location.latitude + 0.01, longitude: location.longitude + 0.01 },
         { latitude: location.latitude - 0.01, longitude: location.longitude - 0.01 },
@@ -50,7 +50,7 @@ export const Settings = ({ data }) => {
       if (result.results && result.results.length > 0) {
         const { lat, lng } = result.results[0].geometry.location;
 
-       
+
         console.log("user_id:", userId);
 
         return { latitude: lat, longitude: lng };
@@ -67,12 +67,12 @@ export const Settings = ({ data }) => {
     try {
       // Sürüklenen marker'ın son konumunu al
       const { latitude, longitude } = e.nativeEvent.coordinate;
-    setDragAdress({ latitude, longitude });
-    console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
-  
+      setDragAdress({ latitude, longitude });
+      console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
+
       // API'ye veriyi gönder
       await sendLocationToAPI(latitude, longitude, data.ret.user_id);
-  
+
       // API güncellemesi başarılı olduktan sonra, API'den yeni veriyi çek ve state'i güncelle
       const updatedPersonelData = await fetchDataFromAPI(data.ret.user_id);
       setPersonelData(updatedPersonelData);
@@ -80,7 +80,7 @@ export const Settings = ({ data }) => {
       console.error("handleMarkerDragEnd Hata:", error);
     }
   };
-  
+
   const sendLocationToAPI = async (latitude, longitude, userId) => {
     try {
       if (latitude && longitude) {
@@ -89,14 +89,14 @@ export const Settings = ({ data }) => {
           longitude,
           userId,
         }));
-  
+
         const apiUrl = "http://www.movita.com.tr:8019/edit_personel_konum";
-  
+
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'sample_token1234', 
+            'Authorization': 'sample_token1234',
           },
           body: JSON.stringify({
             latitude,
@@ -104,11 +104,11 @@ export const Settings = ({ data }) => {
             userId,
           }),
         });
-  
+
         const responseData = await response.json();
-  
+
         console.log("API Yanıtı:", (responseData));
-  
+
         if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
           console.log("Konum başarıyla kaydedildi.");
         } else {
@@ -136,21 +136,21 @@ export const Settings = ({ data }) => {
           user_id: userId,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP hata! Durum: ${response.status} - ${response.statusText}`);
       }
-  
+
       const responseData = await response.json();
-  
+
       console.log("API Yanıtı:", responseData);
-  
+
       if (responseData && responseData.status === "ok") {
         if (responseData.ret !== null) {
           console.log("Apiden Güncellenen Veri:", responseData.ret);
           return responseData.ret;
         } else {
-          const errorMessage = "API'den beklenen veri alınamadı.";
+          const errorMessage = "API'den beklenen veri alınamadı. Dönen veri boş.";
           console.error(`Hata: ${errorMessage}. Detaylar:`, responseData);
           throw new Error(errorMessage);
         }
@@ -161,10 +161,9 @@ export const Settings = ({ data }) => {
       }
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
-      throw error;
     }
   };
-  
+
   return (
     <View>
       <View style={styles.inputContainer2}>
@@ -235,21 +234,21 @@ export const Settings = ({ data }) => {
       {showMap && (
         <View>
           <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 39.933365,
-            longitude: 32.859741,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          {location && (
-            <Marker
-              coordinate={location}
-              draggable
-              onDragEnd={(e) => handleMarkerDragEnd(e)}
-            />
-          )}
+            style={styles.map}
+            initialRegion={{
+              latitude: 39.933365,
+              longitude: 32.859741,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            {location && (
+              <Marker
+                coordinate={location}
+                draggable
+                onDragEnd={(e) => handleMarkerDragEnd(e)}
+              />
+            )}
           </MapView>
         </View>
       )}
