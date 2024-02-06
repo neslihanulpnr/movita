@@ -1,16 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
+import Toast from 'react-native-toast-message';
 
 export const Settings = ({ data }) => {
   const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
+  
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
   const [dragAdress, setDragAdress] = useState();
   const [personelData, setPersonelData] = useState(null);
-
+console.log("user_id",data.ret.user_id)
   const logEnteredInformation = async () => {
     try {
       console.log(adress);
@@ -72,10 +74,16 @@ export const Settings = ({ data }) => {
 
       // API'ye veriyi gönder
       await sendLocationToAPI(latitude, longitude, data.ret.user_id);
+      Toast.show({
+        type: 'success',
+        text1: 'Başarılı!',
+        text2: 'İşlem başarıyla gerçekleştirildi.',
+        visibilityTime: 2000, // Bildirimin görüntüleneceği süre (milisaniye cinsinden)
+      position: 'bottom', // Bildirimin konumu
+      });
 
       // API güncellemesi başarılı olduktan sonra, API'den yeni veriyi çek ve state'i güncelle
-      const updatedPersonelData = await fetchDataFromAPI(data.ret.user_id);
-      setPersonelData(updatedPersonelData);
+      
     } catch (error) {
       console.error("handleMarkerDragEnd Hata:", error);
     }
@@ -111,6 +119,7 @@ export const Settings = ({ data }) => {
 
         if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
           console.log("Konum başarıyla kaydedildi.");
+          
         } else {
           console.error("Konum kaydedilemedi.");
         }
@@ -123,9 +132,9 @@ export const Settings = ({ data }) => {
     }
   };
 
-  const fetchDataFromAPI = async (userId) => {
+  const fetchDataFromAPI = async () => {
     try {
-      const apiUrl = 'http://www.movita.com.tr:8019/personel_getir';
+      const apiUrl = 'http://www.movita.com.tr:8019/personel_getir_by_kullanici_id';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -133,7 +142,7 @@ export const Settings = ({ data }) => {
           'Authorization': 'sample_token1234',
         },
         body: JSON.stringify({
-          user_id: userId,
+          kullanici_id: data.ret.user_id,
         }),
       });
 
@@ -143,26 +152,22 @@ export const Settings = ({ data }) => {
 
       const responseData = await response.json();
 
-      console.log("API Yanıtı:", responseData);
-
-      if (responseData && responseData.status === "ok") {
-        if (responseData.ret !== null) {
-          console.log("Apiden Güncellenen Veri:", responseData.ret);
-          return responseData.ret;
-        } else {
-          const errorMessage = "API'den beklenen veri alınamadı. Dönen veri boş.";
-          console.error(`Hata: ${errorMessage}. Detaylar:`, responseData);
-          throw new Error(errorMessage);
-        }
-      } else {
-        const errorMessage = responseData.error_message || "Personel verisi çekilemedi.";
-        console.error(`Hata: ${errorMessage}. Detaylar:`, responseData);
-        throw new Error(errorMessage);
-      }
+      console.log("API Yanıtı:", responseData.ret.konum_lat);
+      const personelLocation = {
+        latitude: +responseData.ret.konum_lat,
+        longitude: +responseData.ret.konum_lng,
+      };
+      setLocation(personelLocation)
+      responseData.ret.konum_lat && setShowMap(true)
+      console.log(showMap)
+      
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
     }
   };
+  useEffect(()=>{
+    fetchDataFromAPI()
+  },[])
 
   return (
     <View>
@@ -236,8 +241,8 @@ export const Settings = ({ data }) => {
           <MapView
             style={styles.map}
             initialRegion={{
-              latitude: 39.933365,
-              longitude: 32.859741,
+              latitude: location.latitude,
+              longitude: location.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}

@@ -5,6 +5,7 @@ import { Homepage } from "./screens/Home";
 import { Settings } from "./screens/Settings";
 import { Seferler } from "./screens/Seferler";
 import { Map } from "./screens/Map";
+import SoforMap from "./screens/SoforMap";
 
 
 const Stack = createStackNavigator();
@@ -47,6 +48,16 @@ export const Navigator = () => {
 
             <Stack.Screen name="Map"
                 component={Map}
+                options={{
+                    title: "",
+                    headerShown: false,
+                    headerStyle: {
+                        backgroundColor: "#edebeb"
+                    }
+                }} />
+
+            <Stack.Screen name="SoforMap"
+                component={SoforMap}
                 options={{
                     title: "",
                     headerShown: false,

@@ -7,27 +7,40 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Seferler } from './Seferler';
 import { Map } from './Map';
 import { Settings } from './Settings';
+import SoforMap from './SoforMap';
 
 export const Menu = () => {
+  
   const navigation = useNavigation();
   //eklendi
   const route = useRoute()
-  console.log(route.params.data);
+  console.log("burdayım ",route?.params.data.ret.device_list.length );
 
   const [contentToShow, setContentToShow] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
   //eklendi
-  const [data, setData] = useState(route.params.data)
+  const [data, setData] = useState(route?.params.data)
   console.log(data);
 
   const handleInfoButtonPress = () => {
     console.log("Bilgi öğesine tıklandı");
     handleButtonPress(<Seferler data={data} />, 'Bilgi');
+    console.log("neresi bura2",contentToShow)
   };
 
   const handleMapButtonPress = () => {
     console.log("Harita öğesine tıklandı");
-    handleButtonPress(<Map data={data} />, 'Harita');
+    handleButtonPress(
+      <Map data={data} />),'Harita'
+      console.log("neresi bura",contentToShow)
+  };
+  const handleSoforMapButtonPress = () => {
+    console.log("Harita öğesine tıklandı");
+    handleButtonPress(
+      <SoforMap data={data} />,
+      'Harita'
+    );
+      console.log("neresi bura",contentToShow)
   };
 
   const handleSettingsButtonPress = () => {
@@ -105,20 +118,33 @@ export const Menu = () => {
           ]}
           onPress={handleInfoButtonPress}
         >
-          <MaterialIcons name="directions-bus" size={24} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
+          <MaterialIcons name="directions-bus" size={18} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {
+          route.params.data.ret.device_list.length <= 0 ? <TouchableOpacity
           style={[
             styles.button,
             { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
           ]}
           onPress={handleMapButtonPress}
         >
-          <MaterialCommunityIcons name="google-maps" size={30} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
+          <MaterialCommunityIcons name="google-maps" size={18} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
+        </TouchableOpacity> :
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { backgroundColor: selectedButton === 'Harita' ? '#00ADEE' : '#edebeb', flexDirection: "column" },
+          ]}
+          onPress={handleSoforMapButtonPress}
+        >
+          <MaterialCommunityIcons name="google-maps" size={18} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>sofor Harita</Text>
         </TouchableOpacity>
+        }
+
 
         <TouchableOpacity
           style={[
@@ -127,8 +153,8 @@ export const Menu = () => {
           ]}
           onPress={handleSettingsButtonPress}
         >
-          <Ionicons name="person" size={30} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Kişi</Text>
+          <Ionicons name="person" size={18} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -147,7 +173,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#00ADEE",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 12,
     marginLeft: 8,
     justifyContent: "center",
     alignItems: "center",
