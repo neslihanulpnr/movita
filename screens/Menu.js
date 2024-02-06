@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#00ADEE",
     fontWeight: "bold",
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 8,
     justifyContent: "center",
     alignItems: "center",
