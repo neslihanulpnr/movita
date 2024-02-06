@@ -141,7 +141,7 @@ export const Menu = () => {
           onPress={handleSoforMapButtonPress}
         >
           <MaterialCommunityIcons name="google-maps" size={25} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Şöför Harita</Text>
+          <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Şoför Harita</Text>
         </TouchableOpacity>
         }
 
