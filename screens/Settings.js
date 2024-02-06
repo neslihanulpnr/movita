@@ -71,23 +71,10 @@ export const Settings = ({ data }) => {
   
       // API'ye veriyi gönder
       await sendLocationToAPI(latitude, longitude, data.ret.user_id);
-  
-      // Diziyi tanımla (örnekte sabit bir dizi kullanıldı)
-      const stops = [
-        { latitude: latitude + 0.01, longitude: longitude + 0.01 },
-        { latitude: latitude - 0.01, longitude: longitude - 0.01 },
-      ];
-  
-      // API'den veriyi çek
-      const updatedPersonelData = await fetchDataFromAPI(data.ret.user_id);
-  
-      // API'den gelen veriyi state'e güncelle
-      setCoordinates([dragAdress, ...stops]); // stops'u uygun şekilde tanımlamanız gerekebilir
     } catch (error) {
       console.error("handleMarkerDragEnd Hata:", error);
     }
   };
-  
   
   const sendLocationToAPI = async (latitude, longitude, userId) => {
     try {
@@ -131,41 +118,6 @@ export const Settings = ({ data }) => {
     }
   };
 
-  const fetchDataFromAPI = async () => {
-    try {
-      const apiUrl = 'http://www.movita.com.tr:8019/personel_getir_by_kullanici_id';
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-            'Authorization': 'sample_token1234',  // Yetkilendirme anahtarını buraya ekleyin
-        },
-        body: JSON.stringify({
-          user_id: data.ret.user_id,
-        }),
-      });
-  
-      const responseData = await response.json();
-  
-      console.log("Apiden Güncellenen Veri:", responseData);
-  
-      if (responseData && responseData.status === "ok") {
-        if (responseData.ret !== null) {
-          console.log("Apiden Güncellenen Veri:", responseData.ret);
-          return responseData.ret; // Veriyi döndür
-        } else {
-          console.error("Personel verisi boş.");
-          console.error("Hata Kodu:", responseData.error_code, "Hata Mesajı:", responseData.error_message);
-        }
-      } else {
-        console.error("Personel verisi çekilemedi. Hata Kodu:", responseData.error_code, "Hata Mesajı:", responseData.error_message);
-      }
-    } catch (error) {
-      console.error("fetchPersonelDataByKullaniciId Hata:", error);
-      throw error;
-    }
-  };  
-
   return (
     <View>
       <View style={styles.inputContainer2}>
@@ -178,7 +130,7 @@ export const Settings = ({ data }) => {
             onChangeText={(text) => setAdress({ ...adress, il: text })}
           />
         </View>
-       
+
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="İlçe"
