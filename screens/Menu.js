@@ -118,7 +118,7 @@ export const Menu = () => {
           ]}
           onPress={handleInfoButtonPress}
         >
-          <MaterialIcons name="directions-bus" size={18} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
+          <MaterialIcons name="directions-bus" size={25} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
         </TouchableOpacity>
 
@@ -130,7 +130,7 @@ export const Menu = () => {
           ]}
           onPress={handleMapButtonPress}
         >
-          <MaterialCommunityIcons name="google-maps" size={18} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
+          <MaterialCommunityIcons name="google-maps" size={25} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>Harita</Text>
         </TouchableOpacity> :
         <TouchableOpacity
@@ -140,7 +140,7 @@ export const Menu = () => {
           ]}
           onPress={handleSoforMapButtonPress}
         >
-          <MaterialCommunityIcons name="google-maps" size={18} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
+          <MaterialCommunityIcons name="google-maps" size={25} color={selectedButton === 'Harita' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Harita' ? 'white' : '#00ADEE' }]}>sofor Harita</Text>
         </TouchableOpacity>
         }
@@ -153,8 +153,8 @@ export const Menu = () => {
           ]}
           onPress={handleSettingsButtonPress}
         >
-          <Ionicons name="person" size={18} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
+          <Ionicons name="person" size={25} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Kişi</Text>
         </TouchableOpacity>
       </View>
     </View>
