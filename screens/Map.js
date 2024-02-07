@@ -173,8 +173,8 @@ export const Map = ({ data }) => {
   }, [])
   const handleMarkerPress = async () => {
     const apiKey = 'AIzaSyCiIBWjjvR0EWMACPDWf3IkazQlH17K0CE';
-    const carApiURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${carLocation.latitude},${carLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=driving&key=${apiKey}`;
-    const walkingApiURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=walking&key=${apiKey}`;
+    const carApiURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${carLocation.latitude},${carLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=driving&key=${apiKey}&language=tr`;
+    const walkingApiURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=walking&key=${apiKey}&language=tr`;
 
     try {
       const responseWalking = await fetch(walkingApiURL);
