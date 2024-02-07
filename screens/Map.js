@@ -7,7 +7,6 @@ import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from "react-native-modal";
 
-
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userId,setUSerId]=useState(data.ret.user_id)
@@ -205,8 +204,6 @@ export const Map = ({ data }) => {
       // Hata durumunda kullanıcıya bilgi verebilir veya başka bir işlem yapabilirsiniz.
     }
   };
-  
-
 
   return (
     <View>
@@ -228,7 +225,6 @@ export const Map = ({ data }) => {
           {durakLocation && (
             <Marker coordinate={durakLocation} title="Durak Konumu" pinColor="red" onPress={toggleModal}/>
           )}
-          
 
           {carLocation && (
             <Marker coordinate={carLocation} title="Araç Konumu" anchor={{ x: 0.5, y: 0.7 }}>

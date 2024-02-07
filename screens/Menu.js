@@ -145,7 +145,6 @@ export const Menu = () => {
         </TouchableOpacity>
         }
 
-
         <TouchableOpacity
           style={[
             styles.button,
