@@ -77,7 +77,7 @@ export default function SoforMap({data}) {
             longitudeDelta: 0.0421,
           }}
         >
-          <Marker coordinate={userLocation} title="Sofor Konumunuz" anchor={{ x: 0.5, y: 0.7 }}>
+          <Marker coordinate={userLocation} title="Şoför Konumunuz" anchor={{ x: 0.5, y: 0.7 }}>
           <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
           </Marker>
           

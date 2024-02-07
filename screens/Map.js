@@ -226,7 +226,7 @@ export const Map = ({ data }) => {
             <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE"/>
           )}
           {durakLocation && (
-            <Marker coordinate={durakLocation} title="Kullanıcı Konumu" pinColor="red" onPress={toggleModal}/>
+            <Marker coordinate={durakLocation} title="Durak Konumu" pinColor="red" onPress={toggleModal}/>
           )}
           
 
