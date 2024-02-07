@@ -253,7 +253,7 @@ export const Map = ({ data }) => {
               <Text style={styles.modalText}>Durağa yürüme süresi : {duration}</Text>
               <Text style={styles.modalText}>Durağa yürüme mesafesi : {distance}</Text>
               <Text style={{ fontWeight: "bold", fontSize: 16, }}>Aracın tahmini ;</Text>
-              <Text style={styles.modalText}>Durağa tahmini varış süresi : {durationCar}</Text>
+              <Text style={styles.modalText}>Durağa varış süresi : {durationCar}</Text>
               <Text style={styles.modalText}>Durağa mesafesi : {distanceCar}</Text>
               <Button title="Tamam" onPress={toggleModal} />
             </View>
