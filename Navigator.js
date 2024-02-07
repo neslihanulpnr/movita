@@ -1,5 +1,4 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { Login } from "./screens/Login";
 import { Menu } from "./screens/Menu";
 import { Homepage } from "./screens/Home";
 import { Settings } from "./screens/Settings";
@@ -22,9 +21,6 @@ export const Navigator = () => {
                         height: 1
                     }
                 }} />
-
-            <Stack.Screen name="login"
-                component={Login} />
 
             <Stack.Screen name="menu"
                 component={Menu}
