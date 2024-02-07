@@ -7,6 +7,7 @@ import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 import Modal from "react-native-modal";
 
+
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
   const [userId, setUSerId] = useState(data.ret.user_id)
@@ -198,6 +199,10 @@ export const Map = ({ data }) => {
       //   text1: Personelin Durağa yürüme mesafesi tahmini ${distance}\nPersonelin Durağa yürüme süresi tahmini ${duration}\nPersonelin Durağa araçla mesafesi tahmini ${distanceCar}\nPersonelin Durağa araçla süresi tahmini ${durationCar},
       //   visibilityTime: 5000,
       // });
+
+      console.log('duration:', duration);
+      console.log('durationCar:', durationCar);
+
 
     } catch (error) {
       console.error('API hatası:', error);
