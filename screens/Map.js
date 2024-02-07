@@ -9,7 +9,7 @@ import Modal from "react-native-modal";
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
-  const [userId,setUSerId]=useState(data.ret.user_id)
+  const [userId, setUSerId] = useState(data.ret.user_id)
   const [userLocation, setUserLocation] = useState(null);
   const [carLocation, setCarLocation] = useState(null);
   const [durakLocation, setDurakLocation] = useState(null);
@@ -62,7 +62,7 @@ export const Map = ({ data }) => {
         });
 
         const result = await response.json();
-       
+
 
         const filteredData = result.ret.filter(async (location) => {
           const currentDay = moment().isoWeekday();
@@ -72,7 +72,7 @@ export const Map = ({ data }) => {
           const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
 
           if (isDayMatching && isTimeMatching && location.arac_plaka) {
-           
+
 
             const carLocationResponse = await fetch('http://www.movita.com.tr:8019/arac_sonkonum2', {
               method: 'POST',
@@ -84,7 +84,7 @@ export const Map = ({ data }) => {
             });
 
             const carLocationResult = await carLocationResponse.json();
-            
+
 
             if ('ret' in carLocationResult && 'konum_x' in carLocationResult.ret && 'konum_y' in carLocationResult.ret) {
               setCarLocation({
@@ -130,13 +130,13 @@ export const Map = ({ data }) => {
     }
   };
   useEffect(() => {
-    
+
 
     fetchUserData();
 
     const intervalId = setInterval(() => {
       fetchUserData();
-      
+
     }, 20000);
     console.log("yenilendi")
     return () => clearInterval(intervalId);
@@ -144,7 +144,7 @@ export const Map = ({ data }) => {
 
 
   const fetchDurakData = async () => {
-    console.log( JSON.stringify({"kullanici_id":userId}))
+    console.log(JSON.stringify({ "kullanici_id": userId }))
     try {
       const response = await fetch('http://www.movita.com.tr:8019/personel_durak_getir', {
         method: 'POST',
@@ -152,7 +152,7 @@ export const Map = ({ data }) => {
           'Content-Type': 'application/json',
           'Authorization': 'sample_token1234'
         },
-        body: JSON.stringify({"kullanici_id":userId}),
+        body: JSON.stringify({ "kullanici_id": userId }),
       });
 
       const result = await response.json();
@@ -161,20 +161,20 @@ export const Map = ({ data }) => {
         longitude: +result.ret.konum_lng,
       };
       setDurakLocation(durakLocationCoords);
-      console.log("durak",result.ret)
+      console.log("durak", result.ret)
     } catch (error) {
       console.log("error")
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchDurakData()
-  },[])
+  }, [])
   const handleMarkerPress = async () => {
     const apiKey = 'AIzaSyCiIBWjjvR0EWMACPDWf3IkazQlH17K0CE';
     const carApiURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${carLocation.latitude},${carLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=driving&key=${apiKey}`;
-    const walkingApiURL  = `https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=walking&key=${apiKey}`;
-  
+    const walkingApiURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${+durakLocation.latitude},${+durakLocation.longitude}&mode=walking&key=${apiKey}`;
+
     try {
       const responseWalking = await fetch(walkingApiURL);
       const resultWalking = await responseWalking.json();
@@ -183,7 +183,7 @@ export const Map = ({ data }) => {
         setDistance(leg.distance.text);
         setDuration(leg.duration.text);
       }
-  
+
       const responseCar = await fetch(carApiURL);
       const resultCar = await responseCar.json();
       if (resultCar.routes.length > 0 && resultCar.routes[0].legs.length > 0) {
@@ -191,14 +191,14 @@ export const Map = ({ data }) => {
         setDistanceCar(leg.distance.text);
         setDurationCar(leg.duration.text);
       }
-  
+
       // Toast.show({
       //   type: 'info',
       //   position: 'bottom',
       //   text1: Personelin Durağa yürüme mesafesi tahmini ${distance}\nPersonelin Durağa yürüme süresi tahmini ${duration}\nPersonelin Durağa araçla mesafesi tahmini ${distanceCar}\nPersonelin Durağa araçla süresi tahmini ${durationCar},
       //   visibilityTime: 5000,
       // });
-      
+
     } catch (error) {
       console.error('API hatası:', error);
       // Hata durumunda kullanıcıya bilgi verebilir veya başka bir işlem yapabilirsiniz.
@@ -220,17 +220,17 @@ export const Map = ({ data }) => {
           }}
         >
           {userLocation && (
-            <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE"/>
+            <Marker coordinate={userLocation} title="Kullanıcı Konumu" pinColor="#00ADEE" />
           )}
           {durakLocation && (
-            <Marker coordinate={durakLocation} title="Durak Konumu" pinColor="red" onPress={toggleModal}/>
+            <Marker coordinate={durakLocation} title="Durak Konumu" pinColor="red" onPress={toggleModal} />
           )}
 
           {carLocation && (
             <Marker coordinate={carLocation} title="Araç Konumu" anchor={{ x: 0.5, y: 0.7 }}>
               <Image source={require('../assets/marker2.png')} style={{ width: 60, height: 105 }} />
             </Marker>
-          )} 
+          )}
 
           {carLocation && userLocation && (
             <MapViewDirections
@@ -242,25 +242,25 @@ export const Map = ({ data }) => {
             />
           )}
         </MapView>
-        <Modal isVisible={isModalVisible} animationIn="slideInUp" animationOut="slideOutDown">
-        <View style={{justifyContent:"flex-start",alignItems:"left",backgroundColor:"white",paddingHorizontal:10,paddingVertical:10,borderRadius:10}}>
-          <Text style={{fontWeight: "bold", fontSize: 16,}}>Personelin tahmini ;</Text>
-          <Text style={styles.modalText}>Durağa yürüme süresi : {duration}</Text>
-          <Text style={styles.modalText}>Durağa yürüme mesafesi : {distance}</Text>
-          <Text style={{fontWeight: "bold", fontSize: 16,}}>Aracın ;</Text>
-          <Text style={styles.modalText}>Durağa tahmini varış süresi : {durationCar}</Text>
-          <Text style={styles.modalText}>Durağa mesafesi : {distanceCar}</Text>
-          <Button title="Tamam" onPress={toggleModal} />
-        </View>
-      </Modal>
+          <Modal isVisible={isModalVisible} animationIn="slideInUp" animationOut="slideOutDown">
+            <View style={{ justifyContent: "flex-start", alignItems: "left", backgroundColor: "white", paddingHorizontal: 10, paddingVertical: 10, borderRadius: 10 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 16, }}>Personelin tahmini ;</Text>
+              <Text style={styles.modalText}>Durağa yürüme süresi : {duration}</Text>
+              <Text style={styles.modalText}>Durağa yürüme mesafesi : {distance}</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 16, }}>Aracın ;</Text>
+              <Text style={styles.modalText}>Durağa tahmini varış süresi : {durationCar}</Text>
+              <Text style={styles.modalText}>Durağa mesafesi : {distanceCar}</Text>
+              <Button title="Tamam" onPress={toggleModal} />
+            </View>
+          </Modal>
         </>
- ) : (
-  !loading && (
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      ) : (
+        !loading && (
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          </View>
+        )
+      )}
     </View>
-  )
-)}
-</View>
   );
 };
 
