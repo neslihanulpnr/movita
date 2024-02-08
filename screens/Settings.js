@@ -6,13 +6,15 @@ import Toast from 'react-native-toast-message';
 
 export const Settings = ({ data }) => {
   const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
-  
+
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
   const [dragAdress, setDragAdress] = useState();
   const [personelData, setPersonelData] = useState(null);
-console.log("user_id",data.ret.user_id)
+
+  
+  console.log("user_id", data.ret.user_id)
   const logEnteredInformation = async () => {
     try {
       console.log(adress);
@@ -79,11 +81,11 @@ console.log("user_id",data.ret.user_id)
         text1: 'Başarılı!',
         text2: 'İşlem başarıyla gerçekleştirildi.',
         visibilityTime: 2000, // Bildirimin görüntüleneceği süre (milisaniye cinsinden)
-      position: 'bottom', // Bildirimin konumu
+        position: 'bottom', // Bildirimin konumu
       });
 
       // API güncellemesi başarılı olduktan sonra, API'den yeni veriyi çek ve state'i güncelle
-      
+
     } catch (error) {
       console.error("handleMarkerDragEnd Hata:", error);
     }
@@ -119,7 +121,7 @@ console.log("user_id",data.ret.user_id)
 
         if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
           console.log("Konum başarıyla kaydedildi.");
-          
+
         } else {
           console.error("Konum kaydedilemedi.");
         }
@@ -160,14 +162,14 @@ console.log("user_id",data.ret.user_id)
       setLocation(personelLocation)
       responseData.ret.konum_lat && setShowMap(true)
       console.log(showMap)
-      
+
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     fetchDataFromAPI()
-  },[])
+  }, [])
 
   return (
     <View>
