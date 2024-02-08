@@ -30,10 +30,10 @@ export const Menu = () => {
 
   const handleMapButtonPress = () => {
     console.log("Harita öğesine tıklandı");
-    handleButtonPress(
-      <Map data={data} />),'Harita'
-      console.log("neresi bura",contentToShow)
+    handleButtonPress(<Map data={data} />, 'Harita');
+    console.log("neresi bura", contentToShow);
   };
+  
   const handleSoforMapButtonPress = () => {
     console.log("Harita öğesine tıklandı");
     handleButtonPress(
