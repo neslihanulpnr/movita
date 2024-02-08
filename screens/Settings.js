@@ -12,8 +12,8 @@ export const Settings = ({ data }) => {
   const [coordinates, setCoordinates] = useState([]);
   const [dragAdress, setDragAdress] = useState();
   const [personelData, setPersonelData] = useState(null);
+  const [responseData, setResponseData] = useState(null)
 
-  
   console.log("user_id", data.ret.user_id)
   const logEnteredInformation = async () => {
     try {
@@ -152,24 +152,33 @@ export const Settings = ({ data }) => {
         throw new Error(`HTTP hata! Durum: ${response.status} - ${response.statusText}`);
       }
 
-      const responseData = await response.json();
 
-      console.log("API Yanıtı:", responseData.ret.konum_lat);
+      const responseData = await response.json();
+      console.log("API Yanıtı:", responseData);
+
+      if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
+        console.log("Konum başarıyla kaydedildi.");
+      } else {
+        console.log("Konum kaydedilemedi. API Yanıtı:", responseData);
+      }
+
+
+      console.log("API Yanıtı - Latitude:", responseData.ret.konum_lat);
+      console.log("API Yanıtı - Longitude:", responseData.ret.konum_lng);
+
       const personelLocation = {
         latitude: +responseData.ret.konum_lat,
         longitude: +responseData.ret.konum_lng,
       };
-      setLocation(personelLocation)
-      responseData.ret.konum_lat && setShowMap(true)
-      console.log(showMap)
-
+      setLocation(personelLocation);
+      setShowMap(true);
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
     }
   };
   useEffect(() => {
-    fetchDataFromAPI()
-  }, [])
+    fetchDataFromAPI();
+  }, [responseData])
 
   return (
     <View>
