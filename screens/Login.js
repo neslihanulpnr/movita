@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export const Homepage = () => {
+export const Login = () => {
     const navigation = useNavigation();
 
     const [password, setPassword] = useState("");

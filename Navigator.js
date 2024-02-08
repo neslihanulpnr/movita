@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { Menu } from "./screens/Menu";
-import { Homepage } from "./screens/Home";
+import { Login } from "./screens/Login";
 import { Settings } from "./screens/Settings";
 import { Seferler } from "./screens/Seferler";
 import { Map } from "./screens/Map";
@@ -13,8 +13,8 @@ export const Navigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="homepage"
-                component={Homepage}
+                name="Login"
+                component={Login}
                 options={{
                     title: "",
                     headerStyle: {
