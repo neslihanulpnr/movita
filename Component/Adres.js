@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   },
   map: {
     height: 570,
-    width: 400,
+    width: 450,
     position: "absolute",
     left: -100,
   },
