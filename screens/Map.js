@@ -162,7 +162,7 @@ export const Map = ({ data }) => {
         longitude: +result.ret.konum_lng,
       };
       setDurakLocation(durakLocationCoords);
-      console.log("durak", result.ret)
+      console.log("durak :", result.ret)
     } catch (error) {
       console.log("error")
     }
