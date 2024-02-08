@@ -5,8 +5,8 @@ import MapView, { Marker } from "react-native-maps";
 import Toast from 'react-native-toast-message';
 
 export const Adres = ({ data }) => {
+  
   const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
-
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [coordinates, setCoordinates] = useState([]);
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     height: 570,
     width: 400,
     position: "absolute",
-    top: 10
+    left: -100,
   },
   label: {
     marginRight: 10,
