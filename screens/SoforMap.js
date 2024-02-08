@@ -46,7 +46,7 @@ export default function SoforMap({data}) {
               longitude: location.coords.longitude,
             });
           } catch (error) {
-            console.error('Konum alınamadı:', error);
+            console.error('Konum alınamadı: Konumunuzu açın');
           }
         };
     

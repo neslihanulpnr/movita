@@ -126,7 +126,7 @@ export const Map = ({ data }) => {
         console.log('Kullanıcı ID\'si bulunamadı. Harita yükleniyor.');
       }
     } catch (error) {
-      console.error('Error bilgi:', error);
+      console.error('Konumunuz alınamadı. Konumunuzu açın. ');
       setLoading(false);
     }
   };
@@ -205,7 +205,7 @@ export const Map = ({ data }) => {
 
 
     } catch (error) {
-      console.error('API hatası:', error);
+      console.log('API hatası:', error);
       // Hata durumunda kullanıcıya bilgi verebilir veya başka bir işlem yapabilirsiniz.
     }
   };
