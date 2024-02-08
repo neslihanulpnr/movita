@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import axios from 'axios';
 
 export const Password = () => {
     const [currentPassword, setCurrentPassword] = useState('');
