@@ -10,7 +10,7 @@ export default function SoforMap({data}) {
 
     const sofor_durak_get = async () => {
         
-          const response = await fetch('http://www.movita.com.tr:8019/sofor_guzerhah_listesi', {
+          const response = await fetch('http://www.movita.com.tr:8019/sofor_guzergah_listesi', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
