@@ -66,7 +66,7 @@ export const Password = () => {
 
         <View style={styles.İnput}>
                 <TextInput
-                    placeholder="MevcutNumara"
+                    placeholder="Eski Numara"
                     placeholderTextColor={"grey"}
                 />
             </View>
