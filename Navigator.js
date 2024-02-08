@@ -5,6 +5,8 @@ import { Settings } from "./screens/Settings";
 import { Seferler } from "./screens/Seferler";
 import { Map } from "./screens/Map";
 import SoforMap from "./screens/SoforMap";
+import { Adres } from "./Component/Adres";
+import { Password } from "./Component/Password";
 
 
 const Stack = createStackNavigator();
@@ -71,7 +73,11 @@ export const Navigator = () => {
                     }
                 }} />
 
+            <Stack.Screen name="Adres"
+                component={Adres} />
 
+            <Stack.Screen name="Password"
+                component={Password} />
 
         </Stack.Navigator>
     )

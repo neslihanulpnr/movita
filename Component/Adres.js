@@ -4,7 +4,7 @@ import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
 import Toast from 'react-native-toast-message';
 
-export const Settings = ({ data }) => {
+export const Adres = ({ data }) => {
   const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
 
   const [showMap, setShowMap] = useState(false);
@@ -302,3 +302,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
+
+export default Adres;
