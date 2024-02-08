@@ -59,7 +59,7 @@ export const Menu = () => {
 
   const handleLogout = () => {
     console.log("çıkış yap butonuna tıklandı");
-    navigation.navigate("homepage");
+    navigation.navigate("Login");
   }
 
   const handleButtonPress = (content, buttonName) => {

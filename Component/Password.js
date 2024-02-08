@@ -23,7 +23,6 @@ export const Password = () => {
                 <TextInput
                     placeholder="Yeni Şifre"
                     placeholderTextColor={"grey"}
-                    secureTextEntry
                     value={newPassword}
                     onChangeText={setNewPassword}
                 />
@@ -32,7 +31,6 @@ export const Password = () => {
             <View style={styles.İnput}>
                 <TextInput
                     placeholder="Yeni Şifreyi Onayla"
-                    secureTextEntry
                     placeholderTextColor={"grey"}
                     value={confirmNewPassword}
                     onChangeText={setConfirmNewPassword}
@@ -44,6 +42,48 @@ export const Password = () => {
                     <Text style={{color: "white"}}>Şifreyi Değiştir</Text>
                 </TouchableOpacity>
             </View>
+
+
+            <View style={styles.İnput}>
+                <TextInput
+                    placeholder="Mevcut Ad"
+                    placeholderTextColor={"grey"}
+                />
+            </View>
+
+            <View style={styles.İnput}>
+                <TextInput
+                    placeholder="Yeni Ad"
+                    placeholderTextColor={"grey"}
+                />
+            </View>
+
+            <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={{color: "white"}}>Adı Değiştir</Text>
+                </TouchableOpacity>
+        </View>
+
+        <View style={styles.İnput}>
+                <TextInput
+                    placeholder="MevcutNumara"
+                    placeholderTextColor={"grey"}
+                />
+            </View>
+
+            <View style={styles.İnput}>
+                <TextInput
+                    placeholder="Yeni Numara"
+                    placeholderTextColor={"grey"}
+                />
+            </View>
+
+            <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={{color: "white"}}>Numarayı Değiştir</Text>
+                </TouchableOpacity>
+        </View>
+
         </View>
     );
 };
