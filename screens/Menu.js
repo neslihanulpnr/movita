@@ -152,8 +152,8 @@ export const Menu = () => {
           ]}
           onPress={handleSettingsButtonPress}
         >
-          <Ionicons name="person" size={25} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
-          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Kişi</Text>
+          <Ionicons name="settings" size={25} color={selectedButton === 'Ayarlar' ? 'white' : '#00ADEE'} />
+          <Text style={[styles.buttonText, { color: selectedButton === 'Ayarlar' ? 'white' : '#00ADEE' }]}>Ayarlar</Text>
         </TouchableOpacity>
       </View>
     </View>
