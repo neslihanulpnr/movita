@@ -11,7 +11,7 @@ export const Password = () => {
         <View>
             <View style={styles.İnput}>
                 <TextInput
-                    placeholder="Mevcut Şifre"
+                    placeholder="Mevcut şifre"
                     placeholderTextColor={"grey"}
                     secureTextEntry
                     value={currentPassword}
@@ -21,19 +21,10 @@ export const Password = () => {
 
             <View style={styles.İnput}>
                 <TextInput
-                    placeholder="Yeni Şifre"
+                    placeholder="Yeni şifre"
                     placeholderTextColor={"grey"}
                     value={newPassword}
                     onChangeText={setNewPassword}
-                />
-            </View>
-
-            <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Yeni Şifreyi Onayla"
-                    placeholderTextColor={"grey"}
-                    value={confirmNewPassword}
-                    onChangeText={setConfirmNewPassword}
                 />
             </View>
 
@@ -43,38 +34,23 @@ export const Password = () => {
                 </TouchableOpacity>
             </View>
 
+            <View style={{margin:15}}></View>
 
             <View style={styles.İnput}>
                 <TextInput
-                    placeholder="Mevcut Ad"
+                    placeholder="Mevcut numara"
                     placeholderTextColor={"grey"}
+                    value={newPassword}
+                    onChangeText={setNewPassword}
                 />
             </View>
 
             <View style={styles.İnput}>
                 <TextInput
-                    placeholder="Yeni Ad"
+                    placeholder="Yeni numara"
                     placeholderTextColor={"grey"}
-                />
-            </View>
-
-            <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{color: "white"}}>Adı Değiştir</Text>
-                </TouchableOpacity>
-        </View>
-
-        <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Eski Numara"
-                    placeholderTextColor={"grey"}
-                />
-            </View>
-
-            <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Yeni Numara"
-                    placeholderTextColor={"grey"}
+                    value={confirmNewPassword}
+                    onChangeText={setConfirmNewPassword}
                 />
             </View>
 
@@ -82,7 +58,34 @@ export const Password = () => {
                 <TouchableOpacity style={styles.button}>
                     <Text style={{color: "white"}}>Numarayı Değiştir</Text>
                 </TouchableOpacity>
-        </View>
+            </View>
+            
+             <View style={{margin:15}}></View>
+
+            <View style={styles.İnput}>
+                <TextInput
+                    placeholder="Mevcut e-mail"
+                    placeholderTextColor={"grey"}
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                />
+            </View>
+
+            <View style={styles.İnput}>
+                <TextInput
+                    placeholder="Yeni e-mail"
+                    placeholderTextColor={"grey"}
+                    value={confirmNewPassword}
+                    onChangeText={setConfirmNewPassword}
+                />
+            </View>
+
+            <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={{color: "white"}}>E-mail Değiştir</Text>
+                </TouchableOpacity>
+            </View>
+
 
         </View>
     );
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
         height: 55,
         padding: 15,
         borderWidth: 0.1,
-        borderRadius: 1
+        borderRadius: 1,
     }
 });
 

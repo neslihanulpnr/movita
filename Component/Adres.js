@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
@@ -267,15 +267,11 @@ const styles = StyleSheet.create({
   inputContainer2: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'black',
-    paddingBottom: 5,
-    marginBottom: 10,
+    marginBottom: 5,
   },
 
   input: {
@@ -298,8 +294,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   inputField: {
-    flex: 1,
-    marginLeft: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 250,
+    height: 45,
+    padding: 7,
+    borderWidth: 0.1,
+    borderRadius: 1
   },
 });
 
