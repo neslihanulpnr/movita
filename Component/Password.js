@@ -2,15 +2,42 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-export const Password = () => {
+export const Password = ({data}) => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
+
+    const handleChangePassword = async () => {
+        try {
+          const apiUrl = '';
+          const userId = '';
+    
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: userId,
+              currentPassword: currentPassword,
+              newPassword: newPassword,
+            }),
+          });
+    
+          if (response.ok) {
+            console.log('Şifre başarıyla değiştirildi');
+          } else {
+            console.log('Şifre değiştirme başarısız');
+          }
+        } catch (error) {
+          console.error('API isteği sırasında bir hata oluştu:', error);
+        }
+      };
+    
 
     return (
         <View>
@@ -43,7 +70,7 @@ export const Password = () => {
             </View>
 
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
                     <Text style={{ color: "white" }}>Şifreyi Değiştir</Text>
                 </TouchableOpacity>
             </View>
