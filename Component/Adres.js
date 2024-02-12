@@ -222,6 +222,7 @@ export const Adres = ({ data }) => {
             borderRadius: 5,
             width: 170,
             height: 40,
+            margin: 5,
           }}
           onPress={() => {
             logEnteredInformation();
