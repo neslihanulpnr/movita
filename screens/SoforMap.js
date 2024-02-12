@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import React, { useEffect, useState } from 'react'
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 

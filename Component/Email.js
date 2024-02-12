@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, ScrollView, } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, } from 'react-native';
 
 export const Email = () => {
     const [currentEmail, setCurrentEmail] = useState('');
