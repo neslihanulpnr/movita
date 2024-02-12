@@ -27,6 +27,7 @@ export const Password = () => {
                 <TextInput
                     placeholder="Yeni şifre"
                     placeholderTextColor={"grey"}
+                    secureTextEntry
                     value={newPassword}
                     onChangeText={setNewPassword}
                 />
@@ -60,7 +61,7 @@ export const Password = () => {
 
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={{color: "white"}}>Numarayı Değiştir</Text>
+                    <Text style={{color: "white"}}>Numara Değiştir</Text>
                 </TouchableOpacity>
             </View>
             
