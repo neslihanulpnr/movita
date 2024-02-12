@@ -5,10 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 export const Password = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [currentEmail, setCurrentEmail] = useState('');
-    const [newEmail, setNewEmail] = useState('');
-    const [currentNo, setCurrentNo] = useState('');
-    const [newNo, setNewNo] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
 
@@ -26,7 +22,7 @@ export const Password = () => {
                     value={currentPassword}
                     onChangeText={setCurrentPassword}
                 />
-                <TouchableOpacity onPress={toggleShowPassword} style={{marginLeft: 155}}>
+                <TouchableOpacity onPress={toggleShowPassword} style={{ marginLeft: 155 }}>
                     <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
                 </TouchableOpacity>
             </View>
@@ -39,7 +35,7 @@ export const Password = () => {
                     value={newPassword}
                     onChangeText={setNewPassword}
                 />
-                <TouchableOpacity onPress={toggleShowPassword} style={{marginLeft: 175}}>
+                <TouchableOpacity onPress={toggleShowPassword} style={{ marginLeft: 175 }}>
                     <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
                 </TouchableOpacity>
             </View>
@@ -47,58 +43,6 @@ export const Password = () => {
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
                 <TouchableOpacity style={styles.button}>
                     <Text style={{ color: "white" }}>Şifreyi Değiştir</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ margin: 15 }}></View>
-
-            <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Mevcut numara"
-                    placeholderTextColor={"grey"}
-                    value={currentNo}
-                    onChangeText={setCurrentNo}
-                />
-            </View>
-
-            <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Yeni numara"
-                    placeholderTextColor={"grey"}
-                    value={newNo}
-                    onChangeText={setNewNo}
-                />
-            </View>
-
-            <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: "white" }}>Numara Değiştir</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ margin: 15 }}></View>
-
-            <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Mevcut e-mail"
-                    placeholderTextColor={"grey"}
-                    value={currentEmail}
-                    onChangeText={setCurrentEmail}
-                />
-            </View>
-
-            <View style={styles.İnput}>
-                <TextInput
-                    placeholder="Yeni e-mail"
-                    placeholderTextColor={"grey"}
-                    value={newEmail}
-                    onChangeText={setNewEmail}
-                />
-            </View>
-
-            <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: "white" }}>E-mail Değiştir</Text>
                 </TouchableOpacity>
             </View>
         </View>

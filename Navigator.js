@@ -7,6 +7,8 @@ import { Map } from "./screens/Map";
 import SoforMap from "./screens/SoforMap";
 import { Adres } from "./Component/Adres";
 import { Password } from "./Component/Password";
+import { Number } from "./Component/Number";
+import { Email } from "./Component/Email";
 
 
 const Stack = createStackNavigator();
@@ -79,6 +81,11 @@ export const Navigator = () => {
             <Stack.Screen name="Password"
                 component={Password} />
 
+            <Stack.Screen name="Number"
+                component={Number} />
+
+<Stack.Screen name="Email"
+                component={Email} />
         </Stack.Navigator>
     )
 }
