@@ -27,6 +27,8 @@ export const Password = () => {
                 </TouchableOpacity>
             </View>
 
+            <View style={{ margin: 5 }}></View>
+
             <View style={styles.İnput}>
                 <TextInput
                     placeholder="Yeni şifre"

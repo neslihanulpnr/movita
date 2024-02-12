@@ -16,6 +16,8 @@ export const Number = () => {
                 />
             </View>
 
+            <View style={{ margin: 5 }}></View>
+
             <View style={styles.İnput}>
                 <TextInput
                     placeholder="Yeni numara"
@@ -30,7 +32,7 @@ export const Number = () => {
                     <Text style={{ color: "white" }}>Numara Değiştir</Text>
                 </TouchableOpacity>
             </View>
-            </View>
+        </View>
     );
 };
 

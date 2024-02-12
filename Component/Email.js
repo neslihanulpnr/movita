@@ -4,7 +4,7 @@ import { View, TextInput, TouchableOpacity, Text, StyleSheet, ScrollView, } from
 export const Email = () => {
     const [currentEmail, setCurrentEmail] = useState('');
     const [newEmail, setNewEmail] = useState('');
-    
+
     return (
         <View>
             <View style={styles.İnput}>
@@ -15,6 +15,8 @@ export const Email = () => {
                     onChangeText={setCurrentEmail}
                 />
             </View>
+
+            <View style={{ margin: 5 }}></View>
 
             <View style={styles.İnput}>
                 <TextInput
