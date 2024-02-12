@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, ScrollView, } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 export const Password = () => {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -8,7 +9,12 @@ export const Password = () => {
     const [newEmail, setNewEmail] = useState('');
     const [currentNo, setCurrentNo] = useState('');
     const [newNo, setNewNo] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <View>
@@ -16,29 +22,35 @@ export const Password = () => {
                 <TextInput
                     placeholder="Mevcut şifre"
                     placeholderTextColor={"grey"}
-                    secureTextEntry
+                    secureTextEntry={!showPassword}
                     value={currentPassword}
                     onChangeText={setCurrentPassword}
                 />
+                <TouchableOpacity onPress={toggleShowPassword} style={{marginLeft: 155}}>
+                    <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.İnput}>
                 <TextInput
                     placeholder="Yeni şifre"
                     placeholderTextColor={"grey"}
-                    secureTextEntry
+                    secureTextEntry={!showPassword}
                     value={newPassword}
                     onChangeText={setNewPassword}
                 />
+                <TouchableOpacity onPress={toggleShowPassword} style={{marginLeft: 175}}>
+                    <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
+                </TouchableOpacity>
             </View>
 
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={{color: "white"}}>Şifreyi Değiştir</Text>
+                    <Text style={{ color: "white" }}>Şifreyi Değiştir</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={{margin:15}}></View>
+            <View style={{ margin: 15 }}></View>
 
             <View style={styles.İnput}>
                 <TextInput
@@ -60,11 +72,11 @@ export const Password = () => {
 
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={{color: "white"}}>Numara Değiştir</Text>
+                    <Text style={{ color: "white" }}>Numara Değiştir</Text>
                 </TouchableOpacity>
             </View>
-            
-             <View style={{margin:15}}></View>
+
+            <View style={{ margin: 15 }}></View>
 
             <View style={styles.İnput}>
                 <TextInput
@@ -86,7 +98,7 @@ export const Password = () => {
 
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={{color: "white"}}>E-mail Değiştir</Text>
+                    <Text style={{ color: "white" }}>E-mail Değiştir</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -110,7 +122,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderWidth: 0.1,
         borderRadius: 1,
-    }
+    },
 });
 
 export default Password;
