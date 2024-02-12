@@ -35,7 +35,7 @@ export const Password = () => {
                     value={newPassword}
                     onChangeText={setNewPassword}
                 />
-                <TouchableOpacity onPress={toggleShowPassword} style={{ marginLeft: 175 }}>
+                <TouchableOpacity onPress={toggleShowPassword} style={{ marginLeft: 172 }}>
                     <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
                 </TouchableOpacity>
             </View>
