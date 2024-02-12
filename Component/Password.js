@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, ScrollView, } from 'react-native';
 
 export const Password = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+    const [currentNo, setCurrentNo] = useState('');
+    const [newNo, setNewNo] = useState('');
 
 
     return (
+        <ScrollView   contentContainerStyle={{ paddingBottom: 110 }}>
         <View>
             <View style={styles.İnput}>
                 <TextInput
@@ -40,8 +44,8 @@ export const Password = () => {
                 <TextInput
                     placeholder="Mevcut numara"
                     placeholderTextColor={"grey"}
-                    value={newPassword}
-                    onChangeText={setNewPassword}
+                    value={currentNo}
+                    onChangeText={setCurrentNo}
                 />
             </View>
 
@@ -49,8 +53,8 @@ export const Password = () => {
                 <TextInput
                     placeholder="Yeni numara"
                     placeholderTextColor={"grey"}
-                    value={confirmNewPassword}
-                    onChangeText={setConfirmNewPassword}
+                    value={newNo}
+                    onChangeText={setNewNo}
                 />
             </View>
 
@@ -66,8 +70,8 @@ export const Password = () => {
                 <TextInput
                     placeholder="Mevcut e-mail"
                     placeholderTextColor={"grey"}
-                    value={newPassword}
-                    onChangeText={setNewPassword}
+                    value={currentEmail}
+                    onChangeText={setCurrentEmail}
                 />
             </View>
 
@@ -75,8 +79,8 @@ export const Password = () => {
                 <TextInput
                     placeholder="Yeni e-mail"
                     placeholderTextColor={"grey"}
-                    value={confirmNewPassword}
-                    onChangeText={setConfirmNewPassword}
+                    value={newEmail}
+                    onChangeText={setNewEmail}
                 />
             </View>
 
@@ -85,9 +89,8 @@ export const Password = () => {
                     <Text style={{color: "white"}}>E-mail Değiştir</Text>
                 </TouchableOpacity>
             </View>
-
-
         </View>
+        </ScrollView>
     );
 };
 
