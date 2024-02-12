@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   Container: {
     justifyContent: 'center',
     alignItems: 'center',
-    top: 40
   },
   buttonContainer: {
     flexDirection: 'row',

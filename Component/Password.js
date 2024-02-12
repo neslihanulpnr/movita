@@ -11,7 +11,6 @@ export const Password = () => {
 
 
     return (
-        <ScrollView   contentContainerStyle={{ paddingBottom: 110 }}>
         <View>
             <View style={styles.İnput}>
                 <TextInput
@@ -91,7 +90,6 @@ export const Password = () => {
                 </TouchableOpacity>
             </View>
         </View>
-        </ScrollView>
     );
 };
 
