@@ -31,7 +31,7 @@ export const Login = () => {
                 console.log('Giriş API yanıtı:', data);
 
                 if (data.error_code === 1011) {
-                    setFieldError('password', 'Şifre veya kullanıcı adı yanlış');
+                    setFieldError('password', 'Şifre veya kullanıcı adı yanlış!');
                 } else {
                     const userId = data.user_id;
                     navigation.navigate("menu", { data: data });
