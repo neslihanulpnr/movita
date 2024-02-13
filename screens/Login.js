@@ -1,50 +1,50 @@
-import React, { useState } from 'react';
-import { View, TextInput, Image, Alert, TouchableOpacity, Text } from 'react-native';
+import React from 'react';
+import { View, TextInput, Image, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-
+import { useFormik } from 'formik';
 
 export const Login = () => {
     const navigation = useNavigation();
 
-    const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        onSubmit: async (values, { setFieldError }) => {
+            try {
+                const response = await fetch('http://161.97.107.99:8019/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'sample_token1234',
+                    },
+                    body: JSON.stringify({
+                        username: values.username,
+                        password: values.password,
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Giriş API yanıtı:', data);
+
+                if (data.error_code === 1011) {
+                    setFieldError('password', 'Şifre veya kullanıcı adı yanlış');
+                } else {
+                    const userId = data.user_id;
+                    navigation.navigate("menu", { data: data });
+                }
+            } catch (error) {
+                console.error('Giriş işlemi sırasında bir hata oluştu:', error);
+            }
+        },
+    });
 
     const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
+        formik.setFieldValue('showPassword', !formik.values.showPassword);
     };
-
-    async function Login() {
-        try {
-            const response = await fetch('http://161.97.107.99:8019/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'sample_token1234',
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                })
-            });
-
-            const data = await response.json();
-            console.log('Giriş API yanıtı:', data);
-
-            if (data.error_code === 1011) {
-                Alert.alert("", "Şifre veya kullanıcı adı yanlış");
-            } else {
-
-                const userId = data.user_id;
-
-                navigation.navigate("menu", { data: data });
-            }
-        } catch (error) {
-            console.error('Giriş işlemi sırasında bir hata oluştu:', error);
-        }
-    }
 
     return (
         <View style={{
@@ -81,11 +81,13 @@ export const Login = () => {
                                 placeholder='Kullanıcı Adı'
                                 placeholderTextColor={"gray"}
                                 style={{ flex: 1, marginLeft: 10 }}
-                                onChangeText={setUsername}
+                                onChangeText={formik.handleChange('username')}
+                                onBlur={formik.handleBlur('username')}
+                                value={formik.values.username}
                             />
                         </View>
+                        <Text style={{ color: 'red' }}>{formik.errors.username}</Text>
                     </View>
-                    <View style={{ margin: 5 }}></View>
                     <View>
                         <View style={{
                             flexDirection: 'row',
@@ -97,16 +99,19 @@ export const Login = () => {
                             borderRadius: 1
                         }}>
                             <TouchableOpacity onPress={toggleShowPassword} style={{ left: 13, position: 'absolute', }}>
-                                <AntDesign name={showPassword ? 'unlock' : 'lock'} size={27} color="grey" />
+                                <AntDesign name={formik.values.showPassword ? 'unlock' : 'lock'} size={27} color="grey" />
                             </TouchableOpacity>
                             <TextInput
                                 placeholder='Şifre'
                                 placeholderTextColor={"grey"}
-                                secureTextEntry={!showPassword}
+                                secureTextEntry={!formik.values.showPassword}
                                 style={{ flex: 1, marginLeft: 35 }}
-                                onChangeText={setPassword}
+                                onChangeText={formik.handleChange('password')}
+                                onBlur={formik.handleBlur('password')}
+                                value={formik.values.password}
                             />
                         </View>
+                        <Text style={{ color: 'red' }}>{formik.errors.password}</Text>
                     </View>
                     <View style={{ margin: 10 }}></View>
                 </View>
@@ -121,12 +126,11 @@ export const Login = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
-                        onPress={Login}
+                        onPress={formik.handleSubmit}
                     >
                         <Text style={{ color: 'white', fontSize: 16 }}>Giriş Yap</Text>
                     </TouchableOpacity>
                 </View>
-
             </View>
         </View>
     );
