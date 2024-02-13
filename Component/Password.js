@@ -11,18 +11,21 @@ export const Password = ({data}) => {
         setShowPassword(!showPassword);
     };
 
+    console.log("userid-şifre :",data.ret.user_id)
+
     const handleChangePassword = async () => {
         try {
           const apiUrl = '';
-          const userId = '';
+          const userId = data.ret.user_id;
     
           const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': 'sample_token1234'
             },
             body: JSON.stringify({
-              userId: userId,
+              userId: data.ret.userId,
               currentPassword: currentPassword,
               newPassword: newPassword,
             }),
@@ -49,7 +52,7 @@ export const Password = ({data}) => {
                     value={currentPassword}
                     onChangeText={setCurrentPassword}
                 />
-                <TouchableOpacity onPress={toggleShowPassword} style={{ marginLeft: 155 }}>
+                <TouchableOpacity onPress={toggleShowPassword} style={{ right: 10, position: 'absolute', }}>
                     <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
                 </TouchableOpacity>
             </View>
@@ -64,7 +67,7 @@ export const Password = ({data}) => {
                     value={newPassword}
                     onChangeText={setNewPassword}
                 />
-                <TouchableOpacity onPress={toggleShowPassword} style={{ marginLeft: 172 }}>
+                <TouchableOpacity onPress={toggleShowPassword} style={{ right: 10, position: 'absolute', }}>
                     <AntDesign name={showPassword ? 'unlock' : 'lock'} size={24} color="grey" />
                 </TouchableOpacity>
             </View>

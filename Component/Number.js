@@ -1,9 +1,39 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, } from 'react-native';
 
-export const Number = () => {
+export const Number = ({data}) => {
     const [currentNo, setCurrentNo] = useState('');
     const [newNo, setNewNo] = useState('');
+
+    console.log("userid-numara :",data.ret.user_id)
+
+    const handleChangeNumber = async () => {
+        try {
+          const apiUrl = '';
+          const userId = data.ret.user_id;
+    
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'sample_token1234'
+            },
+            body: JSON.stringify({
+              userId: userId,
+              currentPassword: currentPassword,
+              newPassword: newPassword,
+            }),
+          });
+    
+          if (response.ok) {
+            console.log('Numara başarıyla değiştirildi');
+          } else {
+            console.log('Numara değiştirme başarısız');
+          }
+        } catch (error) {
+          console.error('API isteği sırasında bir hata oluştu:', error);
+        }
+      };
 
     return (
         <View>
@@ -28,7 +58,7 @@ export const Number = () => {
             </View>
 
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleChangeNumber}>
                     <Text style={{ color: "white" }}>Numara Değiştir</Text>
                 </TouchableOpacity>
             </View>

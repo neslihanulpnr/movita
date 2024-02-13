@@ -10,6 +10,11 @@ export const Login = () => {
 
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     async function Login() {
         try {
@@ -24,16 +29,16 @@ export const Login = () => {
                     password: password,
                 })
             });
-    
+
             const data = await response.json();
             console.log('Giriş API yanıtı:', data);
-    
+
             if (data.error_code === 1011) {
                 Alert.alert("", "Şifre veya kullanıcı adı yanlış");
             } else {
-                
+
                 const userId = data.user_id;
-    
+
                 navigation.navigate("menu", { data: data });
             }
         } catch (error) {
@@ -91,12 +96,14 @@ export const Login = () => {
                             borderWidth: 0.1,
                             borderRadius: 1
                         }}>
-                            <AntDesign name="lock" size={27} color="grey" />
+                            <TouchableOpacity onPress={toggleShowPassword} style={{ left: 13, position: 'absolute', }}>
+                                <AntDesign name={showPassword ? 'unlock' : 'lock'} size={27} color="grey" />
+                            </TouchableOpacity>
                             <TextInput
                                 placeholder='Şifre'
                                 placeholderTextColor={"grey"}
-                                secureTextEntry={true}
-                                style={{ flex: 1, marginLeft: 10 }}
+                                secureTextEntry={!showPassword}
+                                style={{ flex: 1, marginLeft: 35 }}
                                 onChangeText={setPassword}
                             />
                         </View>

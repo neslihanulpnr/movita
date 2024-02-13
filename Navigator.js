@@ -5,7 +5,7 @@ import { Settings } from "./screens/Settings";
 import { Seferler } from "./screens/Seferler";
 import { Map } from "./screens/Map";
 import SoforMap from "./screens/SoforMap";
-import { Adres } from "./Component/Adres";
+import { Address } from "./Component/Address";
 import { Password } from "./Component/Password";
 import { Number } from "./Component/Number";
 import { Email } from "./Component/Email";
@@ -75,8 +75,8 @@ export const Navigator = () => {
                     }
                 }} />
 
-            <Stack.Screen name="Adres"
-                component={Adres} />
+            <Stack.Screen name="Address"
+                component={Address} />
 
             <Stack.Screen name="Password"
                 component={Password} />

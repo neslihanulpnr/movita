@@ -4,7 +4,7 @@ import { TextInput } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
 import Toast from 'react-native-toast-message';
 
-export const Adres = ({ data }) => {
+export const Address = ({ data }) => {
   
   const [adress, setAdress] = useState({ "il": "", "ilce": "", "mahalle": "", "sokak": "" });
   const [showMap, setShowMap] = useState(false);
@@ -73,7 +73,7 @@ export const Adres = ({ data }) => {
       const { latitude, longitude } = e.nativeEvent.coordinate;
       setDragAdress({ latitude, longitude });
       console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
-
+  
       // API'ye veriyi gönder
       await sendLocationToAPI(latitude, longitude, data.ret.user_id);
       Toast.show({
@@ -83,13 +83,14 @@ export const Adres = ({ data }) => {
         visibilityTime: 2000, // Bildirimin görüntüleneceği süre (milisaniye cinsinden)
         position: 'bottom', // Bildirimin konumu
       });
-
+  
       // API güncellemesi başarılı olduktan sonra, API'den yeni veriyi çek ve state'i güncelle
-
+      fetchDataFromAPI();
     } catch (error) {
       console.error("handleMarkerDragEnd Hata:", error);
     }
   };
+  
 
   const sendLocationToAPI = async (latitude, longitude, userId) => {
     try {
@@ -147,26 +148,30 @@ export const Adres = ({ data }) => {
           kullanici_id: data.ret.user_id,
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP hata! Durum: ${response.status} - ${response.statusText}`);
       }
-
+  
       const responseData = await response.json();
-
-      console.log("API Yanıtı:", responseData.ret.konum_lat);
-      const personelLocation = {
-        latitude: +responseData.ret.konum_lat,
-        longitude: +responseData.ret.konum_lng,
-      };
-      setLocation(personelLocation)
-      responseData.ret.konum_lat && setShowMap(true)
-      console.log(showMap)
-
+  
+      console.log("API Yanıtı:", responseData.ret);
+  
+      if (responseData.ret && responseData.ret.konum_lat && responseData.ret.konum_lng) {
+        const personelLocation = {
+          latitude: +responseData.ret.konum_lat,
+          longitude: +responseData.ret.konum_lng,
+        };
+        setLocation(personelLocation);
+        setShowMap(true);
+        console.log(showMap);
+      } else {
+        console.error("API yanıtında beklenen konum bilgileri eksik");
+      }      
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
     }
-  };
+  };  
   useEffect(() => {
     fetchDataFromAPI()
   }, [])
@@ -222,7 +227,6 @@ export const Adres = ({ data }) => {
             borderRadius: 5,
             width: 170,
             height: 40,
-            margin: 5,
           }}
           onPress={() => {
             logEnteredInformation();
@@ -268,6 +272,7 @@ const styles = StyleSheet.create({
   inputContainer2: {
     alignItems: "center",
     justifyContent: "center",
+    bottom: 15
   },
   inputContainer: {
     flexDirection: 'row',
@@ -287,9 +292,10 @@ const styles = StyleSheet.create({
   },
   map: {
     height: 570,
-    width: 450,
+    width: 420,
     position: "absolute",
     left: -100,
+    top: -15
   },
   label: {
     marginRight: 10,
@@ -305,4 +311,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Adres;
+export default Address;
