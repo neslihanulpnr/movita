@@ -14,7 +14,7 @@ export const Address = ({ data }) => {
   const [personelData, setPersonelData] = useState(null);  
 
   
-  console.log("user_id", data.ret.user_id)
+  console.log("userid-adres :", data.ret.user_id)
   const logEnteredInformation = async () => {
     try {
       console.log(adress);
