@@ -20,8 +20,8 @@ export const Number = ({data}) => {
             },
             body: JSON.stringify({
               userId: userId,
-              currentPassword: currentPassword,
-              newPassword: newPassword,
+              currentNo: currentNo,
+              newNo: newNo,
             }),
           });
     

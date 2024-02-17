@@ -20,8 +20,8 @@ export const Email = ({data}) => {
             },
             body: JSON.stringify({
               userId: userId,
-              currentPassword: currentPassword,
-              newPassword: newPassword,
+              currentEmail: currentEmail,
+              newEmail: newEmail,
             }),
           });
     
