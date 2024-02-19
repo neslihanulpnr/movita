@@ -74,14 +74,20 @@ export const Address = ({ data }) => {
       setDragAdress({ latitude, longitude });
       console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
   
+      // fetchDataFromAPI fonksiyonunu çağırarak responseData'yi al
+      const responseData = await fetchDataFromAPI();
+  
+      // responseData içindeki personelId'yi al
+      const personelId = responseData.ret.id;
+  
       // API'ye veriyi gönder
-      await sendLocationToAPI(latitude, longitude, data.ret.user_id);
+      await sendLocationToAPI(latitude, longitude, personelId);
       Toast.show({
         type: 'success',
         text1: 'Başarılı!',
         text2: 'İşlem başarıyla gerçekleştirildi.',
-        visibilityTime: 2000, // Bildirimin görüntüleneceği süre (milisaniye cinsinden)
-        position: 'bottom', // Bildirimin konumu
+        visibilityTime: 2000,
+        position: 'bottom',
       });
   
       // API güncellemesi başarılı olduktan sonra, API'den yeni veriyi çek ve state'i güncelle
@@ -92,17 +98,17 @@ export const Address = ({ data }) => {
   };
   
 
-  const sendLocationToAPI = async (latitude, longitude, userId) => {
+  const sendLocationToAPI = async (latitude, longitude, personelId,) => {
     try {
-      if (latitude && longitude) {
+      if (personelId && latitude && longitude) {
         console.log("API'ye gönderilen istek verisi:", JSON.stringify({
+          personelId,
           latitude,
           longitude,
-          userId,
         }));
-
+  
         const apiUrl = "http://www.movita.com.tr:8019/edit_personel_konum";
-
+  
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -110,19 +116,18 @@ export const Address = ({ data }) => {
             'Authorization': 'sample_token1234',
           },
           body: JSON.stringify({
+            personelId,
             latitude,
             longitude,
-            userId,
           }),
         });
-
+  
         const responseData = await response.json();
-
-        console.log("API Yanıtı:", (responseData));
-
+  
+        console.log("API Yanıtı:", responseData);
+  
         if (responseData && responseData.status === "ok" && responseData.ret === "konum basariyla guncellendi") {
           console.log("Konum başarıyla kaydedildi.");
-
         } else {
           console.error("Konum kaydedilemedi.");
         }
@@ -154,28 +159,46 @@ export const Address = ({ data }) => {
       }
   
       const responseData = await response.json();
-  
       console.log("API Yanıtı:", responseData.ret);
   
-      if (responseData.ret && responseData.ret.konum_lat && responseData.ret.konum_lng) {
-        const personelLocation = {
-          latitude: +responseData.ret.konum_lat,
-          longitude: +responseData.ret.konum_lng,
-        };
-        setLocation(personelLocation);
-        setShowMap(true);
-        console.log(showMap);
+      if (responseData.ret && responseData.ret.id) {
+        const personelId = responseData.ret.id;
+        console.log("Personel ID:", personelId);
+  
+        // Diğer işlemleri devam ettirebilirsiniz
+        if (responseData.ret.konum_lat && responseData.ret.konum_lng) {
+          const personelLocation = {
+            latitude: +responseData.ret.konum_lat,
+            longitude: +responseData.ret.konum_lng,
+          };
+          setLocation(personelLocation);
+          setShowMap(true);
+          console.log(showMap);
+  
+          // Alınan personelId'yi sendLocationToAPI fonksiyonuna iletiyoruz
+          // fetchDataFromAPI fonksiyonu içinde
+          // sendLocationToAPI(personelLocation.latitude, personelLocation.longitude, personelId);
+        } else {
+          console.error("API yanıtında beklenen konum bilgileri eksik");
+        }
       } else {
-        console.error("API yanıtında beklenen konum bilgileri eksik");
-      }      
+        console.error("API yanıtında beklenen 'id' bilgisi eksik");
+      }
+  
+      // fetchDataFromAPI fonksiyonunun sonunda responseData'yi döndürün
+      return responseData;
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
+      throw error;
     }
-  };  
+  };
+  
   useEffect(() => {
-    fetchDataFromAPI()
-  }, [])
-
+    fetchDataFromAPI();
+  }, []);
+  
+  
+  
   return (
     <View>
       <View style={styles.inputContainer2}>
