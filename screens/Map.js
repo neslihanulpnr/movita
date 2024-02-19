@@ -66,8 +66,15 @@ export const Map = ({ data }) => {
 
 
         const filteredData = result.ret.filter(async (location) => {
+          const translateDayToISO = (day) => {
+            const turkishDays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+            const index = turkishDays.indexOf(day);
+            return index !== -1 ? index + 1 : null;
+          };
+          
           const currentDay = moment().isoWeekday();
-          const apiDay = moment(location.gun, "dddd").isoWeekday();
+          const apiDay = translateDayToISO(location.gun);
+          
 
           const isDayMatching = apiDay === currentDay;
           const isTimeMatching = moment().isBetween(moment(location.seans.split("-")[0], "HH:mm"), moment(location.seans.split("-")[1], "HH:mm"));
@@ -164,7 +171,7 @@ export const Map = ({ data }) => {
       setDurakLocation(durakLocationCoords);
       console.log("durak :", result.ret)
     } catch (error) {
-      console.log("error")
+      console.error('Durak konumu alınamadı. Hata:', error);
     }
   };
 
