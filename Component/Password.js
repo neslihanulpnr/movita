@@ -81,7 +81,7 @@ export const Password = ({ data }) => {
 
       <View style={styles.İnput}>
         <TextInput
-          placeholder="Şifreyi Onayla"
+          placeholder="Şifre Onay"
           placeholderTextColor={"grey"}
           secureTextEntry={!showPassword}
           value={confirmPassword}

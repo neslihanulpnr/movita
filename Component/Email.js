@@ -62,7 +62,7 @@ export const Email = ({ data }) => {
 
       <View style={styles.İnput}>
         <TextInput
-          placeholder="Yeni e-mail"
+          placeholder="E-mail onay"
           placeholderTextColor={"grey"}
           value={confirmEmail}
           onChangeText={setConfirmEmail}

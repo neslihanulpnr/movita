@@ -62,7 +62,7 @@ export const Number = ({ data }) => {
 
       <View style={styles.İnput}>
         <TextInput
-          placeholder="Numarayı onayla"
+          placeholder="Numara onay"
           placeholderTextColor={"grey"}
           value={confirmNo}
           onChangeText={setConfirmNo}
