@@ -162,14 +162,32 @@ export const Map = ({ data }) => {
         },
         body: JSON.stringify({ "kullanici_id": userId }),
       });
-
+      
+      if (!response.ok) {
+        console.error('Sunucu ile iletişimde hata oluştu.');
+        return;
+      }
+      
       const result = await response.json();
+  
+      if (!result) {
+        console.error('Sunucu yanıtı beklenmedik bir biçimde boş.');
+        return;
+      }
+  
+      if (result.ret === null) {
+        console.error('Durak konumu bulunamadı. Sunucu tarafından ret değeri null döndü. Yanıt:', result);
+        return;
+      }
+  
       const durakLocationCoords = {
         latitude: +result.ret.konum_lat,
         longitude: +result.ret.konum_lng,
       };
+      
       setDurakLocation(durakLocationCoords);
-      console.log("durak :", result.ret)
+      console.log("durak :", result.ret);
+      
     } catch (error) {
       console.error('Durak konumu alınamadı. Hata:', error);
     }
