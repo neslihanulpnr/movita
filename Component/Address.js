@@ -74,10 +74,8 @@ export const Address = ({ data }) => {
       setDragAdress({ latitude, longitude });
       console.log("Sürüklenen Marker'ın Son Konumu:", { latitude, longitude });
   
-      // fetchDataFromAPI fonksiyonunu çağırarak responseData'yi al
       const responseData = await fetchDataFromAPI();
-  
-      // responseData içindeki personelId'yi al
+
       const personelId = responseData.ret.id;
   
       // API'ye veriyi gönder
@@ -165,7 +163,7 @@ export const Address = ({ data }) => {
         const personelId = responseData.ret.id;
         console.log("Personel ID:", personelId);
   
-        // Diğer işlemleri devam ettirebilirsiniz
+
         if (responseData.ret.konum_lat && responseData.ret.konum_lng) {
           const personelLocation = {
             latitude: +responseData.ret.konum_lat,
@@ -175,9 +173,6 @@ export const Address = ({ data }) => {
           setShowMap(true);
           console.log(showMap);
   
-          // Alınan personelId'yi sendLocationToAPI fonksiyonuna iletiyoruz
-          // fetchDataFromAPI fonksiyonu içinde
-          // sendLocationToAPI(personelLocation.latitude, personelLocation.longitude, personelId);
         } else {
           console.error("API yanıtında beklenen konum bilgileri eksik");
         }
@@ -185,7 +180,7 @@ export const Address = ({ data }) => {
         console.error("API yanıtında beklenen 'id' bilgisi eksik");
       }
   
-      // fetchDataFromAPI fonksiyonunun sonunda responseData'yi döndürün
+
       return responseData;
     } catch (error) {
       console.error("fetchDataFromAPI Hata:", error);
