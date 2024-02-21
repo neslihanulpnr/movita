@@ -94,7 +94,6 @@ export const Address = ({ data }) => {
       console.error("handleMarkerDragEnd Hata:", error);
     }
   };
-  
 
   const sendLocationToAPI = async (latitude, longitude, personelId,) => {
     try {
@@ -162,7 +161,6 @@ export const Address = ({ data }) => {
       if (responseData.ret && responseData.ret.id) {
         const personelId = responseData.ret.id;
         console.log("Personel ID:", personelId);
-  
 
         if (responseData.ret.konum_lat && responseData.ret.konum_lng) {
           const personelLocation = {
@@ -179,7 +177,6 @@ export const Address = ({ data }) => {
       } else {
         console.error("API yanıtında beklenen 'id' bilgisi eksik");
       }
-  
 
       return responseData;
     } catch (error) {
@@ -191,8 +188,6 @@ export const Address = ({ data }) => {
   useEffect(() => {
     fetchDataFromAPI();
   }, []);
-  
-  
   
   return (
     <View>
