@@ -26,10 +26,19 @@ export const Email = ({ data }) => {
         }),
       });
 
-      if (response.ok) {
+      const responseData = await response.json();
+
+      console.log('API Yanıtı:', responseData);
+      if (responseData.error_code === 0) {
         console.log('Email başarıyla değiştirildi');
       } else {
-        console.log('Email değiştirme başarısız');
+        console.log('Email değiştirme başarısız. Hata Kodu:', responseData.error_code);
+      
+        if (responseData.error_code === 9999) {
+          console.log('Mevcut Email yanlış girilmiş olabilir.');
+        } else {
+          console.log('Hata Mesajı:', responseData.error_message);
+        }
       }
     } catch (error) {
       console.error('API isteği sırasında bir hata oluştu:', error);

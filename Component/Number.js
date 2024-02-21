@@ -26,10 +26,19 @@ export const Number = ({ data }) => {
         }),
       });
 
-      if (response.ok) {
+      const responseData = await response.json();
+
+      console.log('API Yanıtı:', responseData);
+      if (responseData.error_code === 0) {
         console.log('Numara başarıyla değiştirildi');
       } else {
-        console.log('Numara değiştirme başarısız');
+        console.log('Numara değiştirme başarısız. Hata Kodu:', responseData.error_code);
+      
+        if (responseData.error_code === 9999) {
+          console.log('Mevcut numara yanlış girilmiş olabilir.');
+        } else {
+          console.log('Hata Mesajı:', responseData.error_message);
+        }
       }
     } catch (error) {
       console.error('API isteği sırasında bir hata oluştu:', error);
