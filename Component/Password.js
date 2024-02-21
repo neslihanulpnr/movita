@@ -20,10 +20,10 @@ export const Password = ({ data }) => {
         console.log('Yeni şifreler uyuşmuyor.');
         return;
       }
-
+  
       const apiUrl = 'http://www.movita.com.tr:8019/users_change_pass';
       const userId = data.ret.user_id;
-
+  
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -36,7 +36,13 @@ export const Password = ({ data }) => {
           newPassword: newPassword,
         }),
       });
-
+  
+      // API yanıtını alın
+      const responseData = await response.json(); // veya response.text();
+  
+      // Yanıtı ekrana yazdır
+      console.log('API Yanıtı:', responseData);
+  
       if (response.ok) {
         console.log('Şifre başarıyla değiştirildi');
       } else {
@@ -46,6 +52,7 @@ export const Password = ({ data }) => {
       console.error('API isteği sırasında bir hata oluştu:', error);
     }
   };
+  
 
   return (
     <View>
