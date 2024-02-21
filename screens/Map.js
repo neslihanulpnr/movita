@@ -163,17 +163,7 @@ export const Map = ({ data }) => {
         body: JSON.stringify({ "kullanici_id": userId }),
       });
       
-      if (!response.ok) {
-        console.error('Sunucu ile iletişimde hata oluştu.');
-        return;
-      }
-      
       const result = await response.json();
-  
-      if (!result) {
-        console.error('Sunucu yanıtı beklenmedik bir biçimde boş.');
-        return;
-      }
   
       if (result.ret === null) {
         console.error('Durak konumu bulunamadı. Sunucu tarafından ret değeri null döndü. Yanıt:', result);
