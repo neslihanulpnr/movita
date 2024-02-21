@@ -13,7 +13,6 @@ export const Address = ({ data }) => {
   const [dragAdress, setDragAdress] = useState();
   const [personelData, setPersonelData] = useState(null);  
 
-  
   console.log("userid-adres :", data.ret.user_id)
   const logEnteredInformation = async () => {
     try {
@@ -21,14 +20,12 @@ export const Address = ({ data }) => {
       Keyboard.dismiss();
       setShowMap(true);
 
-
       const location = await getLocationFromAddress(
         `${adress.mahalle} ${adress.sokak} ${adress.ilce} ${adress.il}`,
         data.ret.user_id
       );
 
       setLocation(location);
-
 
       const stops = [
         { latitude: location.latitude + 0.01, longitude: location.longitude + 0.01 },
