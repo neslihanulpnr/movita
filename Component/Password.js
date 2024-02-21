@@ -31,23 +31,27 @@ export const Password = ({ data }) => {
           'Authorization': 'sample_token1234'
         },
         body: JSON.stringify({
-          userId: data.ret.userId,
+          userId: userId,
           currentPassword: currentPassword,
           newPassword: newPassword,
         }),
       });
-  
-      // API yanıtını alın
-      const responseData = await response.json(); // veya response.text();
-  
-      // Yanıtı ekrana yazdır
+
+      const responseData = await response.json();
+
       console.log('API Yanıtı:', responseData);
-  
-      if (response.ok) {
+      if (responseData.error_code === 0) {
         console.log('Şifre başarıyla değiştirildi');
       } else {
-        console.log('Şifre değiştirme başarısız');
+        console.log('Şifre değiştirme başarısız. Hata Kodu:', responseData.error_code);
+      
+        if (responseData.error_code === 9999) {
+          console.log('Mevcut şifre yanlış girilmiş olabilir.');
+        } else {
+          console.log('Hata Mesajı:', responseData.error_message);
+        }
       }
+      
     } catch (error) {
       console.error('API isteği sırasında bir hata oluştu:', error);
     }
