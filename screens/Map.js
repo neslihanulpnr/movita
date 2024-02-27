@@ -10,7 +10,7 @@ import Modal from "react-native-modal";
 
 export const Map = ({ data }) => {
   const [userData, setUserData] = useState([]);
-  const [userId, setUSerId] = useState(data.ret.user_id)
+  const [userId, setUserId] = useState(data.ret.user_id)
   const [userLocation, setUserLocation] = useState(null);
   const [carLocation, setCarLocation] = useState(null);
   const [durakLocation, setDurakLocation] = useState(null);
