@@ -1,49 +1,62 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, } from 'react-native';
+import { useFormik } from 'formik';
 
 export const Email = ({ data }) => {
-  const [currentEmail, setCurrentEmail] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
+  const [notification, setNotification] = useState(null);
 
   console.log("userid-email :", data.ret.user_id)
 
-  const handleChangeEmail = async () => {
-    try {
-      const apiUrl = 'http://www.movita.com.tr:8019/users_change_pass';
-      const userId = data.ret.user_id;
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'sample_token1234'
-        },
-        body: JSON.stringify({
-          userId: userId,
-          currentEmail: currentEmail,
-          newEmail: newEmail,
-        }),
-      });
-
-      const responseData = await response.json();
-
-      console.log('API Yanıtı:', responseData);
-      if (responseData.error_code === 0) {
-        console.log('Email başarıyla değiştirildi');
-      } else {
-        console.log('Email değiştirme başarısız. Hata Kodu:', responseData.error_code);
-      
-        if (responseData.error_code === 9999) {
-          console.log('Mevcut Email yanlış girilmiş olabilir.');
-        } else {
-          console.log('Hata Mesajı:', responseData.error_message);
+  const formik = useFormik({
+    initialValues: {
+      currentEmail: '',
+      newEmail: '',
+      confirmEmail: '',
+    },
+    onSubmit: async (values) => {
+      try {
+        if (values.newEmail !== values.confirmEmail) {
+          console.log('Yeni email uyuşmuyor.');
+          setNotification('E-mailler uyuşmuyor.');
+          return;
         }
+
+        const apiUrl = 'http://www.movita.com.tr:8019/users_change_pass';
+        const userId = data.ret.user_id;
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'sample_token1234'
+          },
+          body: JSON.stringify({
+            userId: userId,
+            currentEmail: values.currentEmail,
+            newEmail: values.newEmail,
+          }),
+        });
+
+        const responseData = await response.json();
+
+        console.log('API Yanıtı:', responseData);
+        if (responseData.error_code === 0) {
+          setNotification('E-mail başarıyla değiştirildi.');
+        } else {
+          console.log('Email değiştirme başarısız. Hata Kodu:', responseData.error_code);
+
+          if (responseData.error_code === 9999) {
+            setNotification('E-mail değiştirme başarısız.');
+          } else {
+            setNotification(responseData.error_message);
+          }
+        }
+
+      } catch (error) {
+        console.error('API isteği sırasında bir hata oluştu:', error);
       }
-    } catch (error) {
-      console.error('API isteği sırasında bir hata oluştu:', error);
-    }
-  };
+    },
+  });
 
   return (
     <View>
@@ -51,8 +64,8 @@ export const Email = ({ data }) => {
         <TextInput
           placeholder="Mevcut e-mail"
           placeholderTextColor={"grey"}
-          value={currentEmail}
-          onChangeText={setCurrentEmail}
+          value={formik.values.currentEmail}
+          onChangeText={formik.handleChange("currentEmail")}
         />
       </View>
 
@@ -62,8 +75,8 @@ export const Email = ({ data }) => {
         <TextInput
           placeholder="Yeni e-mail"
           placeholderTextColor={"grey"}
-          value={newEmail}
-          onChangeText={setNewEmail}
+          value={formik.values.newEmail}
+          onChangeText={formik.handleChange("newEmail")}
         />
       </View>
 
@@ -73,13 +86,19 @@ export const Email = ({ data }) => {
         <TextInput
           placeholder="E-mail onay"
           placeholderTextColor={"grey"}
-          value={confirmEmail}
-          onChangeText={setConfirmEmail}
+          value={formik.values.confirmEmail}
+          onChangeText={formik.handleChange("confirmEmail")}
         />
       </View>
 
+      {notification && (
+        <View>
+          <Text style={styles.notificationText}>{notification}</Text>
+        </View>
+      )}
+
       <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-        <TouchableOpacity style={styles.button} onPress={handleChangeEmail}>
+        <TouchableOpacity style={styles.button} onPress={formik.handleSubmit}>
           <Text style={{ color: "white" }}>E-mail Değiştir</Text>
         </TouchableOpacity>
       </View>
@@ -104,6 +123,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 0.1,
     borderRadius: 1,
+  },
+  notificationText: {
+    color: 'red',
   },
 });
 

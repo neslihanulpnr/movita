@@ -1,49 +1,61 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, } from 'react-native';
+import { useFormik } from 'formik';
 
 export const Number = ({ data }) => {
-  const [currentNo, setCurrentNo] = useState('');
-  const [newNo, setNewNo] = useState('');
-  const [confirmNo, setConfirmNo] = useState('');
+  const [notification, setNotification] = useState(null);
 
-  console.log("userid-numara :", data.ret.user_id)
+  console.log("userid-numara :", data.ret.user_id);
 
-  const handleChangeNumber = async () => {
-    try {
-      const apiUrl = 'http://www.movita.com.tr:8019/users_change_pass';
-      const userId = data.ret.user_id;
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'sample_token1234'
-        },
-        body: JSON.stringify({
-          userId: userId,
-          currentNo: currentNo,
-          newNo: newNo,
-        }),
-      });
-
-      const responseData = await response.json();
-
-      console.log('API Yanıtı:', responseData);
-      if (responseData.error_code === 0) {
-        console.log('Numara başarıyla değiştirildi');
-      } else {
-        console.log('Numara değiştirme başarısız. Hata Kodu:', responseData.error_code);
-      
-        if (responseData.error_code === 9999) {
-          console.log('Mevcut numara yanlış girilmiş olabilir.');
-        } else {
-          console.log('Hata Mesajı:', responseData.error_message);
+  const formik = useFormik({
+    initialValues: {
+      currentNo: '',
+      newNo: '',
+      confirmNo: '',
+    },
+    onSubmit: async (values) => {
+      try {
+        if (values.newNo !== values.confirmNo) {
+          setNotification('Numaralar uyuşmuyor.');
+          return;
         }
+
+        const apiUrl = 'http://www.movita.com.tr:8019/users_change_pass';
+        const userId = data.ret.user_id;
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'sample_token1234'
+          },
+          body: JSON.stringify({
+            userId: userId,
+            currentNo: values.currentNo,
+            newNo: values.newNo,
+          }),
+        });
+
+        const responseData = await response.json();
+
+        console.log('API Yanıtı:', responseData);
+        if (responseData.error_code === 0) {
+          setNotification('Numara başarıyla değiştirildi.');
+        } else {
+          console.log('Numara değiştirme başarısız. Hata Kodu:', responseData.error_code);
+
+          if (responseData.error_code === 9999) {
+            setNotification('Numara değiştirme başarısız.');
+          } else {
+            setNotification(responseData.error_message);
+          }
+        }
+
+      } catch (error) {
+        console.error('API isteği sırasında bir hata oluştu:', error);
       }
-    } catch (error) {
-      console.error('API isteği sırasında bir hata oluştu:', error);
-    }
-  };
+    },
+  });
 
   return (
     <View>
@@ -51,8 +63,8 @@ export const Number = ({ data }) => {
         <TextInput
           placeholder="Mevcut numara"
           placeholderTextColor={"grey"}
-          value={currentNo}
-          onChangeText={setCurrentNo}
+          value={formik.values.currentNo}
+          onChangeText={formik.handleChange("currentNo")}
         />
       </View>
 
@@ -62,8 +74,8 @@ export const Number = ({ data }) => {
         <TextInput
           placeholder="Yeni numara"
           placeholderTextColor={"grey"}
-          value={newNo}
-          onChangeText={setNewNo}
+          value={formik.values.newNo}
+          onChangeText={formik.handleChange("newNo")}
         />
       </View>
 
@@ -73,13 +85,19 @@ export const Number = ({ data }) => {
         <TextInput
           placeholder="Numara onay"
           placeholderTextColor={"grey"}
-          value={confirmNo}
-          onChangeText={setConfirmNo}
+          value={formik.values.confirmNo}
+          onChangeText={formik.handleChange("confirmNo")}
         />
       </View>
 
+      {notification && (
+        <View>
+          <Text style={styles.notificationText}>{notification}</Text>
+        </View>
+      )}
+
       <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
-        <TouchableOpacity style={styles.button} onPress={handleChangeNumber}>
+        <TouchableOpacity style={styles.button} onPress={formik.handleSubmit}>
           <Text style={{ color: "white" }}>Numara Değiştir</Text>
         </TouchableOpacity>
       </View>
@@ -104,6 +122,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 0.1,
     borderRadius: 1,
+  },
+  notificationText: {
+    color: 'red',
   },
 });
 
