@@ -64,6 +64,7 @@ export const Number = ({ data }) => {
           placeholder="Mevcut numara"
           placeholderTextColor={"grey"}
           value={formik.values.currentNo}
+          keyboardType={'numeric'}
           onChangeText={formik.handleChange("currentNo")}
         />
       </View>
@@ -75,6 +76,7 @@ export const Number = ({ data }) => {
           placeholder="Yeni numara"
           placeholderTextColor={"grey"}
           value={formik.values.newNo}
+          keyboardType={'numeric'}
           onChangeText={formik.handleChange("newNo")}
         />
       </View>
@@ -86,6 +88,7 @@ export const Number = ({ data }) => {
           placeholder="Numara onay"
           placeholderTextColor={"grey"}
           value={formik.values.confirmNo}
+          keyboardType={'numeric'}
           onChangeText={formik.handleChange("confirmNo")}
         />
       </View>

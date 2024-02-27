@@ -65,6 +65,7 @@ export const Email = ({ data }) => {
           placeholder="Mevcut e-mail"
           placeholderTextColor={"grey"}
           value={formik.values.currentEmail}
+          inputMode={"email"}
           onChangeText={formik.handleChange("currentEmail")}
         />
       </View>
@@ -76,6 +77,7 @@ export const Email = ({ data }) => {
           placeholder="Yeni e-mail"
           placeholderTextColor={"grey"}
           value={formik.values.newEmail}
+          inputMode={"email"}
           onChangeText={formik.handleChange("newEmail")}
         />
       </View>
@@ -87,6 +89,7 @@ export const Email = ({ data }) => {
           placeholder="E-mail onay"
           placeholderTextColor={"grey"}
           value={formik.values.confirmEmail}
+          inputMode={"email"}
           onChangeText={formik.handleChange("confirmEmail")}
         />
       </View>
