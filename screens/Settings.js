@@ -33,10 +33,10 @@ export const Settings = ({ data }) => {
             <Text style={{ fontSize: 30, right: 40 }}>Kullanıcı bilgileri</Text>
           </View>
           {filoData && (
-            <View>
-              <Text style={styles.infoText}>Kullanıcı adı: {data?.ret?.username}</Text>
-              <Text style={styles.infoText}>E-posta: {filoData.eposta}</Text>
-              <Text style={styles.infoText}>Telefon: {filoData.telefon}</Text>
+            <View style={{right: 25}}>
+              <Text style={{fontSize: 24}}>Kullanıcı adı: <Text style={styles.infoText}>{data?.ret?.username}</Text></Text>
+              <Text style={{fontSize: 24}}>E-posta: <Text style={styles.infoText}>{filoData.eposta}</Text></Text>
+              <Text style={{fontSize: 24}}>Telefon: <Text style={styles.infoText}>{filoData.telefon}</Text></Text>
             </View>
           )}
   
