@@ -102,7 +102,7 @@ export const Email = ({ data }) => {
 
       <View style={{ justifyContent: 'center', alignItems: 'center', margin: 5 }}>
         <TouchableOpacity style={styles.button} onPress={formik.handleSubmit}>
-          <Text style={{ color: "white" }}>E-mail Değiştir</Text>
+          <Text style={{ color: "white" }}>E-maili Değiştir</Text>
         </TouchableOpacity>
       </View>
     </View>
