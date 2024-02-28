@@ -11,7 +11,7 @@ export const Seferler = ({ data }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listeleme', {
+        const response = await fetch('http://www.movita.com.tr:8019/personel_guzergah_listesi', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
