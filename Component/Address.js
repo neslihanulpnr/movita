@@ -157,7 +157,7 @@ export const Address = ({ data }) => {
   
       if (responseData.ret && responseData.ret.id) {
         const personelId = responseData.ret.id;
-        console.log("Personel ID:", personelId);
+        console.log("Personel ID :", personelId);
 
         if (responseData.ret.konum_lat && responseData.ret.konum_lng) {
           const personelLocation = {
