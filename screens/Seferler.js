@@ -20,7 +20,7 @@ export const Seferler = ({ data }) => {
           body: JSON.stringify({ user_id: data.ret.user_id })
         });
         const result = await response.json();
-        console.log('API Response:', result.ret);
+        console.log('API sefer:', result.ret);
 
         // Günleri pazartesiden cumaya sırala
         const daysInOrder = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];

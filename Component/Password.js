@@ -65,7 +65,7 @@ export const Password = ({ data }) => {
   });
 
   return (
-    <View>
+    <View style={{top:60}}>
       <View style={styles.İnput}>
         <TextInput
           placeholder="Mevcut şifre"

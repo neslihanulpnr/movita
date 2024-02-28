@@ -282,7 +282,8 @@ const styles = StyleSheet.create({
   inputContainer2: {
     alignItems: "center",
     justifyContent: "center",
-    bottom: 15
+    top: 5
+    
   },
   inputContainer: {
     flexDirection: 'row',
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
     width: 420,
     position: "absolute",
     left: -100,
-    top: -15
+    top: 25
   },
   label: {
     marginRight: 10,
