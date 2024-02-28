@@ -11,30 +11,26 @@ export const Settings = ({ data }) => {
   const [selectedTab, setSelectedTab] = useState(null);
 
   const handleBack = () => {
-    // Geri butonuna tıklandığında selectedTab durumunu sıfırla
     setSelectedTab(null);
   };
 
   return (
     <View style={styles.Container}>
       {selectedTab ? (
-        // Eğer bir tab seçilmişse, sadece seçilen tab'ın içeriğini göster
         <View style={styles.contentContainer}>
           {selectedTab === 'address' && <Address data={data} />}
           {selectedTab === 'password' && <Password data={data} />}
           {selectedTab === 'email' && <Email data={data} />}
           {selectedTab === 'number' && <Number data={data} />}
 
-          {/* Geri butonu */}
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.Text}><AntDesign name="arrowleft" size={24} color="black" /></Text>
+            <Text style={styles.Text}><AntDesign name="arrowleft" size={20} color="white" /></Text>
           </TouchableOpacity>
         </View>
       ) : (
-        // Eğer hiçbir tab seçili değilse, kullanıcı bilgilerini göster
         <View>
           <View>
-            <Text style={{ fontSize: 30, right: 50 }}>Kullanıcı bilgileri</Text>
+            <Text style={{ fontSize: 30, right: 40 }}>Kullanıcı bilgileri</Text>
           </View>
           {filoData && (
             <View>
@@ -109,8 +105,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#00ADEE",
     borderRadius: 10,
-    width: 50,
-    height: 40,
+    width: 40,
+    height: 30,
     position: 'absolute'
   },
   Text: {
