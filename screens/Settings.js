@@ -29,14 +29,14 @@ export const Settings = ({ data }) => {
         </View>
       ) : (
         <View>
-          <View>
-            <Text style={{ fontSize: 30, right: 40 }}>Kullanıcı bilgileri</Text>
+          <View style={{justifyContent: 'center', alignItems: 'center',}}>
+            <Text style={{ fontSize: 40 }}>Kullanıcı bilgileri</Text>
           </View>
           {filoData && (
-            <View style={{right: 25}}>
+            <View style={{ left: 60}}>
+              <Text style={{fontSize: 24}}>Telefon: <Text style={styles.infoText}>{filoData.telefon}</Text></Text>
               <Text style={{fontSize: 24}}>Kullanıcı adı: <Text style={styles.infoText}>{data?.ret?.username}</Text></Text>
               <Text style={{fontSize: 24}}>E-posta: <Text style={styles.infoText}>{filoData.eposta}</Text></Text>
-              <Text style={{fontSize: 24}}>Telefon: <Text style={styles.infoText}>{filoData.telefon}</Text></Text>
             </View>
           )}
   
@@ -92,10 +92,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: "#00ADEE",
-    borderRadius: 10,
-    width: 160,
-    height: 60,
-    left: 50
+    width: 400,
+    height: 80,
   },
   backButton: {
     position: 'absolute',

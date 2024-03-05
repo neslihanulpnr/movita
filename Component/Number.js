@@ -20,7 +20,7 @@ export const Number = ({ data }) => {
           return;
         }
 
-        const apiUrl = 'http://www.movita.com.tr:8019/users_change_pass';
+        const apiUrl = 'http://www.movita.com.tr:8019/personel_guncelle';
         const userId = data.ret.user_id;
 
         const response = await fetch(apiUrl, {
@@ -44,7 +44,7 @@ export const Number = ({ data }) => {
         } else {
           console.log('Numara değiştirme başarısız. Hata Kodu:', responseData.error_code);
 
-          if (responseData.error_code === 9999) {
+          if (responseData.error_code === 1) {
             setNotification('Numara değiştirme başarısız.');
           } else {
             setNotification(responseData.error_message);

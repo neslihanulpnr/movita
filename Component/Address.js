@@ -51,9 +51,6 @@ export const Address = ({ data }) => {
       if (result.results && result.results.length > 0) {
         const { lat, lng } = result.results[0].geometry.location;
 
-
-        console.log("user_id:", userId);
-
         return { latitude: lat, longitude: lng };
       } else {
         throw new Error("Konum bulunamadı.");
