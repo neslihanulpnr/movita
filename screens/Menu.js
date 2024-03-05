@@ -118,7 +118,7 @@ export const Menu = () => {
           ]}
           onPress={handleInfoButtonPress}
         >
-          <MaterialIcons name="directions-bus" size={25} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
+          <MaterialIcons name="directions-bus" size={30} color={selectedButton === 'Bilgi' ? 'white' : '#00ADEE'} />
           <Text style={[styles.buttonText, { color: selectedButton === 'Bilgi' ? 'white' : '#00ADEE' }]}>Seferler</Text>
         </TouchableOpacity>
 
