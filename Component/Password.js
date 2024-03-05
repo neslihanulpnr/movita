@@ -52,7 +52,7 @@ export const Password = ({ data }) => {
           console.log('Şifre değiştirme başarısız. Hata Kodu:', responseData.error_code);
 
           if (responseData.error_code === 9999) {
-            setNotification('Mevcut şifre yanlış girilmiş olabilir.');
+            setNotification('Şifre değiştirme başarısız.');
           } else {
             setNotification(responseData.error_message);
           }
