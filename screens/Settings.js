@@ -30,11 +30,11 @@ export const Settings = ({ data }) => {
       ) : (
         <View>
           <View style={{justifyContent: 'center', alignItems: 'center',}}>
-            <Text style={{ fontSize: 40 }}>Kullanıcı bilgileri</Text>
+            <Text style={{ fontSize: 45,  }}>Kullanıcı Bilgileri</Text>
           </View>
           {filoData && (
             <View style={{ left: 60}}>
-              <Text style={{fontSize: 24}}>Telefon: <Text style={styles.infoText}>{filoData.telefon}</Text></Text>
+              <Text style={{ color: "black", fontSize: 23, marginBottom: 5,}}>Telefon: <Text style={styles.infoText}>{filoData.telefon}</Text></Text>
               <Text style={{fontSize: 24}}>Kullanıcı adı: <Text style={styles.infoText}>{data?.ret?.username}</Text></Text>
               <Text style={{fontSize: 24}}>E-posta: <Text style={styles.infoText}>{filoData.eposta}</Text></Text>
             </View>
