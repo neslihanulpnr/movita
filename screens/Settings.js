@@ -37,9 +37,9 @@ export const Settings = ({ data }) => {
             <View style={styles.content}>
               {filoData && (
                 <View>
-                  <Text style={[styles.infoText, styles.infoTextWithBorder]}>Kullanıcı adı: <Text style={{fontSize: 20}}>{data?.ret?.username}</Text></Text>
-                  <Text style={[styles.infoText, styles.infoTextWithBorder]}>E-posta: <Text style={{fontSize: 20}}>{filoData.eposta}</Text></Text>
-                  <Text style={styles.infoText}>Telefon: <Text style={{fontSize: 20}}>{filoData.telefon}</Text></Text>
+                  <Text style={[styles.infoText, styles.infoTextWithBorder]}>Kullanıcı adı: <Text style={{ fontSize: 20 }}>{data?.ret?.username}</Text></Text>
+                  <Text style={[styles.infoText, styles.infoTextWithBorder]}>E-posta: <Text style={{ fontSize: 20 }}>{filoData.eposta}</Text></Text>
+                  <Text style={styles.infoText}>Telefon: <Text style={{ fontSize: 20 }}>{filoData.telefon}</Text></Text>
                 </View>
               )}
             </View>
