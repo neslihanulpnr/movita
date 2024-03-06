@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, TextInput, Image, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { useFormik } from 'formik';
 
 export const Login = () => {
@@ -12,6 +11,7 @@ export const Login = () => {
         initialValues: {
             username: '',
             password: '',
+            showPassword: false, 
         },
         onSubmit: async (values, { setFieldError }) => {
             try {
@@ -45,6 +45,7 @@ export const Login = () => {
     const toggleShowPassword = () => {
         formik.setFieldValue('showPassword', !formik.values.showPassword);
     };
+    
 
     return (
         <View style={{
@@ -53,85 +54,71 @@ export const Login = () => {
             flex: 1,
             marginBottom: 80,
         }}>
-            <View style={{ marginTop: 20 }}>
-                <View>
-                    <View style={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}>
-                        <Image source={require("../assets/movitaLogo.jpeg")}
-                            style={{
-                                width: 250,
-                                height: 200
-                            }} />
-                    </View>
-                    <View>
-                        <View style={{ margin: 7 }}></View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: 300,
-                            height: 55,
-                            padding: 15,
-                            borderWidth: 0.1,
-                            borderRadius: 1
-                        }}>
-                            <Ionicons name="person-circle-outline" size={27} color="grey" />
-                            <TextInput
-                                placeholder='Kullanıcı Adı'
-                                placeholderTextColor={"gray"}
-                                style={{ flex: 1, marginLeft: 10 }}
-                                onChangeText={formik.handleChange('username')}
-                                onBlur={formik.handleBlur('username')}
-                                value={formik.values.username}
-                            />
-                        </View>
-                        <Text style={{ color: 'red' }}>{formik.errors.username}</Text>
-                    </View>
-                    <View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: 300,
-                            height: 55,
-                            padding: 15,
-                            borderWidth: 0.1,
-                            borderRadius: 1
-                        }}>
-                            <TouchableOpacity onPress={toggleShowPassword} style={{ left: 13, position: 'absolute', }}>
-                                <AntDesign name={formik.values.showPassword ? 'unlock' : 'lock'} size={27} color="grey" />
-                            </TouchableOpacity>
-                            <TextInput
-                                placeholder='Şifre'
-                                placeholderTextColor={"grey"}
-                                secureTextEntry={!formik.values.showPassword}
-                                style={{ flex: 1, marginLeft: 35 }}
-                                onChangeText={formik.handleChange('password')}
-                                onBlur={formik.handleBlur('password')}
-                                value={formik.values.password}
-                            />
-                        </View>
-                        <Text style={{ color: 'red' }}>{formik.errors.password}</Text>
-                    </View>
-                    <View style={{ margin: 10 }}></View>
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: '#00ADEE',
-                            padding: 10,
-                            borderRadius: 5,
-                            width: 150,
-                            height: 40,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        onPress={formik.handleSubmit}
-                    >
-                        <Text style={{ color: 'white', fontSize: 16 }}>Giriş Yap</Text>
-                    </TouchableOpacity>
+            <View style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 40,
+            }}>
+                <Image
+                    source={require("../assets/movitaLogo.jpeg")}
+                    style={{
+                        width: 250,
+                        height: 200
+                    }}
+                />
+            </View>
+            <View style={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                borderRadius: 5,
+                width: 330,
+                height: 150,  // Toplam yükseklik, her iki TextInput'in toplam yüksekliği
+                marginBottom: 20,
+                backgroundColor: "#ededed"  // Arka plan rengi
+            }}>
+                <TextInput
+                    placeholder='Kullanıcı Adı'
+                    placeholderTextColor={"grey"}
+                    style={{ width: 300, height: 40, marginLeft: 10, borderBottomWidth: 0.5, marginTop: 15, borderBottomColor: "grey" }}
+                    onChangeText={formik.handleChange('username')}
+                    onBlur={formik.handleBlur('username')}
+                    value={formik.values.username}
+                />
+                <Text style={{ color: 'red' }}>{formik.errors.username}</Text>
+                <TextInput
+                    placeholder='Şifre'
+                    placeholderTextColor={"grey"}
+                    secureTextEntry={!formik.values.showPassword}
+                    style={{ width: 300, height: 40, marginLeft: 10, borderBottomWidth: 0.5, marginTop: 20, borderBottomColor: "grey" }}
+                    onChangeText={formik.handleChange('password')}
+                    onBlur={formik.handleBlur('password')}
+                    value={formik.values.password}
+                />
+                <TouchableOpacity onPress={toggleShowPassword} style={{ left: 13, position: 'absolute', bottom: 18, left: 290}}>
+                <Entypo name={formik.values.showPassword ? "eye-with-line" : "eye"} size={24} color="grey"/>
+                 </TouchableOpacity>
+                <View style={{top: 20, right: 50}}>
+                <Text style={{ color: 'red' }}>{formik.errors.password}</Text>
                 </View>
             </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: '#00ADEE',
+                        padding: 10,
+                        borderRadius: 8,
+                        width: 250,
+                        height: 45,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bottom: -25
+                    }}
+                    onPress={formik.handleSubmit}
+                >
+                    <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>Giriş Yap</Text>
+                </TouchableOpacity>
+            </View>
         </View>
+
     );
 };
