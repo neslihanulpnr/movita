@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 export const Email = ({ data }) => {
   const [notification, setNotification] = useState(null);
 
-  console.log("userid-email :", data.ret.user_id)
+  console.log("userid-email :", data.ret.user_id);
 
   const formik = useFormik({
     initialValues: {
@@ -16,44 +16,35 @@ export const Email = ({ data }) => {
     onSubmit: async (values) => {
       try {
         if (values.newEmail !== values.confirmEmail) {
-          console.log('Yeni email uyuşmuyor.');
           setNotification('E-mailler uyuşmuyor.');
           return;
         }
 
-        const apiUrl = 'http://www.movita.com.tr:8019/personel_guncelle';
-        const userId = data.ret.user_id;
-
-        const response = await fetch(apiUrl, {
+        const response = await fetch('http://161.97.107.99:8019/personel_guncelle', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'sample_token1234'
+            'Authorization': 'sample_token1234',
           },
           body: JSON.stringify({
-            userId: userId,
+            user_id: data.ret.user_id,
             currentEmail: values.currentEmail,
             newEmail: values.newEmail,
+            confirmEmail: values.confirmEmail,
           }),
         });
 
-        const responseData = await response.json();
 
-        console.log('API Yanıtı:', responseData);
-        if (responseData.error_code === 0) {
-          setNotification('E-mail başarıyla değiştirildi.');
+        if (response.ok) {
+          console.log('Email güncelleme başarılı');
+          setNotification('Email güncelleme başarılı');
         } else {
-          console.log('Email değiştirme başarısız. Hata Kodu:', responseData.error_code);
-
-          if (responseData.error_code === 1) {
-            setNotification('E-mail değiştirme başarısız.');
-          } else {
-            setNotification(responseData.error_message);
-          }
+          console.error('Email güncelleme başarısız', response.statusText);
+          setNotification('Email güncelleme başarısız');
         }
-
       } catch (error) {
-        console.error('API isteği sırasında bir hata oluştu:', error);
+        console.error('Email güncelleme hatası', error);
+        setNotification('Email güncelleme hatası');
       }
     },
   });
