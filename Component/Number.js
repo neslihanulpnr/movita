@@ -34,11 +34,20 @@ export const Number = ({ data }) => {
           }),
         }); 
 
+        const responseData = await response.json();
+        console.log('API Yanıtı:', responseData);
+
         if (response.ok) {
-          console.log('Numara güncelleme başarılı');
-          setNotification('Numara güncelleme başarılı');
+          if (responseData.error_code === 1) {
+            console.log('Değiştirilmedi');
+            setNotification('Numara değiştirilmedi');
+          } else {
+            console.log('Numara güncelleme başarılı');
+            setNotification('Numara güncelleme başarılı');
+          }
         } else {
           console.error('Numara güncelleme başarısız', response.statusText);
+          console.error('API Hata Mesajı:', responseData.error_message);
           setNotification('Numara güncelleme başarısız');
         }
       } catch (error) {

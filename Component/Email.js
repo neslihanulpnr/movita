@@ -34,12 +34,20 @@ export const Email = ({ data }) => {
           }),
         });
 
+        const responseData = await response.json();
+        console.log('API Yanıtı:', responseData);
 
         if (response.ok) {
-          console.log('Email güncelleme başarılı');
-          setNotification('Email güncelleme başarılı');
+          if (responseData.error_code === 1) {
+            console.log('Değiştirilmedi');
+            setNotification('Email değiştirilmedi');
+          } else {
+            console.log('Email güncelleme başarılı');
+            setNotification('Email güncelleme başarılı');
+          }
         } else {
           console.error('Email güncelleme başarısız', response.statusText);
+          console.error('API Hata Mesajı:', responseData.error_message);
           setNotification('Email güncelleme başarısız');
         }
       } catch (error) {
@@ -50,7 +58,7 @@ export const Email = ({ data }) => {
   });
 
   return (
-    <View style={{top:60}}>
+    <View style={{ top: 60 }}>
       <View style={styles.İnput}>
         <TextInput
           placeholder="Mevcut e-mail"
