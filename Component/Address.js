@@ -85,12 +85,6 @@ export const Address = ({ data }) => {
       console.log("API'ye gönderilen konum:", { latitude, longitude });
       console.log("apideki konum:", { expectedLatitude, expectedLongitude });
   
-      const latitudeDifference = Math.abs(latitude - expectedLatitude);
-      const longitudeDifference = Math.abs(longitude - expectedLongitude);
-  
-      console.log("Latitude farkı:", latitudeDifference);
-      console.log("Longitude farkı:", longitudeDifference);
-  
       Toast.show({
         type: 'success',
         text1: 'Başarılı!',
