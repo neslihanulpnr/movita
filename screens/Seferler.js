@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import moment from "moment";
+import { AntDesign } from '@expo/vector-icons';
 
 export const Seferler = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -133,7 +134,7 @@ export const Seferler = ({ data }) => {
                       left: 35,
                       borderRadius: 5
                     }}>
-                    <Text>X</Text>
+                    <Text><AntDesign name="close" size={20} color="black" /></Text>
                   </View>
                 </TouchableOpacity>
               </TouchableOpacity>
