@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
-    color: "lightgrey"
+    color: "white"
   },
   tableCell: {
     fontSize: 13,
