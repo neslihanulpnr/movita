@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import moment from "moment";
 import { AntDesign } from '@expo/vector-icons';
+import axios from 'axios';
 
 export const Seferler = ({ data }) => {
   const [userData, setUserData] = useState([]);
@@ -61,30 +62,44 @@ export const Seferler = ({ data }) => {
     fetchData();
   }, [data]);
 
-  const handleIptalButtonPress = (index) => {
-    const sefer = userData[index];
-    const seferDay = sefer.gun;
-    const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
-    const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
+const handleIptalButtonPress = async (index) => {
+  const sefer = userData[index];
+  const seferDay = sefer.gun;
+  const seferSaatBaslangic = moment(sefer.seans.split("-")[0], "HH:mm");
+  const seferSaatBitis = moment(sefer.seans.split("-")[1], "HH:mm");
 
-    if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
-      moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
-      console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
-      return;
-    }
+  if (matchingDays.some(day => day.day === seferDay && day.isDayMatching) &&
+    moment().isBetween(seferSaatBaslangic, seferSaatBitis)) {
+    console.log("Bu gün ve saat için katılmayacağım butonuna basılamaz.");
+    return;
+  }
 
-    console.log("Katılmayacağım");
+  console.log("Katılmayacağım");
 
-    // Eğer uygun seferin olduğu bir zaman dilimindeyse, butona basma işlemini engelle
-    if (matchingIndexes.includes(index)) {
-      console.log("Uygun seferin olduğu bir zaman dilimindeyken butona basılamaz.");
-      return;
-    }
+  // Eğer uygun seferin olduğu bir zaman dilimindeyse, butona basma işlemini engelle
+  if (matchingIndexes.includes(index)) {
+    console.log("Uygun seferin olduğu bir zaman dilimindeyken butona basılamaz.");
+    return;
+  }
+
+  try {
+    // API çağrısını gerçekleştir
+    const response = await axios.post('', {
+      // Gerekli verileri gönder
+      index: index,
+      // Diğer verileri de gönderebilirsiniz
+    });
 
     const updatedUserData = [...userData];
     updatedUserData[index].isPressed = !updatedUserData[index].isPressed;
     setUserData(updatedUserData);
-  };
+
+    console.log("API başarıyla çağrıldı, kullanıcı verisi güncellendi.");
+  } catch (error) {
+    console.error("API çağrısı sırasında bir hata oluştu:", error);
+  }
+};
+
 
   const handleRoutePress = (index) => {
     if (matchingIndexes.includes(index)) {
